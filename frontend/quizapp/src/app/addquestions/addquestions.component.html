@@ -1,0 +1,44 @@
+<form (submit)="addtheques()">
+  <table>
+
+<tr>
+  <td>Question title</td>
+  <td><input type="text" [(ngModel)]="question_title" name="title" id="ques"></td>
+</tr>
+
+<tr>
+    <td>Option 1</td>
+    <td><input type="text" [(ngModel)]="op1" name="op1"></td>
+  </tr>
+
+  <tr>
+      <td>Option 2</td>
+      <td><input type="text" [(ngModel)]="op2" name ="op2"></td>
+    </tr>
+
+    <tr>
+        <td>Option 3</td>
+        <td><input type="text" [(ngModel)]="op3" name="op3"></td>
+      </tr>
+
+
+<tr>
+  <td>Option 4</td>
+  <td><input type="text" [(ngModel)]="op4" name="op4"> </td>
+</tr>
+
+<tr>
+    <td>Answer</td>
+    <td><input type="text" [(ngModel)]="answer" name="answer" placeholder="op1/op2/op3/op4"> </td>
+  </tr>
+
+<tr>
+    <td><input type="submit" value="addQuestion"></td>
+
+  </tr>
+
+
+
+</table>
+</form>
+
