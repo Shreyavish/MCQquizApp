@@ -1,20 +1,36 @@
+<p *ngIf='finishflag==0 && subscribeTimer > 0'>{{subscribeTimer}} Seconds Left....</p>
+<form (submit) = "fetchusername(username)">
+  <div *ngIf='flag_uname == 0'>
+  Username:
+  <input type="text" [(ngModel)]="username" name="username"><br /><br />
+  <input type="submit" value="submit" class="btn btn-primary">
+  </div>
+</form>
 
 <form (submit)="getQuestion()">
-<div *ngIf='n &lt; length' style="margin: 50px">
-  <h3>Q{{n+1}}.{{ques[n].title}}</h3>
+<div *ngIf='n &lt; queslength && subscribeTimer &gt; 1  && flag == 1' style="margin: 50px">
+  <h3>Q{{n+1}}.{{quesarray[n].title}}</h3>
 
-  <input type="radio" name="options" value="op1" [(ngModel)]="option">&nbsp;&nbsp;{{ques[n].op1}}<br />
-  <input type="radio" name="options" value="op2"[(ngModel)]="option">&nbsp;&nbsp;{{ques[n].op2}}<br />
-  <input type="radio" name="options" value="op3" [(ngModel)]="option">&nbsp;&nbsp;{{ques[n].op3}}<br />
-  <input type="radio" name="options" value="op4" [(ngModel)]="option">&nbsp;&nbsp;{{ques[n].op4}}<br />
+  <div *ngFor='let o of quesarray[n].options'>
+      <label><input type="radio" name="options" value="{{o}}" [(ngModel)]="option"> {{o}}</label><br />
+    </div>
 
 <input type="submit" value="Save & next" class="btn btn-primary">
 
 </div>
 </form>
 
-
-<div *ngIf=' n == length'>
-
-    <button type="button" (click)="calculateScore();" class="btn btn-success">Finish</button>
+<div *ngIf=' subscribeTimer &lt; 1  || n == queslength'>
+  <p> Click calculate to know your score</p>
+    <button type="button" (click)="calculateScore();" class="btn btn-success">Calculate My Score</button>
     </div>
+
+<div *ngIf=' flag_leaderboard == 1  '>
+
+    <button type="button" (click)="showLeaderboard()" class="btn btn-success">Show Leaderboard</button>
+    </div>
+
+
+
+
+    <router-outlet></router-outlet>

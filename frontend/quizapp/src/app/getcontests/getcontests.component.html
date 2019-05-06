@@ -1,0 +1,9 @@
+<h4>Available contests  are :</h4>
+
+<div *ngFor='let c of Contest'>
+  <ul style="list-style: none">
+<li>
+  <button type="button" class="btn btn-primary" (click)="getQuestions(c._id)">{{c.Name}}</button>
+</li>
+</ul>
+</div>

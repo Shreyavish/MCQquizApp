@@ -1,44 +1,51 @@
-<form (submit)="addtheques()">
-  <table>
 
-<tr>
-  <td>Question title</td>
-  <td><input type="text" [(ngModel)]="question_title" name="title" id="ques"></td>
+<!doctype html>
+<html>
+<head>
+
+</head>
+
+<body>
+  <h1>Add Questions</h1>
+
+
+  <div class="questions">
+      <h4>Add the Questions:</h4>
+      <table>
+    <tr><td> Title:</td> <td><input type="text" [(ngModel)]="title" name="title"></td></tr>
+    <tr><td> Domain:</td> <td><input type="text" [(ngModel)]="domain" name="domain"></td></tr>
+    <tr><td>Question Keywords:</td> <td><input type="text" [(ngModel)]="keywords" name="keywords"></td></tr>
+    <tr><td>Marks:</td> <td><input type="text" [(ngModel)]="marks" name="marks"></td></tr>
+    <tr><td>Level</td> <td><input type="text" [(ngModel)]="Level" name="Level"></td></tr>
+
+
+
+                  <tr><td><strong>Add options one by one</strong></td></tr>
+                  <tr>
+                    <td>Option:</td>
+                    <td> <input type="text" [(ngModel)]="newoption" name="newoption"></td>
+                    <td><button type="button" (click)="addOption(newoption)" class="btn btn-primary" >Add option</button></td>
+                    </tr>
+                    <tr>
+                      <td>
+
+                    <div *ngFor='let o of options'>
+                      {{o}}
+                      </div>
+                      </td>
+                    </tr>
+
+
+
+
+    <tr><td>Answer:</td> <td><input type="text" [(ngModel)]="ans" name="ans"></td>
+    <td><button type="button" (click)="addAnotherQuestion(title,domain,keywords,answer)" class="btn btn-warning">Add question</button></td>
+
 </tr>
-
-<tr>
-    <td>Option 1</td>
-    <td><input type="text" [(ngModel)]="op1" name="op1"></td>
-  </tr>
-
-  <tr>
-      <td>Option 2</td>
-      <td><input type="text" [(ngModel)]="op2" name ="op2"></td>
-    </tr>
-
-    <tr>
-        <td>Option 3</td>
-        <td><input type="text" [(ngModel)]="op3" name="op3"></td>
-      </tr>
+    </table>
 
 
-<tr>
-  <td>Option 4</td>
-  <td><input type="text" [(ngModel)]="op4" name="op4"> </td>
-</tr>
+  </div>
 
-<tr>
-    <td>Answer</td>
-    <td><input type="text" [(ngModel)]="answer" name="answer" placeholder="op1/op2/op3/op4"> </td>
-  </tr>
-
-<tr>
-    <td><input type="submit" value="addQuestion"></td>
-
-  </tr>
-
-
-
-</table>
-</form>
-
+</body>
+</html>

@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+/*const mongoose = require('mongoose');
 
 const question = mongoose.Schema(
     {
@@ -11,5 +11,25 @@ const question = mongoose.Schema(
         answer: String
     }
 )
+
+module.exports = mongoose.model('question',question);*/
+
+const mongoose = require('mongoose');
+
+const question = mongoose.Schema({
+
+    problem_no: {type:String, require:true},
+        title:{type:String,require:true},
+        author: String,
+        Description:String,
+        q_img: String,
+        options: {type:[String],require:true},
+        answer:{type:[String],require:true},
+        domain:String,
+        keywords:[String],
+        marks:{type:Number,require:true},
+        Level:String,
+        Type:String
+});
 
 module.exports = mongoose.model('question',question);

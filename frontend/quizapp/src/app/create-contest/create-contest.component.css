@@ -1,0 +1,12 @@
+.contest {
+  width: 700px;
+  margin: 5em auto;
+  padding: 10px;
+  color:black;
+  background-color:gainsboro;
+  border-radius: 1em;
+}
+td{
+  padding: 7px;
+  spacing:5px;
+}

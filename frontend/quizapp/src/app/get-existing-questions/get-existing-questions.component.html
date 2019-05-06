@@ -1,0 +1,20 @@
+<h3>Select the questions you want to add in the contest</h3>
+<div class="container">
+
+  <div *ngFor='let q of questions'>
+    <input type="checkbox" name="title" value="{{q}}" (change)="pushToQuestionsArray(q)">{{q.title}}<br />
+
+    <ul>
+      <div *ngFor='let o of q.options'>
+      <li>{{o}}</li>
+      </div>
+    </ul>
+    </div>
+
+  </div>
+<button type="button" class="btn btn-success" (click)="addexistQuesToContest()">submit</button>
+
+
+
+
+<router-outlet></router-outlet>

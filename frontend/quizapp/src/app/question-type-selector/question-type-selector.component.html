@@ -1,0 +1,33 @@
+<div class="container">
+  <h4>Your contest details are:</h4>
+<table>
+  <tr>
+    <td>Name of the contest:</td>
+    <td>{{Name}}</td>
+    </tr>
+
+    <tr>
+        <td>Organized By:</td>
+        <td>{{Organized_by}}</td>
+    </tr>
+
+    <tr>
+        <td>Start Time:</td>
+        <td>{{Start_time}}</td>
+    </tr>
+
+    <tr>
+        <td>End Time:</td>
+        <td>{{End_time}}</td>
+    </tr>
+
+    <tr>
+    <td><button type="button" class="btn btn warning"(click)="getExistingQuestions()" >Add existing Questions</button></td>
+    <td><button type="button" class="btn btn warning" (click)="addNewQuestions()">Add new Questions</button></td>
+  </tr>
+
+  </table>
+</div>
+
+
+<router-outlet></router-outlet>

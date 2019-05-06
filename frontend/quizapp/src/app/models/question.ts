@@ -1,12 +1,17 @@
 
 
-export class Question    {
-        qno: String;
-        title: String;
-        op1: String;
-        op2: String;
-        op3: String;
-        op4: String;
-        answer: String
+export class question    {
+    _id?:String;
+       problem_no: String;
+       title: String;
+       options: [String];
+       answer?:String;
+       domain:String;
+       keywords:[String];
+       marks:Number;
+       Level: String;
+       Type?:String;
+       author?:String;
+       q_img?:String;
     }
 
