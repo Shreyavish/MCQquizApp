@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {QuestionserviceService} from '../service/questionservice.service';
 import {question} from '../models/question';
 import {ContestService} from '../service/contest.service';
+import {ChangeDetectionStrategy} from '@angular/core';
 
 @Component({
   selector: 'app-get-existing-questions',
@@ -11,6 +12,13 @@ import {ContestService} from '../service/contest.service';
 export class GetExistingQuestionsComponent implements OnInit {
 
   constructor(private queserv:QuestionserviceService,private contserv:ContestService) { }
+  //UI  Related
+  p: number = 1;
+  x:number =3;
+  nofpages : number=2;//default
+  collapse_flag: boolean=true;
+  q:question;
+  ///question relates
   questions: [question];
   question_selected: question;
   question_selected_array:[question]=[{
@@ -74,4 +82,12 @@ pushToQuestionsArray(ques:question){
 
   }
 
+selected(nofpages){
+  this.nofpages = nofpages;
+}
+
+  collapse(q){
+    q.collapse_flag = !q.collapse_flag;
+    this.q.collapse_flag = q.collapse_flag;
+  console.log(this.collapse_flag)}
 }

@@ -5,8 +5,9 @@ import { contest } from '../models/contest';
 import { leaderBoard } from '../models/Leaderboard';
 import {Router} from '@angular/router';
 import {CalendarModule} from 'primeng/calendar'
-;
+import {ContestService} from '../service/contest.service';
 import { Time } from '@angular/common';
+
 @Component({
   selector: 'app-addquestions',
   templateUrl: './addquestions.component.html',
@@ -14,7 +15,7 @@ import { Time } from '@angular/common';
 })
 export class AddquestionsComponent implements OnInit {
 
-  constructor(private quesservice:QuestionserviceService, private router: Router) { }
+  constructor(private quesservice:QuestionserviceService, private router: Router,private contserv:ContestService) { }
 
     /*ques: Question;
     length: number;
@@ -52,17 +53,8 @@ export class AddquestionsComponent implements OnInit {
 
   }*/
   //contest parameters
-  newcontest: contest;
-  newquestion: question;
-  Questions = [];
-  Leaderboard= [];
-  Name: String;
-  Start_time: Date;
-  End_time: Date;
-  s_time: Time;
-  e_time: Time;
-  Organized_by:String;
-  Contest_Link:String;
+
+  contest_id:String;
 
   //question parameters
   newoption:String;
@@ -74,6 +66,20 @@ export class AddquestionsComponent implements OnInit {
   keywords:[String];
   marks:number;
   Level:String;
+  Description: String;
+  Questions: [question]=[{
+    'problem_no': 'x',
+      'title':'x',
+      'options': [''],
+      'answer':'x',
+      'domain':'c programming',
+      'keywords':['variables'],
+      'marks':5,
+      'Level':'easy',
+      'Type':'mcq'
+
+}] ; //initializing with dummy question so that undefind error is reslove
+  newquestion: question;
   //result parameters
 
   username: String;
@@ -92,30 +98,11 @@ export class AddquestionsComponent implements OnInit {
 
   ngOnInit(){
 
+    this.Questions.pop();
+    this.contest_id= this.contserv.getdata2();
   }
 
- /* createContest()
-  {
-    let newcontest={
-      Name: this.Name,
-      Start_time:new Date(this.Start_time+' '+this.s_time),
-      End_time:new Date(this.End_time+' '+this.e_time),
-      Organized_by:this.Organized_by,
-      Contest_Link:this.Contest_Link,
-      Questions: this.Questions,
-     Leaderboard:this.Leaderboard,
-    }
 
-    this.quesservice.createContest(newcontest).subscribe(
-      newcontest=>
-      {this.newcontest=newcontest;
-        console.log(this.newcontest);
-        alert('Contest Created Successfully');
-        this.router.navigate(['/getcontest']);
-      }
-    )
-
-  }*/
 
   addAnotherQuestion(title,domain,keywords,answer){
 
@@ -155,11 +142,20 @@ export class AddquestionsComponent implements OnInit {
       this.options.push(newoption);
 
       console.log(this.options);
-
+      console.log(this.Description);
 
     }
+      postToContest(){
+        /*for(let i=0;i<this.Questions.length;i++){
+        console.log("The questions are"+this.Questions[i].title);
+        }*/
+        this.quesservice.postExistingQuestions(this.contest_id,this.Questions).subscribe(Questions=>
+          console.log('posted successfully'));
+      }
 
-
+      change(){
+        console.log(this.Description);
+      }
   }
 
 

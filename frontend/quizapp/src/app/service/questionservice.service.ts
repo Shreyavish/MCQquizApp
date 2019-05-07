@@ -39,7 +39,7 @@ export class QuestionserviceService {
     }
 
     getContestById(id):Observable<any>{
-      let url='http://localhost:3000/quizapi/getUserContest/'+id;
+      let url='http://localhost:3000/quizapi/getContest/'+id;
       return this.http.get(url);
     }
 
@@ -53,5 +53,15 @@ export class QuestionserviceService {
 
       return this.http.put(url,questions);
     }
+
+     getContestToEdit(id) : Observable<any>{
+       let url ='http://localhost:3000/quizapi/getContest/'+id;
+       return this.http.get(url);
+     }
+
+      editContest(id,contes: contest) :Observable<any>{
+        let url='http://localhost:3000/quizapi/editContest/'+id;
+        return this.http.put(url,contes);
+      }
 
 }

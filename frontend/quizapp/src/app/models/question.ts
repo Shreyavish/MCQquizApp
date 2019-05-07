@@ -13,5 +13,6 @@ export class question    {
        Type?:String;
        author?:String;
        q_img?:String;
+       collapse_flag?:Boolean;
     }
 

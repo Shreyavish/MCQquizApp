@@ -4,7 +4,8 @@ const question = require('../models/question').schema;
 const leaderBoard = require('../models/leaderboard').schema;
 const contest = mongoose.Schema ({
     Name: {type:String,require:true},
-    Start_time: {type:Date, require:true},
+    Start_time: 
+    {type:Date, require:true},
     End_time : {type:Date,require:true},
     Organized_by: {type:String,require:true},
     Contest_Link:{type: String},

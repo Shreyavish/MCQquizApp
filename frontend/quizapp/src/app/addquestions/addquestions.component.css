@@ -1,26 +1,12 @@
-body{
-  font-family: Verdana, Geneva, Tahoma, sans-serif;
-}
-
-td{
-  padding: 7px;
-  spacing:5px;
-}
-
-.questions {
-  width: 600px;
-  margin: 2em auto;
-  padding: 20px;
-  color:black;
-  background-color:white;
-    border-radius: 1em;
-}
-
-.contest {
+.addnewquestions {
   width: 700px;
   margin: 5em auto;
   padding: 10px;
   color:black;
   background-color:gainsboro;
   border-radius: 1em;
+}
+td{
+  padding: 7px;
+  spacing:5px;
 }

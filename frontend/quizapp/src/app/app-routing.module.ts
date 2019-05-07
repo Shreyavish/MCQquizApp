@@ -7,6 +7,7 @@ import { GetcontestsComponent } from './getcontests/getcontests.component';
 import {CreateContestComponent} from './create-contest/create-contest.component';
 import { QuestionTypeSelectorComponent } from './question-type-selector/question-type-selector.component';
 import { GetExistingQuestionsComponent } from './get-existing-questions/get-existing-questions.component';
+import { EditContestComponent } from './edit-contest/edit-contest.component';
 const routes: Routes = [
 
     {path: 'addquestions' , component: AddquestionsComponent },
@@ -15,7 +16,8 @@ const routes: Routes = [
   {path: 'getcontest',component:GetcontestsComponent},
   {path:'createcontest',component:CreateContestComponent},
   {path:'qtypeselector',component:QuestionTypeSelectorComponent},
-  {path:'getexistquestions',component:GetExistingQuestionsComponent}
+  {path:'getexistquestions',component:GetExistingQuestionsComponent},
+  {path:'editcontest',component:EditContestComponent}
 ]
 
 @NgModule({

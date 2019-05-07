@@ -182,8 +182,8 @@ router.post('/createContest',(req,res)=>{
    })
 })
 
-router.get('/getUserContest/:_id',(req,res)=>{
-
+router.get('/getContest/:_id',(req,res)=>{
+// both for user display and admin editing
 
   Contest.findOne({_id:req.params._id},function(err,item){
     if(err){
@@ -263,12 +263,28 @@ router.delete('/deletequestion/:_id',(req,res) =>{
   });
 });
 
+
+router.put('/editContest/:_id',(req,res)=>{
+
+    Contest.findByIdAndUpdate(
+      {_id: req.params._id},
+      req.body,
+      function(err,item){
+        if(err)
+        {res.send(err);
+        }else{
+          res.send({msg:'update successfull'});
+        }
+
+      });
+});
+
 router.put('/addQuestionsToContest/:_id',(req,res)=> {
   var question = req.body;
   console.log(question);
 
  Contest.findOneAndUpdate({_id:req.params._id},
-   {$set : {'Questions':question}},
+   {$push: {'Questions':question}},
    {new: true},
    function(err,item){
      if(err){

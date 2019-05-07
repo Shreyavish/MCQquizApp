@@ -1,0 +1,24 @@
+.getexistquestions {
+  width: 700px;
+  margin: 5em auto;
+  padding: 10px;
+  color:black;
+  background-color:gainsboro;
+  border-radius: 1em;
+}
+td{
+  padding: 7px;
+  spacing:5px;
+}
+input[type="checkbox"]{
+  width:20px;
+  height:20px;
+}
+
+.collapse-question{
+  display:none;
+}
+
+.display-questions{
+  display: block;
+}

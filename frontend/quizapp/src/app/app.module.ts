@@ -15,8 +15,9 @@ import { CalendarModule } from 'primeng/calendar';
 import { CreateContestComponent } from './create-contest/create-contest.component';
 import { QuestionTypeSelectorComponent } from './question-type-selector/question-type-selector.component';
 import { GetExistingQuestionsComponent } from './get-existing-questions/get-existing-questions.component';
-
-
+import {NgxPaginationModule} from 'ngx-pagination';
+import { EditContestComponent } from './edit-contest/edit-contest.component';
+import { NgxEditorModule } from 'ngx-editor';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { GetExistingQuestionsComponent } from './get-existing-questions/get-exis
     GetcontestsComponent,
     CreateContestComponent,
     QuestionTypeSelectorComponent,
-    GetExistingQuestionsComponent
+    GetExistingQuestionsComponent,
+    EditContestComponent
   ],
   imports: [
     BrowserModule,
@@ -36,8 +38,9 @@ import { GetExistingQuestionsComponent } from './get-existing-questions/get-exis
     HttpClientModule,
     FormsModule,
     RouterModule,
-    CalendarModule
-
+    CalendarModule,
+    NgxPaginationModule,
+    NgxEditorModule,
   ],
   providers: [QuestionserviceService],
   bootstrap: [AppComponent]
