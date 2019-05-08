@@ -4,7 +4,8 @@ import {contest} from '../models/contest';
 import {question} from '../models/question';
 import { Time } from '@angular/common';
 import {ContestService} from '../service/contest.service';
-
+import { Console } from '@angular/core/src/console';
+import {Router } from '@angular/router';
 @Component({
   selector: 'app-edit-contest',
   templateUrl: './edit-contest.component.html',
@@ -12,7 +13,7 @@ import {ContestService} from '../service/contest.service';
 })
 export class EditContestComponent implements OnInit {
 
-  constructor(private quesserv: QuestionserviceService,private contserv:ContestService) { }
+  constructor(private quesserv: QuestionserviceService,private contserv:ContestService,private router:Router) { }
   toEditContest : contest;
   editedContest: contest;
   fetchedContests: [contest];
@@ -29,6 +30,9 @@ export class EditContestComponent implements OnInit {
   e_time: Time;
   contest_id:String;
   _id:String;
+  collapse_flag:Boolean=false;
+  default_display: Boolean =false;
+  q: question;
   // temp paramters for splitting and displaying date and time
     st_temp : string; //start time temp  (start date)
     et_temp: string; //end time temp (end date)
@@ -41,7 +45,6 @@ export class EditContestComponent implements OnInit {
     this.quesserv.getContest().subscribe(fetchedContests =>
       {this.fetchedContests = fetchedContests,
         console.log(this.fetchedContests);
-
       })
   }
 
@@ -92,16 +95,35 @@ export class EditContestComponent implements OnInit {
       Start_time: this.Start_time,
       End_time: this.End_time,
       Organized_by: this.Organized_by,
-      Contest_Link:this.Contest_Link
+      Contest_Link:this.Contest_Link,
+      //Questions : this.Questions,
     }
 
     this.quesserv.editContest(this.contest_id,this.editedContest).subscribe(editedContest=>
-      console.log('edited success'))
+      {console.log('edited success');
+      this.router.navigate(['/getexistquestions']);
+    })
+  }
+
+
+  removeQuesFromArray(ques:question){
+    for(var i=0;i<this.Questions.length;i++){
+      if(this.Questions[i] == ques ){
+        break;
+      }
+    }
+    this.Questions.splice(i,1);
+    console.log(this.Questions);
   }
 
   supplyId(contest_id){
     this.contest_id =contest_id;
     this.getContestDetails();
   }
+  collapse(q) {
+		q.collapse_flag = !q.collapse_flag;
+		this.q.collapse_flag = q.collapse_flag;
+    console.log(this.collapse_flag);
 
+	}
 }

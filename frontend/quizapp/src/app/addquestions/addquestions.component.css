@@ -1,5 +1,5 @@
 .addnewquestions {
-  width: 700px;
+  width: 900px;
   margin: 5em auto;
   padding: 10px;
   color:black;
@@ -9,4 +9,9 @@
 td{
   padding: 7px;
   spacing:5px;
+}
+.ngx-editor{
+  background-color:whitesmoke;
+  color: black;
+
 }

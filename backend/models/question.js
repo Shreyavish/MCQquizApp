@@ -18,18 +18,19 @@ const mongoose = require('mongoose');
 
 const question = mongoose.Schema({
 
-    problem_no: {type:String, require:true},
+   
         title:{type:String,require:true},
         author: String,
         Description:String,
-        q_img: String,
         options: {type:[String],require:true},
         answer:{type:[String],require:true},
         domain:String,
-        keywords:[String],
-        marks:{type:Number,require:true},
+        keywords:String,
+        marks:Number,
         Level:String,
-        Type:String
+        Type:String,
+        Explanation: String,
+        collapse_flag: Boolean,
 });
 
 module.exports = mongoose.model('question',question);

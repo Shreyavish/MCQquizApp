@@ -63,17 +63,19 @@ export class AddquestionsComponent implements OnInit {
   options:[String]=[""];
   answer:[String];
   domain:String;
-  keywords:[String];
+  keywords:String;
   marks:number;
   Level:String;
+  Type: String;
   Description: String;
+  explanation : String;
   Questions: [question]=[{
-    'problem_no': 'x',
+
       'title':'x',
       'options': [''],
       'answer':'x',
       'domain':'c programming',
-      'keywords':['variables'],
+      'keywords':'variables',
       'marks':5,
       'Level':'easy',
       'Type':'mcq'
@@ -93,18 +95,20 @@ export class AddquestionsComponent implements OnInit {
   questionflag=0;
   done=0;
   ans:String;
-
+  optionflag=0;
 
 
   ngOnInit(){
 
     this.Questions.pop();
     this.contest_id= this.contserv.getdata2();
+    this.options.pop();
   }
 
 
 
-  addAnotherQuestion(title,domain,keywords,answer){
+
+  /*addAnotherQuestion(title,domain,keywords,answer,Description){
 
         this.options.shift();
       this.newquestion= {
@@ -113,21 +117,23 @@ export class AddquestionsComponent implements OnInit {
         options:this.options,
         domain:this.domain,
         keywords:this.keywords,
+        Description: this.Description,
         answer:this.ans,
         marks:this.marks,
         Level:this.Level
 
       }
 
-      let n =this.Questions.push(this.newquestion);
+      /*let n =this.Questions.push(this.newquestion);
       if(n>0){
         alert('added  question succesfully');
         this.questionflag=1;
       }
-      // incrementing the question no/problem no
+            // incrementing the question no/problem no
      // console.log('Questions are ' + this.Questitle);
      // alert('question added successfully');
-      console.log('options are'+ this.options);
+
+     console.log('options are'+ this.options);
 
       parseInt(this.problem_no);
       this.problem_no =this.problem_no+1;
@@ -135,24 +141,59 @@ export class AddquestionsComponent implements OnInit {
       this.options= [""];
 
 
-    }
+}*/
 
     addOption(newoption){
+      this.optionflag =1;
       console.log(newoption);
       this.options.push(newoption);
 
       console.log(this.options);
-      console.log(this.Description);
+
+      //console.log(this.Description);//
 
     }
-      postToContest(){
+    deleteoption(todeleteoption){
+       for(var i=0;i<this.options.length;i++){
+         if(todeleteoption == this.options[i]){
+           break;
+         }
+       }
+       this.options.splice(i,1);
+       console.log(this.options);
+
+    }
+
+     /* postToContest(){
         /*for(let i=0;i<this.Questions.length;i++){
         console.log("The questions are"+this.Questions[i].title);
         }*/
-        this.quesservice.postExistingQuestions(this.contest_id,this.Questions).subscribe(Questions=>
+        /*this.quesservice.postExistingQuestions(this.contest_id,this.Questions).subscribe(Questions=>
           console.log('posted successfully'));
-      }
+        }*/
 
+
+        addQuestionToDB(){
+
+          this.options.shift();
+          this.newquestion= {
+              title:this.title,
+            options:this.options,
+            domain:this.domain,
+            keywords:this.keywords,
+            Description: this.Description,
+            answer:this.ans,
+            marks:this.marks,
+            Level:this.Level,
+            explanation:this.explanation,
+            Type: this.Type,
+          }
+
+          console.log(this.newquestion);
+            this.quesservice.postQuestions(this.newquestion).subscribe(newquestion =>
+              alert('added question successfully'));
+
+        }
       change(){
         console.log(this.Description);
       }

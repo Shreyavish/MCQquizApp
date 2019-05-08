@@ -4,6 +4,7 @@ import {Observable} from 'rxjs';
 import {contest} from '../models/contest';
 import {question} from '../models/question';
 import {leaderBoard} from '../models/leaderboard';
+import {searchkey} from '../models/searchkey';
 @Injectable({
   providedIn: 'root'
 })
@@ -62,6 +63,19 @@ export class QuestionserviceService {
       editContest(id,contes: contest) :Observable<any>{
         let url='http://localhost:3000/quizapi/editContest/'+id;
         return this.http.put(url,contes);
+      }
+
+      postQuestions (ques:question) : Observable<any>{
+        let url='http://localhost:3000/quizapi/addquestions';
+        return this.http.post(url,ques);
+      }
+
+      searchByDomainKeyword(item: searchkey):Observable<any>{
+
+         let url = 'http://localhost:3000/quizapi/search';
+         return this.http.post(url,item);
+
+
       }
 
 }

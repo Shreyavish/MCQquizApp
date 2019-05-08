@@ -10,3 +10,10 @@ td{
   padding: 7px;
   spacing:5px;
 }
+.collapse-question{
+  display:none;
+}
+
+.display-questions{
+  display: block;
+}

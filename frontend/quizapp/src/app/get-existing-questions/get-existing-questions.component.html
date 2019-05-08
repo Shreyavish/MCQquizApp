@@ -1,11 +1,25 @@
 <div class="getexistquestions">
-    <h3>Select the questions you want to add in the contest</h3>
-    <label>No of questions per page</label>
+
+
+    <h2>Select the questions you want to add in the contest</h2>
+    <table>
+      <tr>
+        <td><label>No of questions per page</label>
     <select name="no_pages" [(ngModel)]="nofpages" (change)="selected(nofpages)" >
     <option value="1">1</option>
     <option value="2" selected="true">2</option>
     <option value="3">3</option>
     </select>
+    </td>
+    <td>
+        <label>
+            Search questions:
+            <input type="text" placeholder="Type any keyword or domain" [(ngModel)]="value_of_sk" name="value_of_sk">
+            <button type="button" (click)="searchQuery(value_of_sk)">Search</button>
+          </label>
+      </td>
+    </tr>
+    </table>
     <div *ngFor='let q of questions | paginate: { itemsPerPage: nofpages, currentPage: p }'>
 
       <button class="btn btn-primary" type="button" (click)="collapse(q)" id="{{q}}">
@@ -26,9 +40,40 @@
     </div>
     <pagination-controls (pageChange)="p = $event"></pagination-controls>
     <button type="button" class="btn btn-success" (click)="addexistQuesToContest()">submit</button>
-  </div>
+
+  <br /><label>-------------------------------------------------------------------------</label><br />
+<h2>Select questions you want to Delete from contest</h2>
+<br />
+  <div>
+
+      <ul style="list-style:none">
+          <div *ngFor='let q of ques_final'>
+          <li>
+              <button class="btn btn-primary" type="button" (click)="collapse(q)" id="{{q}}">
+                  +
+                  </button>
+            {{q.title}}
+            <button type="button" (click)="removeQuesFromArray(q)">remove question</button>
+
+            <div [ngClass]="{'collapse-question': q.collapse_flag == true}">
+                <ul>
+                  <div *ngFor='let o of q.options'>
+                    <li>{{o}}
+
+
+                    </li>
+                  </div>
+                </ul>
+           </div>
+
+          </li>
+          </div>
+        </ul>
+      </div>
+    </div>
 
   <router-outlet></router-outlet>
+
 
 
 

@@ -225,7 +225,7 @@ router.get('/getLeaderBoard/:_id',(req,res)=>{
 })
 
 
-
+//loosely adding questions 
 router.post('/addquestions',(req,res)=>{
 
   let newquestion = new question(req.body);
@@ -279,12 +279,14 @@ router.put('/editContest/:_id',(req,res)=>{
       });
 });
 
+
+// adding existing or created new questions to contest
 router.put('/addQuestionsToContest/:_id',(req,res)=> {
   var question = req.body;
   console.log(question);
 
  Contest.findOneAndUpdate({_id:req.params._id},
-   {$push: {'Questions':question}},
+   {$set: {'Questions':question}},
    {new: true},
    function(err,item){
      if(err){
@@ -295,6 +297,44 @@ router.put('/addQuestionsToContest/:_id',(req,res)=> {
    });
    
 });
+
+
+// searching a question by some keyword or domain
+router.post('/search',(req,res)=> {
+  console.log(req.body);
+  question.find(
+
+    {$or : [ 
+      {"domain" : req.body.search_key },
+      {"keywords" : req.body.search_key}
+    ]},
+   
+    function(err,item){
+      if(err){
+        res.send({msg:'failed to retrieve'});
+      }else{
+        res.send(item);
+      }
+    }
+  )
+})
+
+router.get('/getQuestionsofaContest/:_id',(req,res)=>{
+
+  Contest.find(
+    {_id:req.params._id},
+    function(err,item){
+      if(err){
+        res.send(err);
+      }else{
+        res.send(item);
+      }
+    }
+  )
+
+
+
+})
 
 
 

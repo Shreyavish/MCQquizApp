@@ -30,8 +30,40 @@
   <tr><td>Organized by:</td> <td><input type="text" [(ngModel)]="Organized_by" name="Organized_by"  value="{{Organized_by}}"></td></tr>
   <tr><td> Contest link:</td><td> <input type="text" [(ngModel)]="Contest_Link" name="Contest_Link"  value="{{Contest_Link}}"></td></tr>
 
-    </table>
-    <input type="submit" value="Submit" class="btn btn-success">
+<!--
+  <tr>
+    <td><label>QUESTIONS ARE:</label></td>
+  </tr>
+
+  <tr><ul style="list-style:none">
+      <div *ngFor='let q of Questions'>
+      <li>
+          <button class="btn btn-primary" type="button" (click)="collapse(q)" id="{{q}}">
+              +
+              </button>
+        {{q.title}}
+        <button type="button" (click)="removeQuesFromArray(q)">remove question</button>
+
+        <div [ngClass]="{'collapse-question': q.collapse_flag == true}">
+            <ul>
+              <div *ngFor='let o of q.options'>
+                <li>{{o}}
+
+
+                </li>
+              </div>
+            </ul>
+       </div>
+
+      </li>
+      </div>
+    </ul>
+  </tr>
+-->
+</table>
+
+
+    <input type="submit" value="Edit Questions" class="btn btn-success">
     </form>
     </div>
     </div>

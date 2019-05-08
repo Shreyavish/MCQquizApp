@@ -49,7 +49,7 @@ export class CreateContestComponent implements OnInit {
         console.log(this.newcontest);
         alert('Contest Created Successfully');
         this.contserv.setdata2(this.newcontest._id);
-        this.router.navigate(['/qtypeselector']);
+        this.router.navigate(['/getexistquestions']);
 
 
       }
