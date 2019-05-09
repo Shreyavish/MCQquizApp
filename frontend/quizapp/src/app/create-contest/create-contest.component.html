@@ -1,22 +1,49 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-6">
+            <h1 style="text-align: center">Create Quiz!</h1>
+            <form class="form-group" ngNativeValidate (submit)="createContest()">
 
-  <h1 style="text-align: center">Create Quiz!</h1>
-  <div class="contest">
-  <form ngNativeValidate (submit)="createContest()">
-  <table>
-  <tr><td>Name of the Quiz: </td><td><input type="text" [(ngModel)]="Name" name="Name" required="true"></td></tr>
-  <tr>
-    <td>Start time:</td>
-     <td><input type="date" [(ngModel)]="Start_time" name="Start_time" required="true"></td>
-    <td><input type="time" [(ngModel)]="s_time" name="s_time" required="true"></td>
-    </tr>
-  <tr>
-    <td>End time: </td><td><input type="date" [(ngModel)]="End_time" name="End_time" required="true"></td>
-    <td><input type="time" [(ngModel)]="e_time" name="e_time" required="true"></td>
-  </tr>
-  <tr><td>Organized by:</td> <td><input type="text" [(ngModel)]="Organized_by" name="Organized_by" required="true"></td></tr>
-  <tr><td> Contest link:</td><td> <input type="text" [(ngModel)]="Contest_Link" name="Contest_Link" required="true"></td></tr>
+                <label>Name of the Quiz:</label>
+                <input type="text" [(ngModel)]="Name" name="Name" required="true" class="form-control">
 
-    </table>
-    <input type="submit" value="Edit Questions" class="btn btn-success">
-    </form>
+                <br>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <label>Start Date:</label>
+                        <input type="date" [(ngModel)]="Start_time" name="Start_time" required="true" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label>Start time:</label>
+                        <input type="time" [(ngModel)]="s_time" name="s_time" required="true" class="form-control">
+                    </div>
+                </div>
+                <br>
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <label> End Date: </label>
+                        <input type="date" [(ngModel)]="End_time" name="End_time" required="true" class="form-control">
+                    </div>
+                    <div class="col-md-6">
+                        <label> End time: </label>
+                        <input type="time" [(ngModel)]="e_time" name="e_time" required="true" class="form-control">
+                    </div>
+                </div>
+                <br>
+
+                <label>Organized by:</label>
+                <input type="text" [(ngModel)]="Organized_by" name="Organized_by" required="true" class="form-control">
+                <br>
+
+                <label>Contest link:</label>
+                <input type="text" [(ngModel)]="Contest_Link" name="Contest_Link" required="true" class="form-control">
+                <br>
+                <input type="submit" value="Edit Questions" class="btn btn-success">
+            </form>
+        </div>
     </div>
+</div>
