@@ -4,11 +4,12 @@ export class question    {
     _id?:String;
        title: String;
        options: [String];
-       answer?:String;
+       answer?:[String];
        domain:String;
+       subdomain?:String;
        keywords?:String;
        Description?:String;
-       marks?:Number;
+       marks:Number;
        Level: String;
        Type?:String;
        author?:String;

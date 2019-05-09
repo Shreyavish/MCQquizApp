@@ -18,7 +18,8 @@ import { GetExistingQuestionsComponent } from './get-existing-questions/get-exis
 import {NgxPaginationModule} from 'ngx-pagination';
 import { EditContestComponent } from './edit-contest/edit-contest.component';
 import { NgxEditorModule } from 'ngx-editor';
-
+import { PlayQuizComponent } from './play-quiz/play-quiz.component';
+import { CountdownModule } from 'ngx-countdown';
 @NgModule({
   declarations: [
     AppComponent,
@@ -30,7 +31,8 @@ import { NgxEditorModule } from 'ngx-editor';
     CreateContestComponent,
     QuestionTypeSelectorComponent,
     GetExistingQuestionsComponent,
-    EditContestComponent
+    EditContestComponent,
+    PlayQuizComponent
   ],
   imports: [
     BrowserModule,
@@ -41,6 +43,7 @@ import { NgxEditorModule } from 'ngx-editor';
     CalendarModule,
     NgxPaginationModule,
     NgxEditorModule,
+    CountdownModule
   ],
   providers: [QuestionserviceService],
   bootstrap: [AppComponent]

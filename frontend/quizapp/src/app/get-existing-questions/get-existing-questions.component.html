@@ -14,21 +14,25 @@
     <td>
         <label>
             Search questions:
-            <input type="text" placeholder="Type any keyword or domain" [(ngModel)]="value_of_sk" name="value_of_sk">
+            <input type="text" placeholder="keyword or domain" [(ngModel)]="value_of_sk" name="value_of_sk">
             <button type="button" (click)="searchQuery(value_of_sk)">Search</button>
           </label>
       </td>
     </tr>
     </table>
-    <div *ngFor='let q of questions | paginate: { itemsPerPage: nofpages, currentPage: p }'>
-
-      <button class="btn btn-primary" type="button" (click)="collapse(q)" id="{{q}}">
+    <div  *ngFor='let q of questions | paginate: { itemsPerPage: nofpages, currentPage: p }'>
+  <tr>
+      <td><button class="collapse-button" type="button" (click)="collapse(q)" id="{{q}}">
       +
       </button>
-      {{q.title}}
-      <input type="checkbox" name="title" value="{{q}}" (change)="pushToQuestionsArray(q)">
+        {{q.title}}</td>
 
-        <div [ngClass]="{'collapse-question': q.collapse_flag == true}">
+          <td>Marks</td>
+          <td><input type="text" name="q.marks" [(ngModel)]="q.marks" ></td>
+
+      <td><input type="checkbox" name="title" value="{{q}}" (change)="pushToQuestionsArray(q,q.marks)"></td>
+    </tr>
+        <div [ngClass]="{'collapse-question': q.collapse_flag == false}">
           <ul>
             <div *ngFor='let o of q.options'>
               <li>{{o}}</li>
@@ -42,10 +46,10 @@
     <button type="button" class="btn btn-success" (click)="addexistQuesToContest()">submit</button>
 
   <br /><label>-------------------------------------------------------------------------</label><br />
-<h2>Select questions you want to Delete from contest</h2>
-<br />
-  <div>
 
+<br />
+  <div *ngIf='ques_final.length != 0'>
+      <h2>Select questions you want to Delete from contest</h2>
       <ul style="list-style:none">
           <div *ngFor='let q of ques_final'>
           <li>

@@ -63,6 +63,7 @@ export class AddquestionsComponent implements OnInit {
   options:[String]=[""];
   answer:[String];
   domain:String;
+  subdomain: String;
   keywords:String;
   marks:number;
   Level:String;
@@ -73,7 +74,7 @@ export class AddquestionsComponent implements OnInit {
 
       'title':'x',
       'options': [''],
-      'answer':'x',
+      'answer':['x'],
       'domain':'c programming',
       'keywords':'variables',
       'marks':5,
@@ -82,6 +83,7 @@ export class AddquestionsComponent implements OnInit {
 
 }] ; //initializing with dummy question so that undefind error is reslove
   newquestion: question;
+  ans_array:[String] = [""];
   //result parameters
 
   username: String;
@@ -96,13 +98,14 @@ export class AddquestionsComponent implements OnInit {
   done=0;
   ans:String;
   optionflag=0;
-
+  ansflag=0;
 
   ngOnInit(){
 
     this.Questions.pop();
     this.contest_id= this.contserv.getdata2();
     this.options.pop();
+    this.ans_array.pop();
   }
 
 
@@ -174,29 +177,46 @@ export class AddquestionsComponent implements OnInit {
 
 
         addQuestionToDB(){
-
-          this.options.shift();
           this.newquestion= {
               title:this.title,
             options:this.options,
-            domain:this.domain,
-            keywords:this.keywords,
+            domain:this.domain.toLowerCase(),
+            subdomain:this.subdomain.toLowerCase(),
+            keywords:this.keywords.toLowerCase(),
             Description: this.Description,
-            answer:this.ans,
+            answer:this.ans_array,
             marks:this.marks,
             Level:this.Level,
             explanation:this.explanation,
             Type: this.Type,
+            collapse_flag:false
           }
 
           console.log(this.newquestion);
-            this.quesservice.postQuestions(this.newquestion).subscribe(newquestion =>
-              alert('added question successfully'));
+           this.quesservice.postQuestions(this.newquestion).subscribe(newquestion =>
+             { alert('Successfully added question');
+             window.location.reload();});
 
         }
-      change(){
+      /*change(){
         console.log(this.Description);
+      }*/
+
+      addAnswers(ans){
+        this.ansflag=1;
+        this.ans_array.push(ans);
       }
+
+      deleteAnswer(todeleteanswer){
+        for(var i=0;i<this.ans_array.length;i++){
+          if(todeleteanswer == this.ans_array[i]){
+            break;
+          }
+        }
+        this.ans_array.splice(i,1);
+        //console.log(this.options);
+      }
+
   }
 
 

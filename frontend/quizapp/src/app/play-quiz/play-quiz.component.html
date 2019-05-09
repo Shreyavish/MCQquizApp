@@ -1,0 +1,35 @@
+<!--<form>
+<div>
+  <ol>
+      <div *ngFor='let q of contest_questions'>
+        <li>
+          {{q.title}}
+        </li>
+          <div *ngFor='let o of q.options'>
+            <input type="radio" value="{{o}}" (change)=saveUserAnswer(q._id,o) name="useranswers">{{o}}
+          </div>
+        </div>
+  </ol>
+
+</div>
+</form>-->
+<div class="container">
+
+    <div *ngIf='current_question_no &lt; total_no_of_questions' style="margin: 50px">
+        <h2>Question {{current_question_no+1}} /{{total_no_of_questions}}</h2><br />
+      <h3>{{contest_questions[current_question_no].title}}</h3>
+
+      <div *ngFor='let o of contest_questions[current_question_no].options'>
+          <label><input type="radio" name="options" value="{{o}}" [(ngModel)]="userans"> {{o}}</label><br />
+        </div>
+
+       <button type="button" (click)="saveAndNext(contest_questions[current_question_no]._id,userans)">Save and Next</button>
+    </div>
+
+      <div *ngIf='current_question_no == total_no_of_questions' style="margin: 50px">
+
+        <button type="button" (click)="calculateMyScore()">calculate my score</button>
+
+      </div>
+</div>
+

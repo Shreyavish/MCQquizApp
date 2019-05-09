@@ -25,6 +25,7 @@ const question = mongoose.Schema({
         options: {type:[String],require:true},
         answer:{type:[String],require:true},
         domain:String,
+        subdomain: String,
         keywords:String,
         marks:Number,
         Level:String,

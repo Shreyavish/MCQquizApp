@@ -22,11 +22,11 @@ export class QuestioncompComponent implements OnInit {
   flag_uname:number=0;
   // on intialization get questions of particular contest where contest id is supplies
   // as paramter in getQuestions(id)
-  id:String;
+  contest_id:String;
   ngOnInit(){
-    this.id=this.contestserv.getdata();
-    console.log(this.id);
-    this.quesserv.getQuestions(this.id).subscribe(userContest=>
+    this.contest_id=this.contestserv.getdata();
+    console.log(this.contest_id);
+    this.quesserv.getQuestions(this.contest_id).subscribe(userContest=>
       {this.userContest = userContest;
         console.log(this.userContest);
       //  this.queslength=Object.keys(this.ques).length;
@@ -89,9 +89,9 @@ flag_leaderboard:number=0;
       var actualanswer= this.quesarray[this.n].answer;
      console.log(useranswer);
      console.log(actualanswer);
-     if(useranswer === actualanswer){
-        this.result = this.result+1;
-      }
+     //if(useranswer === actualanswer){
+       // this.result = this.result+1;
+      //}
      this.n=this.n+1;
 
      // calculating score
@@ -118,7 +118,7 @@ this.finishflag=1;
 
     }
 
-    this.quesserv.postResult(userresult,this.id).subscribe(userresult =>
+    this.quesserv.postResult(userresult,this.contest_id).subscribe(userresult =>
       {console.log(userresult);
       this.flag_leaderboard=1;
       })
@@ -132,7 +132,7 @@ this.finishflag=1;
     this.flag_uname=1;
     const source = timer(1000, 1000);
     const abc = source.subscribe(val => {
-      console.log(val, '-');
+     // console.log(val, '-');
       this.subscribeTimer = this.timeLeft - val;
     });
   }

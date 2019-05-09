@@ -6,6 +6,7 @@ import {question} from '../models/question';
 import {Time} from '@angular/common';
 import {ContestService} from '../service/contest.service';
 import {Router} from '@angular/router';
+import { BsCustomDatesViewComponent } from 'ngx-bootstrap/datepicker/themes/bs/bs-custom-dates-view.component';
 @Component({
   selector: 'app-create-contest',
   templateUrl: './create-contest.component.html',
@@ -33,6 +34,10 @@ export class CreateContestComponent implements OnInit {
 
    createContest(){
 
+  if(this.Start_time >= this.End_time){
+      alert('Start time cannot be greater than end time');
+    } else{
+
     let newcontest={
       Name: this.Name,
       Start_time:new Date(this.Start_time+' '+this.s_time),
@@ -54,7 +59,7 @@ export class CreateContestComponent implements OnInit {
 
       }
     )
-
+    }
    }
 
 }

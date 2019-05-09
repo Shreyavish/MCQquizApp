@@ -23,6 +23,8 @@
     "core-js": "^2.5.4",
     "font-awesome": "^4.7.0",
     "ngx-bootstrap": "^4.1.1",
+    "ngx-countdown": "^3.2.0",
+    "ngx-countdown-timer": "^0.1.9",
     "ngx-editor": "^4.1.0",
     "ngx-pagination": "^3.2.1",
     "primeng": "^7.1.2",

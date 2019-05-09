@@ -29,14 +29,14 @@ export class GetExistingQuestionsComponent implements OnInit {
 	nofpages: number = 2; //default
 	collapse_flag: boolean = false;
   q: question ;
-
+marks:number;
   //contest questions related
   toEditContest: contest;
   cont_ques:[question] = [{
 
 		"title": "dummy",
 		"options": [""],
-		"answer": "",
+		"answer": [""],
 		"domain": "",
 		"keywords": "",
 		"marks": 5,
@@ -56,7 +56,7 @@ export class GetExistingQuestionsComponent implements OnInit {
 
 		"title": "dummy",
 		"options": [""],
-		"answer": "",
+		"answer": [""],
 		"domain": "",
 		"keywords": "",
 		"marks": 5,
@@ -72,10 +72,10 @@ export class GetExistingQuestionsComponent implements OnInit {
 
       "title": "dummy",
       "options": [""],
-      "answer": "",
+      "answer": [""],
       "domain": "",
       "keywords": "",
-      "marks": 5,
+      "marks": 0,
       "Level": "",
       "Type": ""
     }, ]
@@ -137,7 +137,7 @@ export class GetExistingQuestionsComponent implements OnInit {
 		console.log(ques_final));
 	}
 
-	pushToQuestionsArray(ques: question) {
+	pushToQuestionsArray(ques: question,marks:number) {
 
 		/*if (this.flag == false) {
 			this.ques_final.shift();
@@ -145,7 +145,8 @@ export class GetExistingQuestionsComponent implements OnInit {
     }*/
 
 
-		this.question_selected = ques;
+    this.question_selected = ques;
+    this.question_selected.marks=marks;
 		console.log(this.question_selected);
 		this.found_flag = false;
 
@@ -180,7 +181,7 @@ export class GetExistingQuestionsComponent implements OnInit {
 
    searchQuery(value_of_sk){
      this.key={
-       "search_key":this.value_of_sk
+       "search_key":this.value_of_sk.toLowerCase()
      }
      this.queserv.searchByDomainKeyword(this.key).subscribe(questions =>
       {this.questions = questions,

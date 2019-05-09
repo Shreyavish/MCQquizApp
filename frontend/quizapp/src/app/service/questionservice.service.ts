@@ -14,7 +14,7 @@ export class QuestionserviceService {
 
     getQuestions(id): Observable<any>{
 
-      let url='http://localhost:3000/quizapi/getUserContest/'+id;
+      let url='http://localhost:3000/quizapi/getContest/'+id;
       return this.http.get(url);
     }
 

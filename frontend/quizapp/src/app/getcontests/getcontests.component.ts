@@ -22,13 +22,15 @@ export class GetcontestsComponent implements OnInit {
       {
         this.Contest = Contest;
         console.log(this.Contest);
-        this.keys = Object.keys(this.Contest);
-        this.length =this.keys.length;
+
       });
+
   }
+  // get questions of particular contest chosen by user
   getQuestions(id){
     this.contestserv.setdata(id);
-    this.router.navigate(['/questioncomp']);
+    //this.router.navigate(['/questioncomp']);
+    this.router.navigate(['/playquiz']);
   }
 }
 
