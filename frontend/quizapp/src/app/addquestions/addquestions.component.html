@@ -1,101 +1,101 @@
-<h1>Add Questions</h1>
-<div class="addnewquestions">
-	<h4>Add the Questions:</h4>
-	<form ngNativeValidate (submit)="addQuestionToDB()" >
-		<table>
-			<tr>
-				<td> Title:</td>
-				<td><input type="text" [(ngModel)]="title" name="title" required="true"></td>
-			</tr>
-			<tr>
-				<td> Domain:</td>
-				<td><input type="text" [(ngModel)]="domain" name="domain" required="true"></td>
-      </tr>
-      <tr>
-          <td> Sub Domain:</td>
-          <td><input type="text" [(ngModel)]="subdomain" name="subdomain"></td>
-        </tr>
-			<tr>
-				<td>Question Keywords:</td>
-				<td><input type="text" [(ngModel)]="keywords" name="keywords" required="true"></td>
-			</tr>
 
-			<tr>
-				<td>Level</td>
-				<td>
-					<select [(ngModel)]="Level" name="Level" required="true">
-					<option value="Beginner" >Beginner</option>
-					<option value="Easy">Easy</option>
-					<option value="Normal">Normal</option>
-					<option value="Hard">Hard</option>
-					<option value="Very Hard">Very Hard</option>
-					</select>
-				</td>
-			</tr>
-			<tr><td>Description:</td>
-			<td>
-				<div class="ngx-editor">
-					<app-ngx-editor  height = "100px" width = "400px" [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="Description" name="Description"></app-ngx-editor>
-        </div>
-        </td>
-			</tr>
-      <!--<div [innerHTML]="Description">{{Description}}</div>-->
-      <tr>
-          <td>Type:</td>
-          <td><select [(ngModel)]="Type" name="Type">
-              <option value="checkbox" >MCQ with multiple correct answer</option>
-              <option value="radio">Mcq with only one correct answer</option>
-              <option value="text">Fill in the blank</option>
-              </select>
-            </td>
-        </tr>
-			<tr>
-				<td><strong>Add options one by one</strong></td>
-      </tr>
+<div class="container">
+    <h1>Add Questions</h1>
+  <div class="row">
+    <form class="form-group" ngNativeValidate (submit)="addQuestionToDB()">
 
-			<tr>
-				<td>Option:</td>
-				<td> <input type="text" [(ngModel)]="newoption" name="newoption" required="true"></td>
-				<td><button type="button" (click)="addOption(newoption)" class="btn btn-primary" >Add option</button></td>
-			</tr>
-			<tr>
-        <ol>
-					<div *ngFor='let o of options'>
-         <li>
-           <td> <label> {{o}}</label></td>
-          <td *ngIf='optionflag == 1  '> <button type="button" (click) = "deleteoption(o)" class="btn btn-danger">X</button></td>
-          </li>
-					</div>
-      </ol>
+          <div class="col-md-6">
+                <label>Title:</label>
+                <input type="text" [(ngModel)]="title" name="title" required="true" class="form-control">
 
-      </tr>
-      <tr>
-        <td><b>Add one or more Answers</b>
-          </td>
-      </tr>
-			<tr>
-				<td>Answer:</td>
-				<td><input type="text" [(ngModel)]="ans" name="ans" required="true"></td>
-				<td><button type="button" (click)="addAnswers(ans)" class="btn btn-warning">Save Answer</button></td>
-      </tr>
-      <tr>
-          <ol>
-            <div *ngFor='let a of ans_array'>
-           <li>
-             <td> <label> {{a}}</label></td>
-            <td *ngIf='ansflag == 1  '> <button type="button" (click) = "deleteAnswer(a)" class="btn btn-danger">X</button></td>
-            </li>
+
+                <label>Domain:</label>
+                <input type="text" [(ngModel)]="domain" name="domain" required="true" class="form-control">
+
+                <label>Sub Domain:</label>
+                <input type="text" [(ngModel)]="subdomain" name="subdomain" class="form-control">
+
+                <label>Question Keywords:</label>
+                <input type="text" [(ngModel)]="keywords" name="keywords" required="true" class="form-control">
+
+
+                <label>Level</label>
+                <select [(ngModel)]="Level" name="Level" required="true" class="form-control">
+                    <option value="Beginner" >Beginner</option>
+                    <option value="Easy">Easy</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Hard">Hard</option>
+                    <option value="Very Hard">Very Hard</option>
+                </select>
+
+
+                <label>Description:</label>
+                <div class="ngx-editor">
+                        <app-ngx-editor  [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="Description" name="Description"></app-ngx-editor>
+                </div>
+
+                <label>Type:</label>
+                <select [(ngModel)]="Type" name="Type" class ="form-control">
+                    <option value="checkbox" >MCQ with multiple correct answer</option>
+                    <option value="radio">Mcq with only one correct answer</option>
+                    <option value="text">Fill in the blank</option>
+                    </select>
+                    <br>
+                <br>
+          </div>
+
+            <!--<div [innerHTML]="Description">{{Description}}</div>-->
+
+
+
+                <div class="col-md-6">
+                <label>Add options one by one</label>
+                <input type="text" [(ngModel)]="newoption" name="newoption" required="true" class="form-control"><br />
+                <button type="button" (click)="addOption(newoption)" class="btn btn-primary">Add option</button>
+
+                <ol class="list-group">
+                    <div *ngFor='let o of options'>
+                        <li class="list-group-item">
+
+                            <div *ngIf='optionflag == 1  '> {{o}} &nbsp; <button type="button" (click)="deleteoption(o)" style="background-color:cornflowerblue">X</button></div>
+
+                        </li>
+                    </div>
+                </ol>
+
+
+
+                <label>Add one or more answers</label>
+                <input type="text" [(ngModel)]="ans" name="ans" required="true" class="form-control"><br />
+                <button type="button" (click)="addAnswers(ans)" class="btn btn-warning">Save Answer</button>
+
+
+                <ol class="list-group">
+                    <div *ngFor='let a of ans_array'>
+                        <li class="list-group-item">
+
+                            <div *ngIf='ansflag == 1  '> {{a}} &nbsp; <button type="button" (click)="deleteAnswer(a)" style="background-color:orange">X</button></div>
+
+                        </li>
+                    </div>
+                </ol>
+
+
+
+
+
+                <label>Explanation</label>
+
+                    <div class="ngx-editor">
+                        <app-ngx-editor height="100px" width="400px" [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="explanation" name="explanation"></app-ngx-editor>
+                    </div> <br />
+
+
+
+           <label> <input type="submit" value="submit" class="btn btn-success" style="width: 250px;height:50px;"></label>
+                  </div>
+            </form>
+            <div class="row">
+              </div>
             </div>
-        </ol>
-
-        </tr>
-			<tr>
-        <td>Explanation</td>
-        <td><div class="ngx-editor">
-					<app-ngx-editor  height = "100px" width = "400px" [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="explanation" name="explanation"></app-ngx-editor>
-				</div></td>
-			</tr>
-			<tr><input type="submit" value="submit" class="btn btn-success" ></tr>
-		</table>
-	</form>
 </div>
