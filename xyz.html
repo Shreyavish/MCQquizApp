@@ -1,0 +1,81 @@
+<form>
+<div class="container">
+    <div class="row">
+            <div class="col-md-4">
+                    <label>No of questions per page</label>
+                    <select name="no_pages" [(ngModel)]="nofpages" (change)="selected(nofpages)" class="form-control" >
+                    <option value="1">1</option>
+                    <option value="2" selected="true">2</option>
+                    <option value="3">3</option>
+                    </select>
+            </div>
+
+            <div class="col-md-4">
+                    <label>Search questions:</label>
+                    <input type="text" placeholder="keyword or domain" [(ngModel)]="value_of_sk" name="value_of_sk" class="form-control">
+            </div>
+
+            <div class="col-md-4">
+                    <button type="button" (click)="searchQuery(value_of_sk)" class="btn btn-primary">Search</button>
+            </div>
+    </div>
+
+    <div class="row">
+        <div  *ngFor='let q of questions | paginate: { itemsPerPage: nofpages, currentPage: p }'></div>
+
+                        <div class="col-md-4">
+                         <button class="btn btn-info" type="button" (click)="collapse(q)" id="{{q}}">+</button>
+                         <label>{{q.title}}</label>
+                        </div>
+
+                        <div class="col-md-4">
+                            <label> Marks </label>
+                            <input type="text" name="q.marks" [(ngModel)]="q.marks" class="form-control">
+                        </div>  
+
+                        <div class="col-md-4">
+                            <input type="checkbox" name="title" value="{{q}}" (change)="pushToQuestionsArray(q,q.marks)" class="form-control">
+                        </div>
+        </div> 
+
+        <div [ngClass]="{'collapse-question': q.collapse_flag == false}">
+                <ul>
+                   <div *ngFor='let o of q.options'>
+                      <li>{{o}}</li>
+                   </div>
+                </ul>
+             </div>
+    </div>
+
+    <div class="row">
+            <pagination-controls (pageChange)="p = $event"></pagination-controls>
+    </div>
+
+    <div class="row">
+            <div *ngIf='ques_final.length != 0'>
+            <h2>Select questions you want to Delete from contest</h2>     
+            <div  *ngFor='let q of ques_final'></div>
+            <div class="col-md-6">
+               <button class="btn btn-info" type="button" (click)="collapse(q)" id="{{q}}">+</button>
+               <label>{{q.title}}</label>
+            </div>
+           
+            <div class="col-md-6">
+                    <button type="button" class="btn btn-danger" (click)="removeQuesFromArray(q)">remove question</button>
+            </div>
+            </div> 
+            <div [ngClass]="{'collapse-question': q.collapse_flag == false}">
+               <ul>
+                  <div *ngFor='let o of q.options'>
+                     <li>{{o}}</li>
+                  </div>
+               </ul>
+            </div>
+          </div>
+    </div>
+
+    <div class="row">
+        <input type="submit" class="btn btn-success" value="SUBMIT">
+    </div>
+</div>
+</form>

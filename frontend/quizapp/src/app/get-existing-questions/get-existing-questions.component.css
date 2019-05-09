@@ -1,24 +1,9 @@
-.getexistquestions {
-  width: 700px;
-  margin: 5em auto;
-  padding: 10px;
-  color:black;
-  background-color:gainsboro;
-  border-radius: 1em;
-}
-td{
-  padding: 5px;
-  spacing:3px;
 
-}
 input[type="checkbox"]{
   width:25px;
   height:25px;
 }
-input[type="text"]{
-  width:100px;
-  height:20px;
-}
+
 .collapse-button{
  background-color:skyblue;
 }
