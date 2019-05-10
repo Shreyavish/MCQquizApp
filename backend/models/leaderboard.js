@@ -14,8 +14,8 @@ module.exports = mongoose.model('userresult',userresult);
 const mongoose = require('mongoose');
 
 const leaderboard = mongoose.Schema({
-    username:{type:String,require:true,unique:true},
-    Rank:{type:Number},
+    username:{type:String,require:true},
+    //Rank:{type:Number},
     Score:{type:Number,require:true},
     Time_taken: {type:String,require:true},
 });

@@ -74,8 +74,11 @@ export class QuestionserviceService {
 
          let url = 'http://localhost:3000/quizapi/search';
          return this.http.post(url,item);
+      }
 
-
+      deleteContest(id): Observable<any>{
+      let url ='http://localhost:3000/quizapi/deleteContest/'+id;
+      return this.http.delete(url);
       }
 
 }

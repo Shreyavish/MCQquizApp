@@ -124,6 +124,27 @@ export class EditContestComponent implements OnInit {
 		q.collapse_flag = !q.collapse_flag;
 		this.q.collapse_flag = q.collapse_flag;
     console.log(this.collapse_flag);
+  }
 
-	}
+  deleteContest(id){
+
+
+    var decision = prompt('Are you sure you want to delete this contest? Y/N');
+
+    decision.toLowerCase();
+
+    if(decision == 'y'){
+      for(var i=0;i<this.fetchedContests.length;i++){
+        if(this.fetchedContests[i]._id == id){
+          this.fetchedContests.splice(i,1);
+          break;
+        }
+      }
+    this.quesserv.deleteContest(id).subscribe(item=>{
+      {console.log('deleted contest successfully');
+
+      }
+    });
+    }
+  }
 }

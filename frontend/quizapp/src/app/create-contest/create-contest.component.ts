@@ -19,7 +19,7 @@ export class CreateContestComponent implements OnInit {
   newcontest: contest;
   newquestion: question;
   Questions = [];
-  Leaderboard= [];
+  Leaderboard= ["",0,""];
   Name: String;
   Start_time: Date;
   End_time: Date;

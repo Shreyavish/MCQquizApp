@@ -233,7 +233,7 @@ router.post('/addquestions',(req,res)=>{
   console.log(newquestion);
     newquestion.save(function(err,item){
       if(err){
-        res.send({msg:'unsuccessful'});
+        res.send(err);
       }else{
         res.send(item);
       }
@@ -337,5 +337,15 @@ router.get('/getQuestionsofaContest/:_id',(req,res)=>{
 })
 
 
+router.delete('/deleteContest/:_id',(req,res)=>{
+  Contest.remove(
+    {_id:req.params._id},
+    function(err,item){
+      if(err)
+      res.send(err);
+      res.send(item);
+    }
+  )
+})
 
 module.exports=router;

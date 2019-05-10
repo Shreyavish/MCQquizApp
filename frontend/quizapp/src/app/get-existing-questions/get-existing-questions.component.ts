@@ -14,7 +14,9 @@ import {
 import {
   contest
 } from '../models/contest';
-
+import{
+  Router
+}from '@angular/router';
 @Component({
 	selector: 'app-get-existing-questions',
 	templateUrl: './get-existing-questions.component.html',
@@ -22,16 +24,17 @@ import {
 })
 export class GetExistingQuestionsComponent implements OnInit {
 
-	constructor(private queserv: QuestionserviceService, private contserv: ContestService) {}
+	constructor(private queserv: QuestionserviceService, private contserv: ContestService,private router:Router) {}
 	//UI  Related
 	p: number = 1;
 	x: number = 3;
 	nofpages: number = 2; //default
 	collapse_flag: boolean = false;
   q: question ;
-marks:number;
+marks:number = 1;
   //contest questions related
   toEditContest: contest;
+  Name: String;
   cont_ques:[question] = [{
 
 		"title": "dummy",
@@ -105,6 +108,7 @@ marks:number;
     this.queserv.getContestToEdit(this.contest_id).subscribe(toEditContest=>
       {this.toEditContest = toEditContest;
         this.cont_ques= this.toEditContest.Questions;
+        this.Name =this.toEditContest.Name;
         console.log(this.cont_ques);
 
         for(var i=0;i<this.cont_ques.length;i++){
@@ -134,7 +138,10 @@ marks:number;
 	//	console.log("final question are"+this.question_selected_array);
 
 		this.queserv.postExistingQuestions(this.contest_id, this.ques_final).subscribe(ques_final =>
-		console.log(ques_final));
+    {console.log(ques_final)
+    alert('edited questions successfully');
+    this.router.navigate(['/editcontest']);
+    });
 	}
 
 	pushToQuestionsArray(ques: question,marks:number) {

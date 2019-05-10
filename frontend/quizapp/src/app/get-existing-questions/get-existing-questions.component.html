@@ -1,49 +1,56 @@
-<form class="form-group" (submit)="addexistQuesToContest()">
+<body>
+<form ngNativeValidate class="form-group" (submit)="addexistQuesToContest()">
 <div class="container">
-<div style = "">
-    <div class="row">
-        <h3 style="font-family: cursive;color: cornflowerblue;">Add questions to contest</h3>
-        <br>
-            <div class="col-md-4">
-                    <label>No of questions per page</label>
-                    <select name="no_pages" [(ngModel)]="nofpages" (change)="selected(nofpages)" class="form-control" >
-                    <option value="1">1</option>
-                    <option value="2" selected="true">2</option>
-                    <option value="3">3</option>
-                    </select>
+  <h1><span class="label label-primary">{{Name}}</span></h1>
+  <br />
+  <div class="panel panel-success">
+      <div class="panel-heading">
+            <div class="row">
+                <h3 style="font-family: cursive;color: cornflowerblue;padding-left: 10px;">Add questions to contest</h3>
+                <br>
+                    <div class="col-md-4">
+                            <label>No of questions per page</label>
+                            <select name="no_pages" [(ngModel)]="nofpages" (change)="selected(nofpages)" class="form-control" >
+                            <option value="1">1</option>
+                            <option value="2" selected="true">2</option>
+                            <option value="3">3</option>
+                            </select>
+                    </div>
+
+                    <div class="col-md-4">
+                            <label>Search questions:</label>
+                            <input type="text" placeholder="keyword or domain" [(ngModel)]="value_of_sk" name="value_of_sk" class="form-control">
+                    </div>
+
+                    <div class="col-md-4">
+                            <br>
+                            <button type="button" (click)="searchQuery(value_of_sk)" class="btn btn-primary">Search</button>
+                    </div>
+            </div>
             </div>
 
-            <div class="col-md-4">
-                    <label>Search questions:</label>
-                    <input type="text" placeholder="keyword or domain" [(ngModel)]="value_of_sk" name="value_of_sk" class="form-control">
-            </div>
-
-            <div class="col-md-4">
-                     <br/>
-                    <button type="button" (click)="searchQuery(value_of_sk)" class="btn btn-primary">Search</button>
-            </div>
-    </div>
     <br>
     <br>
-    <div class="row">
+            <div class="panel-body">
+    <div class="row" >
         <div  *ngFor='let q of questions | paginate: { itemsPerPage: nofpages, currentPage: p }'>
 
                         <div class="row">
 
-                          <div class="col-md-6">
-                              <label> <button style="background-color: cornflowerblue;color: white" type="button" (click)="collapse(q)" id="{{q}}">+</button>
+                          <div class="col-md-7">
+                              <label> <button style="background-color: cornflowerblue;color: white;margin-left: 10px" type="button" (click)="collapse(q)" id="{{q}}">+</button>
                          {{q.title}}</label>
                           </div>
 
 
-                            <div class="col-md-2">
+                            <div class="col-md-3">
                            <label> Marks</label>
-                            <input type="text" name="q.marks" [(ngModel)]="q.marks" class="form-control">
+                            <input type="text" name="q.marks" [(ngModel)]="q.marks" class="form-control input-sm">
                                </div>
 
                                <div class="col-md-2">
                                  <br>
-                            <input type="checkbox" name="title" value="{{q}}" (change)="pushToQuestionsArray(q,q.marks)" class="form-control">
+                            <input type="checkbox" name="title" value="{{q}}" (change)="pushToQuestionsArray(q,q.marks)" class="form-control input-sm">
                                 </div>
 
                         </div>
@@ -61,28 +68,35 @@
 
           </div>
     </div>
-
+    </div>
 
     <div class="row">
         <pagination-controls (pageChange)="p = $event"></pagination-controls>
       </div>
+  </div>
 
-    <hr />
+
+    <div class ="panel panel-warning">
+      <div class="panel-heading">
     <div class="row">
-      <h3 style="font-family: cursive;color: cornflowerblue;">Remove questions from contest</h3>
-      <br>
+      <h3 style="font-family: cursive;color: cornflowerblue;padding-left: 10px;">Currently available questions in the contest</h3>
+      </div>
+    </div>
+    <div class="panel-body">
         <div  *ngFor='let q of ques_final'>
 
                         <div class="row">
 
                           <div class="col-md-6">
+                              <br />
                               <label> <button style="background-color: cornflowerblue;color: white" type="button" (click)="collapse(q)" id="{{q}}">+</button>
                          {{q.title}}</label>
                           </div>
 
                                <div class="col-md-2">
-                                 <br>
+                                  <br />
                                  <button type="button" class="btn btn-danger" (click)="removeQuesFromArray(q)">remove question</button>
+
                                 </div>
 
                         </div>
@@ -99,9 +113,13 @@
                       </div>
 
           </div>
+        </div>
+
     </div>
     <div class="row">
       <input type="submit" value="submit" class="btn btn-success">
       </div>
 
 </div>
+</form>
+</body>
