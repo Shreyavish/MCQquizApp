@@ -13,23 +13,41 @@
 
 </div>
 </form>-->
+
+
+
 <div class="container">
 
-    <div *ngIf='current_question_no &lt; total_no_of_questions' style="margin: 50px">
-        <h2>Question {{current_question_no+1}} /{{total_no_of_questions}}</h2><br />
-      <h3>{{contest_questions[current_question_no].title}}</h3>
+    <div class="row">
+      <div class="col-md-8">
+       <div *ngIf='current_question_no &lt; total_no_of_questions'>
+      <div class="panel panel-primary">
 
-      <div *ngFor='let o of contest_questions[current_question_no].options'>
-          <label><input type="radio" name="options" value="{{o}}" [(ngModel)]="userans"> {{o}}</label><br />
-        </div>
+          <div class="panel-heading"><h2>Question {{current_question_no+1}} /{{total_no_of_questions}}</h2></div>
+          <br />
+          <div class="panel-body">
+          <div *ngIf='current_question_no &lt; total_no_of_questions' style="margin: 50px">
 
-       <button type="button" (click)="saveAndNext(contest_questions[current_question_no]._id,userans)">Save and Next</button>
-    </div>
 
+            <h3>{{contest_questions[current_question_no].title}}</h3>
+                <div *ngFor='let o of contest_questions[current_question_no].options'>
+                  <label><input type="radio" name="options" value="{{o}}" [(ngModel)]="userans"> {{o}}</label><br />
+                </div>
+                <button type="button" class="btn btn-success" (click)="saveAndNext(contest_questions[current_question_no]._id,userans)">Save and Next</button>
+            </div>
+
+
+          </div>
+      </div>
+       </div>
       <div *ngIf='current_question_no == total_no_of_questions' style="margin: 50px">
 
-        <button type="button" (click)="calculateMyScore()">calculate my score</button>
+        <h2>You have successfully attempted the quiz</h2>
+          <button type="button" (click)="calculateMyScore()" class="btn btn-info">calculate my score</button>
 
-      </div>
-</div>
+        </div>
+          </div>
+
+    </div>
+    </div>
 
