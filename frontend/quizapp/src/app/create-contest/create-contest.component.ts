@@ -28,13 +28,18 @@ export class CreateContestComponent implements OnInit {
   Organized_by:String;
   Contest_Link:String;
 
-
+    contest_time:String;
   ngOnInit() {
   }
 
    createContest(){
 
-  if(this.Start_time >= this.End_time){
+    var temp1 = this.Start_time+' '+this.s_time;
+    var temp2 = this.End_time+' '+this.e_time;
+
+
+
+  if(temp1 > temp2){
       alert('Start time cannot be greater than end time');
     } else{
 
@@ -46,6 +51,7 @@ export class CreateContestComponent implements OnInit {
       Contest_Link:this.Contest_Link,
       Questions: this.Questions,
      Leaderboard:this.Leaderboard,
+     active_time:this.contest_time
     }
 
     this.quesserv.createContest(newcontest).subscribe(

@@ -23,7 +23,16 @@
        <div *ngIf='current_question_no &lt; total_no_of_questions'>
       <div class="panel panel-primary">
 
-          <div class="panel-heading"><h2>Question {{current_question_no+1}} /{{total_no_of_questions}}</h2></div>
+          <div class="panel-heading">
+            <div class="row">
+                <div class="col-md-6">
+                <h2>Question {{current_question_no+1}} / {{total_no_of_questions}}</h2>
+                </div>
+                <div class="col-md-6">
+              <h2>  <label class="label label-danger">HH:MM - {{no_hrs}}:{{no_min}}</label></h2>
+                </div>
+                </div>
+          </div>
           <br />
           <div class="panel-body">
           <div *ngIf='current_question_no &lt; total_no_of_questions' style="margin: 50px">
@@ -31,7 +40,7 @@
 
             <h3>{{contest_questions[current_question_no].title}}</h3>
                 <div *ngFor='let o of contest_questions[current_question_no].options'>
-                  <label><input type="radio" name="options" value="{{o}}" [(ngModel)]="userans"> {{o}}</label><br />
+                  <label><input type="radio" name="options" value="{{o}}" [(ngModel)]="userans" > {{o}}</label>
                 </div>
                 <button type="button" class="btn btn-success" (click)="saveAndNext(contest_questions[current_question_no]._id,userans)">Save and Next</button>
             </div>

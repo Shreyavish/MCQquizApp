@@ -160,7 +160,8 @@ marks:number = 1;
     // while unchecking => remove questions :splice
     		for (let i = 0; i < this.ques_final.length; i++) {
 			if (this.question_selected == this.ques_final[i]) {
-				this.ques_final.splice(i, 1);
+    	this.ques_final.splice(i, 1);
+
 				this.found_flag = true;
 				break;
 			}

@@ -20,6 +20,7 @@ import { EditContestComponent } from './edit-contest/edit-contest.component';
 import { NgxEditorModule } from 'ngx-editor';
 import { PlayQuizComponent } from './play-quiz/play-quiz.component';
 import { CountdownModule } from 'ngx-countdown';
+import { CountdownTimerModule } from 'ngx-countdown-timer';
 @NgModule({
   declarations: [
     AppComponent,
@@ -43,7 +44,8 @@ import { CountdownModule } from 'ngx-countdown';
     CalendarModule,
     NgxPaginationModule,
     NgxEditorModule,
-    CountdownModule
+    CountdownModule,
+    CountdownTimerModule
   ],
   providers: [QuestionserviceService],
   bootstrap: [AppComponent]

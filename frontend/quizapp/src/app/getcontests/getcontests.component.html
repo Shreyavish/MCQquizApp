@@ -1,9 +1,36 @@
-<h4>Available contests  are :</h4>
 
-<div *ngFor='let c of Contest'>
-  <ul style="list-style: none">
-<li>
-  <button type="button" class="btn btn-primary" (click)="getQuestions(c._id)">{{c.Name}}</button>
-</li>
-</ul>
-</div>
+
+
+
+
+
+  <div class="container">
+
+      <div class="row">
+                <h1 style="margin-left: 15px;"> <span class="label label-warning" >Edit your contest</span></h1>
+                <br />
+                <div *ngFor='let c of Contest'>
+                    <div class="col-md-6">
+                  <ul class="list-group">
+
+                        <li class="list-group-item">
+                          <div class="row">
+
+                          <div class="col-md-6">
+                          <h4>{{c.Name}}</h4>
+                            </div>
+
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-success" (click)="getQuestions(c._id)">Participate</button>
+                              </div>
+
+
+
+                        </div>
+                        </li>
+                    </ul>
+                </div>
+                </div>
+
+            </div>
+    </div>

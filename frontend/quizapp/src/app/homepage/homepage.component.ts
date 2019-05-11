@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import {Router } from '@angular/router';
+import {CountdownTimerModule} from 'ngx-countdown-timer';
+import {timer} from 'rxjs';
 @Component({
   selector: 'app-homepage',
   templateUrl: './homepage.component.html',
@@ -8,8 +10,10 @@ import {Router } from '@angular/router';
 export class HomepageComponent implements OnInit {
 
   constructor(private router: Router) { }
-  time:String;
+
   ngOnInit() {
+
+
   }
   create(){
     this.router.navigate(['/addquestions']);
@@ -19,4 +23,11 @@ export class HomepageComponent implements OnInit {
     this.router.navigate(['/questioncomp']);
   }
 
-}
+
+
+
+
+
+    }
+
+

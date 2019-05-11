@@ -273,7 +273,7 @@ router.put('/editContest/:_id',(req,res)=>{
         if(err)
         {res.send(err);
         }else{
-          res.send({msg:'update successfull'});
+          res.send(item);
         }
 
       });

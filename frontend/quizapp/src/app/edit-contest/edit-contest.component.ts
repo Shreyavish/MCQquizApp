@@ -29,6 +29,7 @@ export class EditContestComponent implements OnInit {
   s_time: Time;
   e_time: Time;
   contest_id:String;
+  contest_time: String;
   _id:String;
   collapse_flag:Boolean=false;
   default_display: Boolean =false;
@@ -60,6 +61,7 @@ export class EditContestComponent implements OnInit {
         this.Organized_by = this.toEditContest.Organized_by,
         this.Contest_Link = this.toEditContest.Contest_Link,
         this.Questions = this.toEditContest.Questions,
+        this.contest_time = this.toEditContest.active_time
         console.log(this.toEditContest);
 
         // splitting date and time
@@ -96,11 +98,12 @@ export class EditContestComponent implements OnInit {
       End_time: this.End_time,
       Organized_by: this.Organized_by,
       Contest_Link:this.Contest_Link,
-      //Questions : this.Questions,
+      active_time:this.contest_time
     }
 
     this.quesserv.editContest(this.contest_id,this.editedContest).subscribe(editedContest=>
-      {console.log('edited success');
+      {this.editedContest = editedContest;
+        console.log(this.editedContest);
       this.router.navigate(['/getexistquestions']);
     })
   }

@@ -15,7 +15,7 @@ const contest = mongoose.Schema ({
     Level: String,
     LeaderBoard:{type:[leaderBoard]},
     length:Number,
-
+    active_time: String
 });
 contest.plugin(mongooseDateFormat);
 module.exports=mongoose.model('Contest',contest);
