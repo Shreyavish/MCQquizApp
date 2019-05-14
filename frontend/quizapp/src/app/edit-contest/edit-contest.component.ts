@@ -14,7 +14,8 @@ import {Router } from '@angular/router';
 export class EditContestComponent implements OnInit {
 
   constructor(private quesserv: QuestionserviceService,private contserv:ContestService,private router:Router) { }
-  toEditContest : contest;
+  ngOnInit(){}
+ /* toEditContest : contest;
   editedContest: contest;
   fetchedContests: [contest];
   //id:String = '5ccc14803e016d813437bcd2';
@@ -149,5 +150,5 @@ export class EditContestComponent implements OnInit {
       }
     });
     }
-  }
+  }*/
 }

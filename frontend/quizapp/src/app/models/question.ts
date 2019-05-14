@@ -2,19 +2,19 @@
 
 export class question    {
     _id?:String;
-       title: String;
-       options: [String];
-       answer?:[String];
-       domain:String;
-       subdomain?:String;
-       keywords?:String;
-       Description?:String;
-       marks:Number;
-       Level: String;
-       Type?:String;
-       author?:String;
+    title?:String;
+    author?: String;
+    description?:String;
+    options?: [{option_no : Number,
+             content: String}];
 
-       collapse_flag?:Boolean;
-       explanation?:String;
+    answer?:[Number];
+    domain?:String;
+    subdomain?: String;
+    keywords?:[String];//topic tags
+    marks?:Number;
+    level?:String;
+    type?:String;
+    explanation?: String;
     }
 

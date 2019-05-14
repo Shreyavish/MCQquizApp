@@ -5,10 +5,10 @@ var fs = require('fs');
 const question = require('../models/question');
 const LeaderBoard = require ('../models/leaderboard');
 const Contest = require('../models/contest');
-
+const quespaper = require('../models/questionpaper');
 //get questions url
 
-/*router.get('/getquestions',(req,res)=>{
+router.get('/getquestions',(req,res)=>{
     question.find(function(err,item){
         if(err){
             res.send({msg:'could not fetch questions'});
@@ -18,7 +18,7 @@ const Contest = require('../models/contest');
     });
 });
 
-
+/*
 
 router.post('/addquestion',(req,res)=>{
 
@@ -185,11 +185,18 @@ router.post('/createContest',(req,res)=>{
 router.get('/getContest/:_id',(req,res)=>{
 // both for user display and admin editing
 
-  Contest.findOne({_id:req.params._id},function(err,item){
+  Contest.findOne({_id:req.params._id})
+  .populate(
+    {path:'questionpaperid',
+   populate : {
+     path: 'section.question_content'
+   }}
+    )
+  .exec(function(err,item){
     if(err){
-      res.send({msg:'unsucessful'});
+      res.send(err)
     }else{
-      res.send(item);
+      res.send(item)
     }
   })
 })
@@ -226,7 +233,7 @@ router.get('/getLeaderBoard/:_id',(req,res)=>{
 
 
 //loosely adding questions 
-router.post('/addquestions',(req,res)=>{
+router.post('/addquestion',(req,res)=>{
 
   let newquestion = new question(req.body);
   console.log(req.body);  
@@ -348,4 +355,28 @@ router.delete('/deleteContest/:_id',(req,res)=>{
   )
 })
 
+
+router.post('/createQuestionPaper',(req,res)=>{
+
+      let newquespaper = new quespaper(req.body);
+  newquespaper.save(
+
+    function(err,item){
+      if(err){
+        res.send(err);
+      }else{
+        res.send(item);
+      }
+    });
+});
+
+
+router.get('/getQuestionPaper/:_id',(req,res)=>{
+  quespaper.findById(req.params._id)
+  .populate({path : 'section.question_content'},
+  ).exec(function(err, ques) {
+    if(err) console.log(err);
+    else res.send(ques);
+  }) ;
+});
 module.exports=router;

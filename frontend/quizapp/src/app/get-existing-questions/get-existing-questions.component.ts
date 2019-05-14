@@ -23,10 +23,10 @@ import{
 	styleUrls: ['./get-existing-questions.component.css']
 })
 export class GetExistingQuestionsComponent implements OnInit {
-
+ngOnInit(){}
 	constructor(private queserv: QuestionserviceService, private contserv: ContestService,private router:Router) {}
 	//UI  Related
-	p: number = 1;
+/*	p: number = 1;
 	x: number = 3;
 	nofpages: number = 2; //default
 	collapse_flag: boolean = false;
@@ -146,13 +146,12 @@ marks:number = 1;
 
 	pushToQuestionsArray(ques: question,marks:number) {
 
-		/*if (this.flag == false) {
-			this.ques_final.shift();
-			this.flag = true;
-    }*/
+		//if (this.flag == false) {
+			//this.ques_final.shift();
+			//this.flag = true;
+    //}
 
-
-    this.question_selected = ques;
+  this.question_selected = ques;
     this.question_selected.marks=marks;
 		console.log(this.question_selected);
 		this.found_flag = false;
@@ -207,5 +206,5 @@ marks:number = 1;
     console.log("The current questions are :"+this.ques_final);
   }
 
-
+*/
 }

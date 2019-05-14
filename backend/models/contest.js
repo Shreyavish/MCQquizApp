@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const mongooseDateFormat = require('mongoose-date-format');
 const question = require('../models/question').schema;
 const leaderBoard = require('../models/leaderboard').schema;
+const quespaper = require('../models/questionpaper').schema;
 const contest = mongoose.Schema ({
     Name: {type:String,require:true},
     Start_time: 
@@ -10,7 +11,11 @@ const contest = mongoose.Schema ({
     Organized_by: {type:String,require:true},
     Contest_Link:{type: String},
     no_of_attempts: String,
-    Questions:{type:[question]},
+    // test and contest
+    //Questions:{type:[question]},// qpaper id
+    questionpaperid:{
+        type: mongoose.SchemaTypes.ObjectId,
+        ref:'quespaper'},
     Marks: Number,
     Level: String,
     LeaderBoard:{type:[leaderBoard]},

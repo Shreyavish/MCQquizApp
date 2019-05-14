@@ -15,7 +15,7 @@ app.use(bodyparser.json());
 
 
 
-mongoose.connect('mongodb://localhost:27017/BZQuizApplication');
+mongoose.connect('mongodb://localhost:27017/demo');
 
 mongoose.connection.on('connected',()=>{
     console.log("connected to database at port 27017");

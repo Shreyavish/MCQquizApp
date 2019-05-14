@@ -16,7 +16,7 @@ import { Time } from '@angular/common';
 export class AddquestionsComponent implements OnInit {
 
   constructor(private quesservice:QuestionserviceService, private router: Router,private contserv:ContestService) { }
-
+  ngOnInit(){}
     /*ques: Question;
     length: number;
     question_title: String;
@@ -54,7 +54,7 @@ export class AddquestionsComponent implements OnInit {
   }*/
   //contest parameters
 
-  contest_id:String;
+  /*contest_id:String;
 
   //question parameters
   newoption:String;
@@ -146,7 +146,7 @@ export class AddquestionsComponent implements OnInit {
 
 }*/
 
-    addOption(newoption){
+    /*addOption(newoption){
       this.optionflag =1;
       console.log(newoption);
       this.options.push(newoption);
@@ -176,7 +176,7 @@ export class AddquestionsComponent implements OnInit {
         }*/
 
 
-        addQuestionToDB(){
+      /*  addQuestionToDB(){
           this.newquestion= {
               title:this.title,
             options:this.options,
@@ -202,7 +202,7 @@ export class AddquestionsComponent implements OnInit {
         console.log(this.Description);
       }*/
 
-      addAnswers(ans){
+      /*addAnswers(ans){
         this.ansflag=1;
         this.ans_array.push(ans);
       }
@@ -215,7 +215,7 @@ export class AddquestionsComponent implements OnInit {
         }
         this.ans_array.splice(i,1);
         //console.log(this.options);
-      }
+      }*/
 
   }
 

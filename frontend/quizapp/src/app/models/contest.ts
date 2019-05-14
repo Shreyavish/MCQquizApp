@@ -1,5 +1,6 @@
 import {question} from '../models/question';
 import {leaderBoard} from '../models/Leaderboard';
+import { questionpaper } from './questionpaper';
 
 export class contest{
   _id?:String
@@ -8,7 +9,7 @@ export class contest{
   End_time: Date;
   Organized_by:String;
   Contest_Link:String;
-  Questions?: [question];
+  Questionpaper: questionpaper;
   Marks?:Number;
   Level?:String;
   LeaderBoard?:[leaderBoard];

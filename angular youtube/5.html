@@ -1,0 +1,50 @@
+
+
+<html>
+<head>
+	<title>Angular js controller</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+	</head>
+<body>
+
+	<div ng-app = "mainApp" ng-controller = "studentController">
+
+		first name <input type = "text" ng-model = "student.fname"><br>
+
+		last name <input type = "text" ng-model = "student.lname"><br>
+
+		the full name is {{ student.fullname() }}
+
+
+	</div>
+
+
+	<script>
+
+		var mainApp = angular.module("mainApp", []);
+
+			mainApp.controller('studentController',function($scope)
+			{
+
+				$scope.student = {
+
+					fname : "shreya",
+					lname : "vishwanth",
+					fullname : function(){
+
+						var stuobj;
+						stuobj = $scope.student;
+						return stuobj.fname + " "+ stuobj.lname;
+					}
+
+
+				};
+
+
+
+			} );
+
+
+</script>
+</body>
+</html>

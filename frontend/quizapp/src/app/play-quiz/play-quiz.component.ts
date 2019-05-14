@@ -13,7 +13,7 @@ import { timer } from 'rxjs';
 export class PlayQuizComponent implements OnInit {
 
   constructor(private queserv: QuestionserviceService, private contserv: ContestService) { }
-  contest_id: string;
+ /* contest_id: string;
   user_contest: contest;
   contest_questions :[question];
   user_answers : [{q_id: String,q_ans:[String]}] = [{"q_id":"",q_ans:[" "]}] ;
@@ -33,10 +33,10 @@ userans: String;
   no_min: number ;
   flag:boolean = false;
 
+*/
+  ngOnInit() { }
 
-  ngOnInit() {
-
-    this.contest_id = this.contserv.getdata();
+  /*  this.contest_id = this.contserv.getdata();
     this.contest_answers.pop(); // remove dummy
     this.user_answers.pop(); // remove dummy
     // console.log(this.contest_id);
@@ -65,9 +65,9 @@ userans: String;
         this.startTimer();
       });
 
-  }
+  }*/
 
-  saveUserAnswer(qid,userans){
+  /*saveUserAnswer(qid,userans){
     //let flag =false;
     let temp ={
       q_id : qid,
@@ -84,13 +84,13 @@ userans: String;
         break;
       }
     }*/
-    //if(flag == false){
+   /* //if(flag == false){
     this.user_answers.push(temp);
     //}
     console.log(this.user_answers);
-  }
+}*/
 
-  saveAndNext(qid,userans){
+  /*saveAndNext(qid,userans){
     let temp ={
       q_id : qid,
       q_ans:userans
@@ -100,9 +100,9 @@ userans: String;
     this.current_question_no = this.current_question_no+1;
     this.percentage_completed = this.current_question_no /this.total_no_of_questions;
     this.percentage_completed = this.percentage_completed * 100;
-  }
+  }*/
 
-  calculateMyScore(){
+  /*calculateMyScore(){
 
     for( var i =0; i<this.contest_answers.length;i++){
 
@@ -123,9 +123,9 @@ userans: String;
 
     alert('your score is' + this.userscore);
   }
+*/
 
-
-    startTimer(){
+ /*   startTimer(){
 
       var day= this.End_time.getDate()- this.Start_time.getDate();
       var month = this.End_time.getMonth() - this.Start_time.getMonth();
@@ -148,5 +148,5 @@ userans: String;
 
 
     }
+}*/
 }
-

@@ -18,11 +18,15 @@ export class HomepageComponent implements OnInit {
   create(){
     this.router.navigate(['/addquestions']);
   }
-  play(){
+  /*play(){
 
     this.router.navigate(['/questioncomp']);
-  }
+  }*/
 
+  play(){
+
+    this.router.navigate(['/playquiz2']);
+  }
 
 
 

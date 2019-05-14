@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>expression in js</title>
+	<script src = "angular.min.js">
+      </script>
+</head>
+<body>
+
+	<div ng-app = "" ng-init = "quantity = 1;
+	 cost=20 ;
+	 marks = [10,20,30,40] ;
+	 student = {fname : 'shreya', lname : 'vishwanath' ,age : '20'};">
+
+
+	 	<p>Hello {{ student.fname  + " " + student.lname + " " + student.age}}</p>
+
+	 		<p>
+	 			expenses are {{cost*quantity}} rs
+	 		</p>
+
+	 		<p>Marks in math are {{ marks[3]}}</p>
+
+
+	</div>
+
+
+
+</body>
+</html>
