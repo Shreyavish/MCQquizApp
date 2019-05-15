@@ -99,7 +99,10 @@
                         </button>
                       </div>
 
-                      <button type="button" (click)="calculateScore()">submit</button>
+                        <form (submit)="calculateScore()">
+                          <input type="submit" value="End Test" class="btn btn-sucess">
+                          </form>
+
                     </div>
                   </div>
 

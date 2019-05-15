@@ -15,7 +15,11 @@ const mongoose = require('mongoose');
 
 const leaderboard = mongoose.Schema({
     username:{type:String,require:true},
-    //Rank:{type:Number},
+    no_of_questions_attempted : Number,
+    user_answers :[{
+        qid: String,
+        ans: [Number]
+    }],
     score:{type:Number,require:true},
     time_taken: {type:String,require:true},
 });

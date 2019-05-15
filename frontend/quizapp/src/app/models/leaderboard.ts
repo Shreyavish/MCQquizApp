@@ -1,6 +1,12 @@
 export class leaderBoard{
-    username: String;
-    Rank?: Number;
-    Score: Number;
-    Time_taken: String;
+
+  username:String;
+  no_of_questions_attempted : Number;
+  user_answers :[{
+      qid: string,
+      ans: [number]
+  }];
+  score:Number;
+  time_taken: String;
+
 }

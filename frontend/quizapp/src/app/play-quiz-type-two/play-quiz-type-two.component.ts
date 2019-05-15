@@ -4,7 +4,7 @@ import { question } from "../models/question";
 import { contest } from "../models/contest";
 import { QuestionserviceService } from "../service/questionservice.service";
 import { ContestService } from '../service/contest.service';
-
+import {leaderBoard} from '../models/leaderboard';
 @Component({
   selector: "app-play-quiz-type-two",
   templateUrl: "./play-quiz-type-two.component.html",
@@ -74,7 +74,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
       console.log(this.question_no_with_id);
 
       //at start of the test display first question of first section
-      this.crnt_section = this.our_contest_qpaper_sections[0];
+      this.crnt_section = this.our_contest_qpaper_sections[0]._id;
       this.crnt_ques = this.our_contest_qpaper_sections[0].question_content[0];
       this.crnt_ques_options = this.our_contest_qpaper_sections[0].question_content[0].options;
       this.flag = true;
@@ -91,6 +91,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     for (var i = 0; i < this.no_of_sections; i++) {
       if (sid == this.our_contest_qpaper_sections[i]._id) {
         console.log('found sid');
+        this.no_of_ques_of_crnt_section =this.our_contest_qpaper_sections[i].question_content.length;
         this.crnt_section =sid;
         for (var j = 0; j < this.no_of_ques; j++) {
           if(this.our_contest_qpaper_sections[i].question_content[j]._id == qid){
@@ -154,6 +155,7 @@ var flag=false;
           }
       }
       // increment the question no because next question has +1 qno
+
       i=i+1;
       this.fetchQuestion(this.question_no_with_id[i],this.crnt_section,i);
     }
@@ -165,19 +167,32 @@ var flag=false;
           }
       }
       // decrement the question no because previous question has -1 qno
+
       i=i-1;
       this.fetchQuestion(this.question_no_with_id[i],this.crnt_section,i);
+
     }
 
     calculateScore(){
 
+      if(this.no_of_ques_attempted_by_user < this.total_no_ques_contest){
+        var input = prompt("You some questions left unanswered.Do you still wish to end the test? (Y/N)")
+      }
+      if(input == 'Y'){
     var score =0;
+    var compareAnswers = false;
 
     for(var i=0;i<this.no_of_ques_attempted_by_user;i++){
 
       for(var j=0;j<this.total_no_ques_contest;j++){
             if(this.temp_user_answers[i].qid == this.actual_answers[j].id){
-              if(this.temp_user_answers[i].ans.sort() == this.actual_answers[j].ans.sort()){
+              //console.log("entered id");
+
+
+              compareAnswers =this.compare(this.temp_user_answers[i].ans,this.actual_answers[j].ans)
+
+              if(compareAnswers == true){
+               // console.log("enteres ans");
                 score =score+1;
               }
                 break; // question already found so stop looping
@@ -186,9 +201,42 @@ var flag=false;
 
       }
         }
-        console.log(score);
+      alert("your score is " +score);
+      this.updateContestLeaderboard(score);
+      }
     }
 
+    //compare arrays of user answers
+    compare(arr1,arr2){
+      arr1.sort();
+      arr2.sort();
+
+      for(var i=0;i<arr1.length;i++){
+        for(var j=0;j<arr2.length;j++){
+          if(arr1[i] != arr2[j])
+          {
+            return false;
+          }
+        }
+      }
+      return true;
+    }
+
+
+      updateContestLeaderboard(userscore){
+
+       var userresult = new leaderBoard();
+       userresult.username="dummy";
+       userresult.no_of_questions_attempted = this.no_of_ques_attempted_by_user;
+       userresult.score = userscore;
+       userresult.user_answers = this.temp_user_answers;
+       userresult.time_taken = "n hrs";
+        this.quesserv.postResult(userresult,this.contest_id).subscribe(response=>{
+          console.log(response);
+        })
+
+
+      }
 
     }
 
