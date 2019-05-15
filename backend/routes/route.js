@@ -183,7 +183,8 @@ router.post('/createContest',(req,res)=>{
 })
 
 router.get('/getContest/:_id',(req,res)=>{
-// both for user display and admin editing
+// both for user display and admin editing 
+// sends the whole contest (question paper too)
 
   Contest.findOne({_id:req.params._id})
   .populate(
@@ -328,7 +329,7 @@ router.post('/search',(req,res)=> {
 
 router.get('/getQuestionsofaContest/:_id',(req,res)=>{
 
-  Contest.find(
+  Contest.findOne(
     {_id:req.params._id},
     function(err,item){
       if(err){
@@ -379,4 +380,26 @@ router.get('/getQuestionPaper/:_id',(req,res)=>{
     else res.send(ques);
   }) ;
 });
+
+
+
+// sending only contest details (excluding question paper) 
+// this  is for user landing page
+
+router.get('/getOnlyContestDetails/:_id',(req,res) => {
+  Contest.findOne(
+    {_id: req.params._id}
+    ,function(err,item){
+      if(err){
+        res.send(err);
+      }else{
+        res.send(item)
+      }
+    }
+  ).select("-questionpaperid");
+
+})
+
+
+
 module.exports=router;

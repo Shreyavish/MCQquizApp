@@ -22,6 +22,7 @@ import { PlayQuizComponent } from './play-quiz/play-quiz.component';
 import { CountdownModule } from 'ngx-countdown';
 import { CountdownTimerModule } from 'ngx-countdown-timer';
 import { PlayQuizTypeTwoComponent } from './play-quiz-type-two/play-quiz-type-two.component';
+import { UserLandingComponent } from './user-landing/user-landing.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -35,7 +36,8 @@ import { PlayQuizTypeTwoComponent } from './play-quiz-type-two/play-quiz-type-tw
     GetExistingQuestionsComponent,
     EditContestComponent,
     PlayQuizComponent,
-    PlayQuizTypeTwoComponent
+    PlayQuizTypeTwoComponent,
+    UserLandingComponent
   ],
   imports: [
     BrowserModule,

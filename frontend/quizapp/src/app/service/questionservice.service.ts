@@ -81,4 +81,9 @@ export class QuestionserviceService {
       return this.http.delete(url);
       }
 
+      getOnlyContestDetails (id) : Observable<any>{
+        let url ="http://localhost:3000/quizapi/getOnlyContestDetails/"+id;
+        return this.http.get(url);
+      }
+
 }

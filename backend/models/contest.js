@@ -10,6 +10,7 @@ const contest = mongoose.Schema ({
     End_time : {type:Date,require:true},
     Organized_by: {type:String,require:true},
     Contest_Link:{type: String},
+    About: {type:String}, 
     no_of_attempts: String,
     // test and contest
     //Questions:{type:[question]},// qpaper id
@@ -20,7 +21,8 @@ const contest = mongoose.Schema ({
     Level: String,
     LeaderBoard:{type:[leaderBoard]},
     length:Number,
-    active_time: String
+    duration: String,
+    Archieved: Boolean
 });
 contest.plugin(mongooseDateFormat);
 module.exports=mongoose.model('Contest',contest);

@@ -10,6 +10,7 @@ import { GetExistingQuestionsComponent } from './get-existing-questions/get-exis
 import { EditContestComponent } from './edit-contest/edit-contest.component';
 import { PlayQuizComponent } from './play-quiz/play-quiz.component';
 import { PlayQuizTypeTwoComponent } from './play-quiz-type-two/play-quiz-type-two.component';
+import { UserLandingComponent } from './user-landing/user-landing.component';
 const routes: Routes = [
 
     {path: 'addquestions' , component: AddquestionsComponent },
@@ -21,7 +22,8 @@ const routes: Routes = [
   {path:'getexistquestions',component:GetExistingQuestionsComponent},
   {path:'editcontest',component:EditContestComponent},
   {path: 'playquiz' , component:  PlayQuizComponent },
-  {path: 'playquiz2' , component:PlayQuizTypeTwoComponent}
+  {path: 'playquiz2' , component:PlayQuizTypeTwoComponent},
+  {path: 'userlanding' , component:UserLandingComponent}
 ]
 
 @NgModule({

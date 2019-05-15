@@ -1,117 +1,106 @@
-<!--<div class="container">
-  <div class="col-md-3">
-        <div class="sidenav">
-          <nav class="navbar navbar-expand-lg navbar-light bg-light">
-              <div class="container-fluid">
-                <div class="navbar-header">
-                    <a class="navbar-brand">Sections</a>
-                </div>
-                <ul class="nav navbar-nav">
-                    <div *ngFor="let s of our_contest_qpaper_sections">
-                      <li class="dropdown">
-                          <a class="dropdown-toggle" data-toggle="dropdown" href="#"
-                            ><ul class="list-group"><li class="list-group-item">{{ s.name }}</li></ul><span class="caret"></span
-                            ></a>
-                          <ul class="dropdown-menu">
-                            <div *ngFor="let q1 of s.question_content">
-                                <div *ngFor="let q2 of question_no_with_id; index as i">
-                                  <div *ngIf= 'q1._id == q2'>
-                                      <li>
-                                        <a>
-                                        <button type="button" (click)="fetchQuestion(q2, s._id,i)" class="btn-btn-primary">
-                                        {{ i+1 }}
-                                        </button>
-                                        </a>
-                                      </li>
+
+
+
+
+                    <div class="sidenav">
+                      <div id="accordion">
+                        <div
+                          class="panel-group"
+                          [attr.id]="'accordion_' + i"
+                          *ngFor="let s of our_contest_qpaper_sections; let i = index"
+                        >
+                          <div class="panel">
+                            <div class="panel-heading">
+                              <h5 class="panel-title">
+                                <a
+                                  href="#panelBodyOne"
+                                  class="accordion-toggle"
+                                  data-toggle="collapse"
+                                  [attr.data-parent]="'#accordion_' + i"
+                                  [attr.href]="'#collapseOne_' + i"
+                                  >{{ s.name }}</a
+                                >
+                              </h5>
+                            </div>
+                            <div
+                              id="panelBodyOne"
+                              class="panel-collapse collapse in"
+                              [attr.id]="'collapseOne_' + i"
+                            >
+                              <div class="panel-body">
+                                <div *ngFor="let q1 of s.question_content">
+                                  <div *ngFor="let q2 of question_no_with_id; index as i">
+                                    <div *ngIf="q1._id == q2">
+                                      <ul class="list-group">
+                                        <li class="list-group-item">
+                                          <button
+                                            type="button"
+                                            (click)="fetchQuestion(q2, s._id, i)"
+                                            class="btn btn-info"
+                                          >
+                                            {{ i + 1 }}
+                                          </button>
+                                        </li>
+                                      </ul>
+                                    </div>
                                   </div>
                                 </div>
+                              </div>
                             </div>
-                          </ul>
-                      </li>
+                          </div>
+                        </div>
+                      </div>
                     </div>
-                </ul>
-              </div>
-          </nav>
-        </div>
-       </div>
-</div>-->
+
+          <!-- Latest compiled and minified JavaScript -->
+          <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> -->
+                            <div class="container" style="margin-left:200px; width:800px" *ngIf='flag==true' >
+                    <div class="panel panel-info">
+                      <div class="panel-heading">
 
 
+                            <h3>Question&nbsp;{{crnt_ques_no+1}}: {{ crnt_ques.title }}</h3>
 
 
+                      </div>
 
-<div class="sidenav">
-  <div id="accordion">
-  <div  class="panel-group" [attr.id]="'accordion_' + i" *ngFor="let s of our_contest_qpaper_sections; let i = index;">
+                      <div class="panel-body">
+                        <div *ngFor="let o of crnt_ques_options">
+                          <ul class="list-group">
+                            <li class="list-group-item">
+                              <input
+                                type="radio"
+                                [(ngModel)]="o.option_no"
+                                value="{{ o.option_no }}"
+                                name="options"
+                                (click)="saveTempAnswers(o.option_no, crnt_ques._id)"
+                              />&nbsp; {{ o.content }}
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
+                      <br />
+                      <div style="text-align: center">
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          (click)="getPreviousQuestion(crnt_ques._id)"
+                        >
+                          Previous
+                        </button>
+                        &nbsp;
+                        <button
+                          type="button"
+                          class="btn btn-primary"
+                          (click)="getNextQuestion(crnt_ques._id)"
+                        >
+                          Next
+                        </button>
+                      </div>
 
-    <div class="panel">
-      <div class="panel-heading">
-      <h5 class="panel-title">
-        <a href="#panelBodyOne" class="accordion-toggle" data-toggle="collapse" [attr.data-parent]="'#accordion_' + i" [attr.href]="'#collapseOne_' + i">{{ s.name }}</a>
-        </h5>
-      </div>
-      <div id="panelBodyOne" class="panel-collapse collapse in" [attr.id]="'collapseOne_' + i">
-      <div class="panel-body">
-
-             <div *ngFor="let q1 of s.question_content">
-                                <div *ngFor="let q2 of question_no_with_id; index as i">
-                                  <div *ngIf= 'q1._id == q2'>
-                                    <ul class="list-group">
-                                      <li class="list-group-item">
-                                        <button type="button" (click)="fetchQuestion(q2, s._id,i)" class="btn btn-info">
-                                        {{ i+1 }}
-                                        </button>
-
-                                      </li>
-                                    </ul>
-                                  </div>
-                                </div>
-                            </div>
-
-        </div>
-      </div>
-    </div>
-    </div>
-
-  </div>
-
-</div>
-<!-- Latest compiled and minified JavaScript -->
-<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> -->
-
-<div class="container" style="margin-left:200px;"  *ngIf='flag == true'>
-
-<div class="panel panel-primary">
-
-    <div class="panel-heading">
-        <div class="row">
-            <div class="col-md-12">
-                <h3>Q: {{ crnt_ques.title }}</h3>
-            </div>
-
-            </div>
-      </div>
-
-
-              <div class="panel-body">
-
-           <div *ngFor="let o of crnt_ques_options">
-              <ul class="list-group">
-                <li class="list-group-item">
-                  <input type="radio" [(ngModel)]="o.option_no" value="{{o.option_no}}" name="options" (click)="saveTempAnswers(o.option_no,crnt_ques._id)">&nbsp; {{ o.content }}
-                </li>
-                </ul>
-            </div>
-              </div>
-              <br />
-              <div style="text-align: center">
-                  <button type="button" class="btn btn-primary" (click)="getPreviousQuestion(crnt_ques._id)">Previous</button> &nbsp;
-                    <button type="button" class="btn btn-primary" (click)="getNextQuestion(crnt_ques._id)">Next</button>
-
+                      <button type="button" (click)="calculateScore()">submit</button>
+                    </div>
                   </div>
 
-<button type="button"(click)="calculateScore()">submit</button>
-</div>
 
-</div>

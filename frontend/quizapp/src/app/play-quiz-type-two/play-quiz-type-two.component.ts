@@ -3,13 +3,16 @@ import { questionpaper } from "../models/questionpaper";
 import { question } from "../models/question";
 import { contest } from "../models/contest";
 import { QuestionserviceService } from "../service/questionservice.service";
+import { ContestService } from '../service/contest.service';
+
 @Component({
   selector: "app-play-quiz-type-two",
   templateUrl: "./play-quiz-type-two.component.html",
   styleUrls: ["./play-quiz-type-two.component.css"]
 })
+
 export class PlayQuizTypeTwoComponent implements OnInit {
-  constructor(private quesserv: QuestionserviceService) { }
+  constructor(private quesserv: QuestionserviceService,private contserv:ContestService) { }
   questions_of_each_section = [[]];
   our_contest_qpaper_sections;
   our_contest_quespaper;
@@ -19,22 +22,25 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   no_of_ques;
   no_of_ques_of_crnt_section = 0;
   //
+  contest_id :string;
   crnt_ques_no = 0;
   crnt_ques=[];
   title = "";
   crnt_ques_options = [];
   crnt_section = "";
   question_no_with_id = [];
-  flag = false;// for displaying next and previous buttons
-  // tslint:disable-next-line:variable-name
-  temp_user_answers :[{id:string,ans:[number]}]=[{id:'',ans:[0] }];
+  flag = false;// check if question paper was succesfully loaded from db.If no error make flag true in "get" call of ngoninit
+   // tslint:disable-next-line:variable-name
+  temp_user_answers :[{qid:string,ans:[number]}]=[{qid:'',ans:[0] }];
   actual_answers: [{id:string,ans:[number]}]=[{id:'',ans:[0] }];
   total_no_ques_contest =0;
+  no_of_ques_attempted_by_user=0;
   ngOnInit() {
     this.temp_user_answers.pop();//remove dummy
     this.actual_answers.pop();
     var qno =0;
-    this.quesserv.getContestById("5cda5df743b7995dc01c18cc").subscribe(cont => {
+    this.contest_id = this.contserv.getdata();
+    this.quesserv.getContestById(this.contest_id).subscribe(cont => {
       this.our_contest = cont;
       this.our_contest_quespaper = cont.questionpaperid;
       this.our_contest_qpaper_sections = this.our_contest_quespaper.section;
@@ -66,7 +72,15 @@ export class PlayQuizTypeTwoComponent implements OnInit {
       console.log(this.total_no_ques_contest);
       console.log(this.actual_answers);
       console.log(this.question_no_with_id);
+
+      //at start of the test display first question of first section
+      this.crnt_section = this.our_contest_qpaper_sections[0];
+      this.crnt_ques = this.our_contest_qpaper_sections[0].question_content[0];
+      this.crnt_ques_options = this.our_contest_qpaper_sections[0].question_content[0].options;
+      this.flag = true;
     });
+
+
   }
 
   displayQuestions() { }
@@ -115,7 +129,7 @@ var flag=false;
       for(var i=0;i<this.temp_user_answers.length;i++){
         flag= false;
 
-        if(this.temp_user_answers[i].id == qid){
+        if(this.temp_user_answers[i].qid == qid){
           this.temp_user_answers[i].ans= array_userans;
           flag= true;
           break;
@@ -123,10 +137,11 @@ var flag=false;
       }
       if(flag == false){
         let temp = {
-          id: qid,
+          qid: qid,
           ans:array_userans
         }
         this.temp_user_answers.push(temp);
+        this.no_of_ques_attempted_by_user = this.no_of_ques_attempted_by_user+1 ;
       }
       console.log(this.temp_user_answers);
     }
@@ -158,14 +173,20 @@ var flag=false;
 
     var score =0;
 
-    for(var i=0;i<this.total_no_ques_contest;i++){
+    for(var i=0;i<this.no_of_ques_attempted_by_user;i++){
 
-      if(this.temp_user_answers[i].id == this.actual_answers[i].id){
-        if(this.temp_user_answers[i].ans == this.actual_answers[i].ans){
-          score =score+1;
+      for(var j=0;j<this.total_no_ques_contest;j++){
+            if(this.temp_user_answers[i].qid == this.actual_answers[j].id){
+              if(this.temp_user_answers[i].ans.sort() == this.actual_answers[j].ans.sort()){
+                score =score+1;
+              }
+                break; // question already found so stop looping
+            }
+
+
+      }
         }
-        }
-        alert(score);
+        console.log(score);
     }
 
 
@@ -173,5 +194,4 @@ var flag=false;
 
 
 
-}
 
