@@ -5,6 +5,7 @@ import { contest } from "../models/contest";
 import { QuestionserviceService } from "../service/questionservice.service";
 import { ContestService } from '../service/contest.service';
 import {leaderBoard} from '../models/leaderboard';
+import {Router} from "@angular/router";
 @Component({
   selector: "app-play-quiz-type-two",
   templateUrl: "./play-quiz-type-two.component.html",
@@ -12,9 +13,10 @@ import {leaderBoard} from '../models/leaderboard';
 })
 
 export class PlayQuizTypeTwoComponent implements OnInit {
-  constructor(private quesserv: QuestionserviceService,private contserv:ContestService) { }
+  constructor(private quesserv: QuestionserviceService,private contserv:ContestService,private router:Router) { }
+  username:String="";
   questions_of_each_section = [[]];
-  our_contest_qpaper_sections;
+  our_contest_qpaper_sections = [];
   our_contest_quespaper;
   our_contest=[];
   no_of_sections;
@@ -41,9 +43,10 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     var qno =0;
     this.contest_id = this.contserv.getdata();
     this.quesserv.getContestById(this.contest_id).subscribe(cont => {
+      console.log(cont);
       this.our_contest = cont;
       this.our_contest_quespaper = cont.questionpaperid;
-      this.our_contest_qpaper_sections = this.our_contest_quespaper.section;
+      this.our_contest_qpaper_sections = cont.questionpaperid.section;
       console.log(this.our_contest_qpaper_sections);
       this.no_of_sections = Object.keys(
         this.our_contest_quespaper.section
@@ -178,7 +181,7 @@ var flag=false;
       if(this.no_of_ques_attempted_by_user < this.total_no_ques_contest){
         var input = prompt("You some questions left unanswered.Do you still wish to end the test? (Y/N)")
       }
-      if(input == 'Y'){
+      if(input == 'Y' || this.no_of_ques_attempted_by_user == this.total_no_ques_contest){
     var score =0;
     var compareAnswers = false;
 
@@ -186,13 +189,13 @@ var flag=false;
 
       for(var j=0;j<this.total_no_ques_contest;j++){
             if(this.temp_user_answers[i].qid == this.actual_answers[j].id){
-              //console.log("entered id");
+              console.log("entered id");
 
 
               compareAnswers =this.compare(this.temp_user_answers[i].ans,this.actual_answers[j].ans)
 
               if(compareAnswers == true){
-               // console.log("enteres ans");
+                console.log("enteres ans");
                 score =score+1;
               }
                 break; // question already found so stop looping
@@ -226,13 +229,14 @@ var flag=false;
       updateContestLeaderboard(userscore){
 
        var userresult = new leaderBoard();
-       userresult.username="dummy";
+       userresult.username=this.contserv.getusername();
        userresult.no_of_questions_attempted = this.no_of_ques_attempted_by_user;
        userresult.score = userscore;
        userresult.user_answers = this.temp_user_answers;
        userresult.time_taken = "n hrs";
         this.quesserv.postResult(userresult,this.contest_id).subscribe(response=>{
           console.log(response);
+          this.router.navigate(['/userlanding']);
         })
 
 

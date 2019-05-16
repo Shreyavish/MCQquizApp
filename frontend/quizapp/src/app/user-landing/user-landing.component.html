@@ -1,26 +1,35 @@
-<div class="container">
+<div class="container" style="margin-left: 25px">
   <div class="row">
-    <div class="col-md-10">
+    <div class="col-md-7">
       <div class="panel panel-info">
 
             <div class="panel-heading">
               <div class="row">
 
-                <div class="col-md-10">
+                <div class="col-md-8">
                    <h3>{{ Name }}</h3>
+                   <h5><button type="button" class="btn btn-danger" (click)="showLeaderBoard()">Show leader board</button></h5>
+                   <h4 style="color: maroon">{{printmsg}}</h4>
                  </div>
-                 <div class="col-md-2">
-                     <h3>
-                       <form (submit)="startTest()">
+                 <div class="col-md-4">
+                     <h6>
+
+                       <form (submit)="startTest(username)" class="form-inline">
+                         <p>
+
+
+                         <label>Username:</label><input type="text" [(ngModel)]="username" name="username" style="width: 130px;" class="form-control"><br />
+                         <br />
                          <input type="submit" value="Start Test" class="btn btn-success" >
+                         </p>
                          </form>
 
-                      </h3>
+                      </h6>
                   </div>
                 </div>
 
                   </div>
-
+-
 
 
             <div class="panel-body">
@@ -40,7 +49,7 @@
                 <tr>
 
                     <td><img src="../../assets/images/building.jpg" alt="organized by" class="images"></td>
-                    <td>    {{company}}  </td>
+                    <td>  --  {{company}}  </td>
 
 
                 </tr>
@@ -52,6 +61,10 @@
                   <tr>
                     <br />
                     <p><i><b>" Please read the guidelines and tick the checkbox before you start the test."</b></i></p>
+                    </tr>
+
+                    <tr>
+
                     </tr>
               </table>
                     </div>
@@ -73,6 +86,43 @@
           </div>
         </div>
       </div>
+      </div>
+    </div>
+
+    <div class="col-md-5">
+      <div *ngIf='show_lb_flag == true'>
+
+
+        <table class="table table-striped" >
+
+          <thead>
+          <tr>
+            <th>Rank</th>
+            <th>Username</th>
+            <th># attempted</th>
+            <th>Score</th>
+            <th>Time taken</th>
+          </tr>
+          </thead>
+
+
+            <tbody>
+
+              <tr *ngFor='let r of contest_leaderboard; let i = index'>
+                <td>#{{i+1}}</td>
+                <td>{{r.username}}</td>
+                <td>{{r.no_of_questions_attempted}}</td>
+                <td>{{r.score}}</td>
+                <td>{{r.time_taken}}</td>
+                </tr>
+
+            </tbody>
+
+
+        </table>
+
+
+
       </div>
     </div>
   </div>

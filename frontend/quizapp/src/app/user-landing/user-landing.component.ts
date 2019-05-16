@@ -3,6 +3,7 @@ import { QuestionserviceService } from '../service/questionservice.service';
 import {contest} from '../models/contest';
 import {ContestService} from '../service/contest.service';
 import {Router} from '@angular/router';
+import {leaderBoard} from '../models/leaderboard';
 @Component({
   selector: 'app-user-landing',
   templateUrl: './user-landing.component.html',
@@ -19,9 +20,15 @@ export class UserLandingComponent implements OnInit {
   company: string;
   time: string;
   guidelines_read: boolean=false;
+  username: string;
+  contest_leaderboard;
+  show_lb_flag = false;
+  already_attempted =false;
+  printmsg = "";
  //contest_id : getdata2() using contestserviceclass
  contest_id="5cdb97bf801df9421007f4a9";
   ngOnInit() {
+
       this.quesserv.getOnlyContestDetails(this.contest_id)
       .subscribe(contest=>{
         this.fetched_contest = contest;
@@ -30,26 +37,57 @@ export class UserLandingComponent implements OnInit {
         this.ends = contest.End_time;
         this.company=contest.Organized_by;
         this.time = contest.duration;
+        this.contest_leaderboard = contest.LeaderBoard;
         console.log(this.fetched_contest);
       })
 
-
   }
 
-  startTest(){
+  startTest(uname){
+    this.username = uname;
+     this.checkIfAlreadyAttempted();
+     console.log(this.already_attempted);
 
-    if(this.guidelines_read == true){
-      this.contserv.setdata(this.contest_id);
-      this.router.navigate(['/playquiz2']);
+    if(this.already_attempted == true){
+        this.printmsg = "You have already attempted the test";
     }
     else{
-      alert('please read guidelines and tick the box to start the test')
-    }
+
+              if(this.guidelines_read == true){
+                this.contserv.setdata(this.contest_id);
+                this.contserv.setusername(this.username);
+                this.router.navigate(['/playquiz2']);
+              }
+              else{
+                alert('please read guidelines and tick the box to start the test')
+              }
+
+      }
+  }
+  check(){
+this.guidelines_read = true;
+  }
+
+  showLeaderBoard(){
+    this.show_lb_flag = true;
+    console.log(this.contest_leaderboard);
+
+    this.contest_leaderboard.sort((a, b) => a.score < b.score ? 1 : a.score > b.score ? -1 : 0);
+
+    console.log("after sorting"+this.contest_leaderboard[0].username);
+
+
 
   }
 
-  check(){
-this.guidelines_read = true;
+  checkIfAlreadyAttempted(){
+    for(var i=0;i<this.contest_leaderboard.length;i++){
+
+      if(this.username.trim() == this.contest_leaderboard[i].username.trim()){
+        this.already_attempted = true;
+
+      }
+    }
   }
 
 }

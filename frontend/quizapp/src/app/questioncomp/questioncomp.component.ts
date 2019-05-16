@@ -14,6 +14,7 @@ export class QuestioncompComponent implements OnInit {
 
   constructor(private quesserv:QuestionserviceService,private contestserv:ContestService,private router:Router) { }
 
+    ngOnInit(){}
   //class variables
   quesarray:[question];
   queslength:number;
@@ -22,7 +23,7 @@ export class QuestioncompComponent implements OnInit {
   flag_uname:number=0;
   // on intialization get questions of particular contest where contest id is supplies
   // as paramter in getQuestions(id)
-  contest_id:String;
+/*  contest_id:String;
   ngOnInit(){
     this.contest_id=this.contestserv.getdata();
     console.log(this.contest_id);
@@ -74,9 +75,9 @@ flag_leaderboard:number=0;
 
   }*/
 
-  getQuestion(){
+  //getQuestion(){
 
-  this.quesNo++;
+  //this.quesNo++;
     /* for(no=0; no<3;no++){
            console.log(this.ques[no].answer);
      }*/
@@ -85,7 +86,7 @@ flag_leaderboard:number=0;
      console.log(this.ques[this.n].title);
      console.log(this.option);*/
 
-      var useranswer= this.option;
+  /*    var useranswer= this.option;
       var actualanswer= this.quesarray[this.n].answer;
      console.log(useranswer);
      console.log(actualanswer);
@@ -144,4 +145,5 @@ this.finishflag=1;
 
   }
 
-}
+} */
+  }

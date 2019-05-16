@@ -1,7 +1,8 @@
-td{
+table td,th{
   padding: 7px;
   spacing:5px;
 }
+
 
 .images{
   width:40px;
