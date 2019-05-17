@@ -202,6 +202,8 @@ router.get('/getContest/:_id',(req,res)=>{
   })
 })
 
+
+//this is final posting of result into contest schema
 router.put('/postresult/:_id',(req,res)=> {
    var result_obtained = req.body;
 console.log(result_obtained);
@@ -217,6 +219,43 @@ console.log(result_obtained);
     });
     
 });
+
+
+
+// this is posting temp result into leaderboard schema for first time
+
+router.post('/postfirsttime',(req,res)=>{
+
+  let firsttimeresult = new LeaderBoard(req.body);
+
+  firsttimeresult.save(function(err,item){
+    if(err){
+      res.send(err);
+    }else{
+      res.send(item);
+    }
+  })
+});
+
+// this is updating temp result into leaderboard schema
+
+router.put('/posttempresult/:_id',(req,res)=>{
+  
+  LeaderBoard.findOneAndUpdate(
+    {_id:req.params._id},
+    {$set : req.body},
+    function(err,item){
+      if(err){
+        res.send(err);
+      }else{
+        res.send({msg:'updated succesfully'});
+      }
+    })
+    
+})
+
+
+
 
 
 router.get('/getLeaderBoard/:_id',(req,res)=>{

@@ -14,12 +14,13 @@ module.exports = mongoose.model('userresult',userresult);
 const mongoose = require('mongoose');
 
 const leaderboard = mongoose.Schema({
+    contest_id :{type:String,require:true},
     username:{type:String,require:true},
     no_of_questions_attempted : Number,
-    user_answers :[{
+   /* user_answers :[{
         qid: String,
         ans: [Number]
-    }],
+    }],*/
     score:{type:Number,require:true},
     time_taken: {type:String,require:true},
 });

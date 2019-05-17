@@ -26,7 +26,8 @@ export class UserLandingComponent implements OnInit {
   already_attempted =false;
   printmsg = "";
  //contest_id : getdata2() using contestserviceclass
- contest_id="5cdb97bf801df9421007f4a9";
+ //contest_id="5cdd3c3e848eda148cb709e8";
+ contest_id = "5cda5df743b7995dc01c18cc";
   ngOnInit() {
 
       this.quesserv.getOnlyContestDetails(this.contest_id)
@@ -50,8 +51,10 @@ export class UserLandingComponent implements OnInit {
 
     if(this.already_attempted == true){
         this.printmsg = "You have already attempted the test";
+        this.already_attempted = false;
     }
     else{
+      this.printmsg = "";
 
               if(this.guidelines_read == true){
                 this.contserv.setdata(this.contest_id);

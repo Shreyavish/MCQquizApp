@@ -86,4 +86,13 @@ export class QuestionserviceService {
         return this.http.get(url);
       }
 
+      postResultFirstTime(result) : Observable<any>{
+        let url="http://localhost:3000/quizapi/postfirsttime";
+        return this.http.post(url,result);
+      }
+
+      postTempResult(result,id) :Observable<any>{
+        let url ="http://localhost:3000/quizapi/posttempresult/"+id;
+        return this.http.put(url,result);
+      }
 }
