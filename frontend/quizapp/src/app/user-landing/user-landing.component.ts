@@ -27,7 +27,8 @@ export class UserLandingComponent implements OnInit {
   printmsg = "";
  //contest_id : getdata2() using contestserviceclass
  //contest_id="5cdd3c3e848eda148cb709e8";
- contest_id = "5cda5df743b7995dc01c18cc";
+ //contest_id = "5cda5df743b7995dc01c18cc";
+ contest_id = "5cdfd99dfaedcd4c7837165d";
   ngOnInit() {
 
       this.quesserv.getOnlyContestDetails(this.contest_id)
