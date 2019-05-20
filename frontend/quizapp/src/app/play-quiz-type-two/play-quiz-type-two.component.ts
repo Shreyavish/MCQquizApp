@@ -6,6 +6,7 @@ import { QuestionserviceService } from "../service/questionservice.service";
 import { ContestService } from "../service/contest.service";
 import { leaderBoard } from "../models/leaderboard";
 import { Router } from "@angular/router";
+import { stringify } from '@angular/core/src/util';
 @Component({
   selector: "app-play-quiz-type-two",
   templateUrl: "./play-quiz-type-two.component.html",
@@ -48,9 +49,15 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     }
   ] = [{qid: "",options:[{option_no:0,checked:false}]}];*/
 
-
+// for checkboxes and radio buttons
   temp_user_answers: [{ qid: string; ans: [number] }] = [{ qid: "", ans: [0] }];
   actual_answers: [{ id: string; ans: [number] }] = [{ id: "", ans: [0] }];
+  // for fill in the blanks
+
+  fib_temp_user_answers: [{ qid: string; ans: [string] }] = [{ qid: "", ans: [""] }];
+  fib_actual_answers: [{ id: string; ans: [string] }] = [{ id: "", ans: [""] }];
+  fib_ans_with_qno:[[string]]= [[""]];// to print no of text fields
+
   is_question_attempted : [{qno:number, flag:boolean}] = [{qno:0,flag:false}];
   total_no_ques_contest = 0;
   no_of_ques_attempted_by_user = 0;
@@ -58,11 +65,17 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   posting_res_first_time_flag = true;
   temp_user_result_object ;
   temp_user_result_id;
+  sum_of_scores =0 ;
+
   make_final_submission = false;
   ngOnInit() {
-    this.temp_user_answers.pop(); //remove dummy
+     //remove dummy
+    this.temp_user_answers.pop();
     this.actual_answers.pop();
+    //this.fib_temp_user_answers.pop();
+    this.fib_actual_answers.pop();
     this.array_userans.pop();
+    this.sum_of_scores = 0;
     var qno = 0;
     this.contest_id = this.contserv.getdata();
     this.quesserv.getContestById(this.contest_id).subscribe(cont => {
@@ -85,17 +98,33 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
         for (var j = 0; j < this.no_of_ques; j++) {
           this.question_no_with_id[qno] = this.our_contest_qpaper_sections[i].question_content[j]._id;
-
+          // textbox and radio
           var actans = {
             id: this.our_contest_qpaper_sections[i].question_content[j]._id,
             ans: this.our_contest_qpaper_sections[i].question_content[j].answer
           };
           this.actual_answers[qno] = actans;
 
+
+
+
+            if(this.our_contest_qpaper_sections[i].question_content[j].type == "text"){
+              var actans2 = {
+                id: this.our_contest_qpaper_sections[i].question_content[j]._id,
+                ans: this.our_contest_qpaper_sections[i].question_content[j].text_answer
+              };
+              this.fib_actual_answers[qno] = actans2;
+              this.fib_temp_user_answers[qno].qid = this.our_contest_qpaper_sections[i].question_content[j]._id;
+              this.fib_temp_user_answers[qno].ans = [""];
+            }
+
+
+
           qno = qno + 1;
         }
       }
       this.total_no_ques_contest = qno;
+
 
       // initially no question is attempted
       for(var i =0;i<this.total_no_ques_contest;i++){
@@ -123,7 +152,6 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
     this.array_userans = [0];
     this.array_userans.pop();
-
 
   // start fetching
     this.flag = true;
@@ -168,76 +196,106 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     ).length;
   }
 
+
   saveTempAnswers(userans, qid,type,ischecked) {
     console.log(type);
-   // console.log(userans);
 
-      /*if(type= "checkbox"){
-        var flag=false;
-       for(var i=0;i<this.array_userans.length;i++){
-          flag = false;
-          console.log(this.array_userans[i]);
-          console.log(userans);
-          if(this.array_userans[i] == userans){
-            console.log("already checked");
-            this.array_userans.splice(i,1);
-            flag = true;
-            break;
 
-          }
-        }
+      var check_flag = false;// flag to check if that question is getting answered first time or are changes being made
+      for(var i=0;i<this.temp_user_answers.length;i++){
 
-        if(flag == false){
-      this.array_userans.push(userans);
-      console.log(this.array_userans);
-        }
-      }*/
+        check_flag = false;
+          if(this.temp_user_answers[i].qid == qid){
+            check_flag = true;
 
-       if(type== "radio"){
-        this.array_userans = [0];
-        this.array_userans.pop();
-        this.array_userans.push(userans);
-        console.log(this.array_userans);
-        }
-        else if(type=="checkbox"){
-
-          if(ischecked == true){
-            this.array_userans.push(userans);
-          }else{
-            for(var i =0 ;i<this.array_userans.length;i++){
-              if(userans == this.array_userans[i]){
-                this.array_userans.splice(i,1);
+            if(type== "radio"){
+             // this.temp_user_answers[i].ans = [0];
+              this.temp_user_answers[i].ans.pop();
+              this.temp_user_answers[i].ans.push(userans);
+              console.log(this.temp_user_answers[i]);
               }
-            }
+              else if(type=="checkbox"){
+
+                if(ischecked == true){
+                  this.temp_user_answers[i].ans.push(userans);
+                }else{
+                  for(var j =0 ;j<this.temp_user_answers[i].ans.length;j++){
+                    if(userans == this.temp_user_answers[i].ans[j]){
+                      this.temp_user_answers[j].ans.splice(j,1);
+                    }
+                  }
+                }
+
+              }else{
+
+
+              }
+              break;
           }
 
-        }else{
-
-
-        }
-
-    var flag = false;
-    for (var i = 0; i < this.temp_user_answers.length; i++) {
-      flag = false;
-
-      if (this.temp_user_answers[i].qid == qid) {
-        this.temp_user_answers[i].ans = this.array_userans;
-        flag = true;
-        break;
       }
-    }
-    if (flag == false) {
-      let temp = {
-        qid: qid,
-        ans: this.array_userans
-      };
-      this.temp_user_answers.push(temp);
-      this.no_of_ques_attempted_by_user = this.no_of_ques_attempted_by_user + 1;
-    }
+      // question is being answered first time . create an object and push into temp_user_answer
+      if(check_flag == false){
+
+
+
+
+
+
+       var temp : {qid:string,ans:[number]}={qid:"",ans:[0]};
+      temp.ans.pop();
+
+       temp.qid = qid;
+       temp.ans.push(userans);
+
+        this.temp_user_answers.push(temp);
+        this.no_of_ques_attempted_by_user = this.no_of_ques_attempted_by_user + 1;
+
+      }
+
+
+
     console.log(this.temp_user_answers);
 
 
   }
+
+
+
+  save_temp_fib_ans(qid,userans,i){
+
+    var check_flag2 = false;
+
+    for(var k=0;k<this.fib_temp_user_answers.length;k++){
+      check_flag2 = false;
+
+      if(this.fib_temp_user_answers[k].qid == qid){
+        this.fib_temp_user_answers[k].ans[i] = userans;
+        check_flag2 = true;
+        break;
+      }
+
+    }
+
+    if(check_flag2 == false){
+
+      var temp : {qid:string,ans:[string]}={qid:"",ans:[""]};
+      temp.ans.pop();
+
+       temp.qid = qid;
+       temp.ans[i] = userans;
+
+        this.fib_temp_user_answers[this.crnt_ques_no]= temp;
+
+
+    }
+    console.log(this.fib_temp_user_answers);
+
+    // calculating the score here itself
+
+    }
+
+
 
   save_temp_ans_to_db(){
 
@@ -245,6 +303,8 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     if(this.posting_res_first_time_flag == true){
 
       this.calculateScore();
+      this.calculateScoreforFIB();
+      this.update_user_result();
         this.quesserv.postResultFirstTime(this.temp_user_result_object).subscribe(res=>
           {this.temp_user_result_id = res._id;
             console.log(res);
@@ -259,6 +319,8 @@ export class PlayQuizTypeTwoComponent implements OnInit {
       else{
 
         this.calculateScore();
+        this.calculateScoreforFIB();
+        this.update_user_result();
         this.quesserv.postTempResult(this.temp_user_result_object,this.temp_user_result_id).subscribe(res=>
           {console.log(res)
             this.is_quesno_attempted[this.crnt_ques_no] = true;});
@@ -274,29 +336,31 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   getNextQuestion(qid) {
     for (var i = 0; i < this.question_no_with_id.length; i++) {
       if (qid == this.question_no_with_id[i]) {
+
         break;
       }
     }
     // increment the question no because next question has +1 qno
 
-    i = i + 1;
-    this.fetchQuestion(this.question_no_with_id[i], this.crnt_section, i);
+
+    this.fetchQuestion(this.question_no_with_id[i+1], this.crnt_section, i+1);
   }
 
   getPreviousQuestion(qid) {
     for (var i = 0; i < this.question_no_with_id.length; i++) {
       if (qid == this.question_no_with_id[i]) {
+
         break;
       }
     }
     // decrement the question no because previous question has -1 qno
 
-    i = i - 1;
-    this.fetchQuestion(this.question_no_with_id[i], this.crnt_section, i);
+
+    this.fetchQuestion(this.question_no_with_id[i+1], this.crnt_section, i-1);
   }
 
   calculateScore() {
-    var score = 0;
+    var mcq_score=0;
     var compareAnswers = false;
 
     for (var i = 0; i < this.no_of_ques_attempted_by_user; i++) {
@@ -310,15 +374,16 @@ export class PlayQuizTypeTwoComponent implements OnInit {
           );
 
           if (compareAnswers == true) {
-            console.log("enteres ans");
-            score = score + 1;
+           // console.log("enteres ans");
+            mcq_score =mcq_score + 1;
+            console.log('the mcq score is '+ mcq_score);
           }
           break; // question already found so stop looping
         }
       }
     }
     //alert("your score is " + score);
-    this.updateContestLeaderboard(score);
+    this.sum_score(mcq_score);
   }
 
   //compare arrays of user answers
@@ -341,15 +406,78 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     return true;
   }
 
-  updateContestLeaderboard(userscore) {
+  calculateScoreforFIB(){
+
+    var fib_score =0;
+    var flag=false ;// to break the loop
+
+    console.log(this.fib_actual_answers);
+    console.log(this.fib_temp_user_answers);
+    for(var l =0;l<this.fib_temp_user_answers.length;l++){
+      flag =false;
+      for(var m=0;m<this.fib_actual_answers.length;m++){
+
+      if(this.fib_temp_user_answers[l].qid == this.fib_actual_answers[m].id){
+      flag = true;
+          break;
+      }
+    }
+
+    if(flag == true){
+      break;
+    }
+  }
+
+      console.log(l);
+      console.log(m);
+      var ismatched = this.compare_fib_answers(this.fib_actual_answers[l].ans,this.fib_temp_user_answers[m].ans)
+      {
+        console.log('entered');
+        console.log(ismatched);
+        if(ismatched == true)
+        {
+          fib_score = fib_score +1;
+
+        }
+      }
+      console.log('fib the score is '+fib_score);
+      this.sum_score(fib_score);
+
+
+  }
+
+  compare_fib_answers(arr1,arr2){
+
+    for(var i=0;i<arr1.length;i++){
+      if(arr1[i] != arr2[i]){
+        return false;
+      }
+
+    }
+    return true;
+
+  }
+
+  // make the sum of scores of fill in the blank type question and mcq type question
+  sum_score(x){
+
+    this.sum_of_scores = this.sum_of_scores+x;
+
+  }
+
+
+  update_user_result() {
+
+    // if final submission is not to be made yet just create a user result object and store in temp_user_resullt object so that temp answers will get stored in just leaderboard not content schema.This updating is done through save_temp_db function
     var userresult = new leaderBoard();
     userresult.username = this.contserv.getusername();
     userresult.no_of_questions_attempted = this.no_of_ques_attempted_by_user;
-    userresult.score = userscore;
-    userresult.user_answers = this.temp_user_answers;
+    userresult.score = this.sum_of_scores;
+  //  userresult.user_answers = this.temp_user_answers;
     userresult.time_taken = "n hrs";
     this.temp_user_result_object = userresult;
 
+      // if finally submission is made then update into actual db
     if(this.make_final_submission == true){
     this.quesserv
       .postResult(userresult, this.contest_id)
@@ -374,7 +502,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
       if (input == 'Y' || input == 'y') {
         this.make_final_submission = true;
-        this.calculateScore();
+        this.update_user_result();
 
       }
     }

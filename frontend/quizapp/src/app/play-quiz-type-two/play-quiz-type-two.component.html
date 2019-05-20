@@ -112,6 +112,7 @@
                   <div class="col-md-6">
                     <div *ngIf="flag == true">
                       <h4>Options are :</h4>
+                      <div *ngIf="crnt_ques.type == 'radio' || crnt_ques.type=='checkbox'">
                       <div *ngFor="let o of crnt_ques_options">
                         <ul
                           *ngIf="crnt_ques.type == 'radio'"
@@ -160,6 +161,22 @@
 
                         </ul>
                       </div>
+                      </div>
+
+                      <div *ngIf="crnt_ques.type == 'text'" >
+
+
+
+
+                        <div *ngFor= ' let a of crnt_ques.text_answer; let i =index'>
+
+                        <label>{{i+1}})</label>
+                        <input (change)="save_temp_fib_ans(crnt_ques._id,fib_temp_user_answers[crnt_ques_no].ans[i],i)" type="text"  [(ngModel)]="fib_temp_user_answers[crnt_ques_no].ans[i]" value="fib_temp_user_answers[crnt_ques_no].ans[i]" name = "'uni'+{{i}}"  >
+
+                        </div>
+
+
+                        </div>
 
                       <br />
                       <div style="text-align: center">
@@ -188,7 +205,7 @@
                           Next
                         </button>
                       </div>
-                    </div>
+
                   </div>
                 </div>
               </div>

@@ -25,9 +25,10 @@ const questionSchema = mongoose.Schema({
             type:[
                 {option_no : Number,
                  content: String}
-            ],require:true
+            ]
         },
-        answer:{type:[Number],require:true},
+        answer:{type:[Number]},
+        text_answer : {type : [String]},// if the question type is fill in the blanks
         domain:String,
         subdomain: String,
         keywords:[String],//topic tags
