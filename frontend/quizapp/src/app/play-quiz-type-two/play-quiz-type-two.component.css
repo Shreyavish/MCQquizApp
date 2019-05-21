@@ -33,7 +33,7 @@
 }
 #accordion .panel-heading a.collapsed:hover,
 #accordion .panel-heading a.collapsed:focus {
-  background-color:cornflowerblue;
+  background-color:#D9EDF7;
   color: white;
   transition: all 0.2s ease-in;
 }
@@ -45,11 +45,11 @@
   padding: 0;
   border-radius: 0px;
   text-align: center;
-  background-color:darkblue;
+  background-color:#337AB7;
 }
 #accordion .panel-heading a:not(.collapsed) {
   color: white;
-  background-color:#4298f4;
+  background-color:#7fbdef;
   transition: all 0.2s ease-in;
 }
 
@@ -81,7 +81,7 @@
   display: flex;
   -webkit-justify-content: center;
   justify-content: center;
-  background:cadetblue;
+  background:#7fbdef;
   border-radius: 8px;
   color: rgb(180, 34, 34);
   content: attr(title);
@@ -92,7 +92,7 @@
 }
 .tooltip:hover:before{
   border: solid;
-  border-color: cadetblue;
+  border-color: #D9EDF7;
   border-width: 12px 6px 0 6px;
   content: "";
   left: 45%;
@@ -101,6 +101,6 @@
 }
 a {
   font-size:25px;
-  color: #0bd;
+  color:red;
   text-decoration: none;
 }

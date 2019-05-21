@@ -45,16 +45,11 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   question_no_with_id = [];
   array_userans: [number] = [0];
   flag = false; // check if question paper was succesfully loaded from db.If no error make flag true in "get" call of ngoninit
+  mcqscore =0;
 
-  // for checkboxes and radio buttons
-  temp_user_answers: [{ qid: string; ans: [number] }] = [{ qid: "", ans: [0] }];
-  actual_answers: [{ id: string; ans: [number] }] = [{ id: "", ans: [0] }];
-  // for fill in the blanks
 
-  fib_temp_user_answers: [{ qid: string; ans: [string] }] = [
-    { qid: "", ans: [""] }
-  ];
-  fib_actual_answers: [{ id: string; ans: [string] }] = [{ id: "", ans: [""] }];
+
+
 
   is_question_attempted: [{ qno: number; flag: boolean }] = [
     { qno: 0, flag: false }
@@ -65,18 +60,26 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   posting_res_first_time_flag = true;
   temp_user_result_object;
   temp_user_result_id;
+
   sum_of_scores = 0;
 
   initial_ans_fib: [string] = [""];
   make_final_submission = false;
+
+
+
+  user_answers : [{qid:string,ans:[any]}] = [{qid:"", ans:[""]}];
+  act_answers:[{qid:string,ans:[any]}] = [{qid:"", ans:[""]}];
+
   ngOnInit() {
     //remove dummy
-    this.temp_user_answers.pop();
-    this.actual_answers.pop();
+    this.user_answers.pop();
+    this.act_answers.pop();
+
     //this.fib_temp_user_answers.pop();
-    this.fib_actual_answers.pop();
+
     this.array_userans.pop();
-    this.fib_temp_user_answers.pop();
+
     this.section_no_with_id.pop();
     this.sum_of_scores = 0;
     var qno = 0;
@@ -116,38 +119,49 @@ export class PlayQuizTypeTwoComponent implements OnInit {
             this.our_contest_qpaper_sections[i].question_content[j].type ==
             "text"
           ) {
-            var actans2 = {
-              id: this.our_contest_qpaper_sections[i].question_content[j]._id,
+
+            var actans3 = {
+              qid: this.our_contest_qpaper_sections[i].question_content[j]._id,
               ans: this.our_contest_qpaper_sections[i].question_content[j]
                 .text_answer
             };
-            this.fib_actual_answers[qno] = actans2;
+
+
+            this.act_answers[qno] = actans3;
+
+
 
             console.log("crntquesno" + qno);
             this.initial_ans_fib.pop();
-            var no_of_blanks = actans2.ans.length;
+            var no_of_blanks = actans3.ans.length;
             for (var i = 0; i < no_of_blanks; i++) {
               this.initial_ans_fib.push(" ");
             }
-            console.log(this.initial_ans_fib);
 
-            var tempans2 = {
+            var tempblankans = {
               qid: this.our_contest_qpaper_sections[i].question_content[j]._id,
               ans: this.initial_ans_fib
             };
+            this.user_answers.push(tempblankans);
 
-            this.fib_temp_user_answers[qno] = tempans2;
+            console.log(this.initial_ans_fib);
 
-            /* this.fib_temp_user_answers[qno].qid = this.our_contest_qpaper_sections[i].question_content[j]._id;
-              this.fib_temp_user_answers[qno].ans = [""];*/
+
           } else {
             var actans = {
-              id: this.our_contest_qpaper_sections[i].question_content[j]._id,
+              qid: this.our_contest_qpaper_sections[i].question_content[j]._id,
               ans: this.our_contest_qpaper_sections[i].question_content[j]
                 .answer
             };
-            this.actual_answers[qno] = actans;
+
+            this.act_answers[qno] = actans;
+
+
+
             console.log("done cb");
+
+
+
           }
 
           qno = qno + 1;
@@ -162,8 +176,12 @@ export class PlayQuizTypeTwoComponent implements OnInit {
       }
 
       console.log(this.total_no_ques_contest);
-      console.log(this.actual_answers);
+
       console.log(this.question_no_with_id);
+
+      for(i=0;i<this.act_answers.length;i++){
+      console.log("act answers are "  + this.act_answers[i].ans);
+      }
 
       //at start of the test display first question of first section
       this.crnt_section = this.our_contest_qpaper_sections[0]._id;
@@ -232,27 +250,28 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     console.log(type);
 
     var check_flag = false; // flag to check if that question is getting answered first time or are changes being made
-    for (var i = 0; i < this.temp_user_answers.length; i++) {
+    for (var i = 0; i < this.user_answers.length; i++) {
       check_flag = false;
-      if (this.temp_user_answers[i].qid == qid) {
+      if (this.user_answers[i].qid == qid) {
         check_flag = true;
 
         if (type == "radio") {
           // this.temp_user_answers[i].ans = [0];
-          this.temp_user_answers[i].ans.pop();
-          this.temp_user_answers[i].ans.push(userans);
-          console.log(this.temp_user_answers[i]);
+          this.user_answers[i].ans.pop();
+          this.user_answers[i].ans.push(userans);
+          console.log(this.user_answers[i]);
         } else if (type == "checkbox") {
           if (ischecked == true) {
-            this.temp_user_answers[i].ans.push(userans);
+            this.user_answers[i].ans.push(userans);
           } else {
-            for (var j = 0; j < this.temp_user_answers[i].ans.length; j++) {
-              if (userans == this.temp_user_answers[i].ans[j]) {
-                this.temp_user_answers[j].ans.splice(j, 1);
+            for (var j = 0; j < this.user_answers[i].ans.length; j++) {
+              if (userans == this.user_answers[i].ans[j]) {
+                this.user_answers[j].ans.splice(j, 1);
               }
             }
           }
         } else {
+          // do nothing because for fill in the blank type there is another function save_temp_fib
         }
         break;
       }
@@ -265,25 +284,26 @@ export class PlayQuizTypeTwoComponent implements OnInit {
       temp.qid = qid;
       temp.ans.push(userans);
 
-      this.temp_user_answers.push(temp);
+      this.user_answers.push(temp);
       this.no_of_ques_attempted_by_user = this.no_of_ques_attempted_by_user + 1;
     }
 
-    console.log(this.temp_user_answers);
+    console.log(this.user_answers);
   }
 
   save_temp_fib_ans(qid, userans, i) {
-    var check_flag2 = false;
 
-    for (var k = 0; k < this.fib_temp_user_answers.length; k++) {
-      check_flag2 = false;
 
-      if (this.fib_temp_user_answers[k].qid == qid) {
-        this.fib_temp_user_answers[k].ans[i] = userans;
-        check_flag2 = true;
+    for (var k = 0; k < this.user_answers.length; k++) {
+
+
+      if (this.user_answers[k].qid == qid) {
+        this.user_answers[k].ans[i] = userans;
+        //this.no_of_ques_attempted_by_user = this.no_of_ques_attempted_by_user + 1;
         break;
       }
     }
+   /* this.user
 
     if (check_flag2 == false) {
       var temp: { qid: string; ans: [string] } = { qid: "", ans: [""] };
@@ -292,17 +312,23 @@ export class PlayQuizTypeTwoComponent implements OnInit {
       temp.qid = qid;
       temp.ans[i] = userans;
 
-      this.fib_temp_user_answers[this.crnt_ques_no] = temp;
-    }
-    console.log(this.fib_temp_user_answers);
+      this.user_answers.push(temp);
+    }*/
+    console.log(this.user_answers);
 
     // calculating the score here itself
   }
 
   save_temp_ans_to_db() {
+    console.log(this.user_answers.length);
+    console.log(this.user_answers.length);
     if (this.posting_res_first_time_flag == true) {
-      this.calculateScore();
-      this.calculateScoreforFIB();
+      this.mcqscore =0;
+
+      this.calculateScore();// for mcqs
+      //this.calculateScoreforFIB();
+
+
       this.update_user_result();
       this.quesserv
         .postResultFirstTime(this.temp_user_result_object)
@@ -317,8 +343,12 @@ export class PlayQuizTypeTwoComponent implements OnInit {
           this.array_userans.pop(); // make array empty so that next question's answers would not get pushed rather they should be int0 new array
         });
     } else {
-      this.calculateScore();
-      this.calculateScoreforFIB();
+      this.mcqscore =0;
+
+
+        this.calculateScore();// for mcqs
+        //this.calculateScoreforFIB();
+
       this.update_user_result();
       this.quesserv
         .postTempResult(this.temp_user_result_object, this.temp_user_result_id)
@@ -435,45 +465,52 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   }
 
   calculateScore() {
-    var mcq_score = 0;
+    //var mcq_score = 0;
     var compareAnswers = false;
 
-    for (var i = 0; i < this.no_of_ques_attempted_by_user; i++) {
-      for (var j = 0; j < this.total_no_ques_contest; j++) {
-        if (this.temp_user_answers[i].qid == this.actual_answers[j].id) {
+    for (var i = 0; i < this.user_answers.length; i++) {
+      for (var j = 0; j < this.act_answers.length; j++) {
+        if ( this.user_answers[i].qid == this.act_answers[j].qid){
           console.log("entered id");
 
+
+
           compareAnswers = this.compare(
-            this.temp_user_answers[i].ans,
-            this.actual_answers[j].ans
+            this.user_answers[i].ans,
+            this.act_answers[j].ans
           );
+
 
           if (compareAnswers == true) {
             // console.log("enteres ans");
-            mcq_score = mcq_score + 1;
-            console.log("the mcq score is " + mcq_score);
+            this.mcqscore = this.mcqscore + 1;
+            console.log("the mcq score is " + this.mcqscore);
           }
-          break; // question already found so stop looping
+         // question already found so stop looping
         }
+
       }
     }
     //alert("your score is " + score);
-    this.sum_score(mcq_score);
+    //this.sum_score(mcq_score);
   }
 
   //compare arrays of user answers
   compare(arr1, arr2) {
     arr1.sort();
     arr2.sort();
+
     console.log(arr1);
     console.log(arr2);
 
     if (arr1.length != arr2.length) {
+      console.log('false');
       return false;
     }
     for (var i = 0; i < arr1.length; i++) {
       // for (var j = 0; j < arr1.length; j++) {
       if (arr1[i] != arr2[i]) {
+        console.log(i+'false');
         return false;
       }
       //}
@@ -481,65 +518,14 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     return true;
   }
 
-  calculateScoreforFIB() {
-    var fib_score = 0;
-    var flag = false; // to break the loop
 
-    console.log(this.fib_actual_answers);
-    console.log(this.fib_temp_user_answers);
-    for (var l = 0; l < this.fib_temp_user_answers.length; l++) {
-      flag = false;
-      for (var m = 0; m < this.fib_actual_answers.length; m++) {
-        if (
-          this.fib_temp_user_answers[l].qid == this.fib_actual_answers[m].id
-        ) {
-          flag = true;
-          break;
-        }
-      }
-
-      if (flag == true) {
-        break;
-      }
-    }
-
-    console.log(l);
-    console.log(m);
-    var ismatched = this.compare_fib_answers(
-      this.fib_actual_answers[l].ans,
-      this.fib_temp_user_answers[m].ans
-    );
-    {
-      console.log("entered");
-      console.log(ismatched);
-      if (ismatched == true) {
-        fib_score = fib_score + 1;
-      }
-    }
-    console.log("fib the score is " + fib_score);
-    this.sum_score(fib_score);
-  }
-
-  compare_fib_answers(arr1, arr2) {
-    for (var i = 0; i < arr1.length; i++) {
-      if (arr1[i] != arr2[i]) {
-        return false;
-      }
-    }
-    return true;
-  }
-
-  // make the sum of scores of fill in the blank type question and mcq type question
-  sum_score(x) {
-    this.sum_of_scores = this.sum_of_scores + x;
-  }
 
   update_user_result() {
     // if final submission is not to be made yet just create a user result object and store in temp_user_resullt object so that temp answers will get stored in just leaderboard not content schema.This updating is done through save_temp_db function
     var userresult = new leaderBoard();
     userresult.username = this.contserv.getusername();
     userresult.no_of_questions_attempted = this.no_of_ques_attempted_by_user;
-    userresult.score = this.sum_of_scores;
+    userresult.score = this.mcqscore;
     //  userresult.user_answers = this.temp_user_answers;
     userresult.time_taken = "n hrs";
     this.temp_user_result_object = userresult;
@@ -587,4 +573,11 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     console.log("start" + this.start_qno_of_a_section);
     console.log("end" + this.end_qno_of_a_section);
   }
+
+
+
+  customTrackBy(index: number, obj: any): any {
+    return index;
+  }
 }
+
