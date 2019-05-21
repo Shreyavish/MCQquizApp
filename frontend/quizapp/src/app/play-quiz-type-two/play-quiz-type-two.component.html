@@ -1,6 +1,4 @@
-<a href="#" title="Hello from speech bubble!" class="tooltip"
-  >CSS Tooltip! Hover me!</a
->
+{{no_of_ques_of_crnt_section}}
 <div class="container" style="margin-left: 20px;" *ngIf="flag == true">
   <div class="panel panel-default">
     <div class="panel-heading">
@@ -97,7 +95,7 @@
             <div class="panel panel-info">
               <div class="panel-heading">
                 <h4>
-                  Question&nbsp;{{ crnt_ques_no + 1 }}: {{ crnt_ques.title }}
+                 {{crnt_section.name}}&nbsp; Question&nbsp;{{ crnt_ques_no + 1 }}: {{ crnt_ques.title }}
                 </h4>
               </div>
 
@@ -165,9 +163,6 @@
 
                       <div *ngIf="crnt_ques.type == 'text'" >
 
-
-
-
                         <div *ngFor= ' let a of crnt_ques.text_answer; let i =index'>
 
                         <label>{{i+1}})</label>
@@ -175,12 +170,11 @@
 
                         </div>
 
-
                         </div>
 
                       <br />
-                      <div style="text-align: center">
-                        <button
+                      <div style="text-align: center" >
+                        <button *ngIf='crnt_ques_no &gt; 0'
                           type="button"
                           class="btn btn-primary"
                           (click)="getPreviousQuestion(crnt_ques._id)"
@@ -197,7 +191,7 @@
                         </button>
 
                         &nbsp;
-                        <button
+                        <button *ngIf='(crnt_ques_no+1) &lt; total_no_ques_contest'
                           type="button"
                           class="btn btn-primary"
                           (click)="getNextQuestion(crnt_ques._id)"

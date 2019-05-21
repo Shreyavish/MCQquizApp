@@ -27,6 +27,12 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   temp = [[]];
   no_of_ques;
   no_of_ques_of_crnt_section = 0;
+    start_qno_of_a_section:[number] =[0];
+    end_qno_of_a_section:[number] = [0];
+    length_of_section:[number] = [0];
+    section_no_with_id : [{sno : number,sid:string}] =  [{ sno: 0, sid: "" }];
+
+
   //
   contest_id: string;
   crnt_ques_no = 0;
@@ -39,15 +45,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   question_no_with_id = [];
   array_userans :[number]= [0];
   flag = false; // check if question paper was succesfully loaded from db.If no error make flag true in "get" call of ngoninit
-  // tslint:disable-next-line:variable-name
-  /*checbox_options : [
-    {qid:string,
-    options : [{
-      option_no:number;
-      checked : boolean;
-    }],
-    }
-  ] = [{qid: "",options:[{option_no:0,checked:false}]}];*/
+
 
 // for checkboxes and radio buttons
   temp_user_answers: [{ qid: string; ans: [number] }] = [{ qid: "", ans: [0] }];
@@ -56,7 +54,6 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
   fib_temp_user_answers: [{ qid: string; ans: [string] }] = [{ qid: "", ans: [""] }];
   fib_actual_answers: [{ id: string; ans: [string] }] = [{ id: "", ans: [""] }];
-  fib_ans_with_qno:[[string]]= [[""]];// to print no of text fields
 
   is_question_attempted : [{qno:number, flag:boolean}] = [{qno:0,flag:false}];
   total_no_ques_contest = 0;
@@ -67,6 +64,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   temp_user_result_id;
   sum_of_scores =0 ;
 
+  initial_ans_fib :[string] = [""];
   make_final_submission = false;
   ngOnInit() {
      //remove dummy
@@ -75,6 +73,8 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     //this.fib_temp_user_answers.pop();
     this.fib_actual_answers.pop();
     this.array_userans.pop();
+    this.fib_temp_user_answers.pop();
+    this.section_no_with_id.pop();
     this.sum_of_scores = 0;
     var qno = 0;
     this.contest_id = this.contserv.getdata();
@@ -91,19 +91,23 @@ export class PlayQuizTypeTwoComponent implements OnInit {
       console.log(this.our_contest);
 
       for (var i = 0; i < this.no_of_sections; i++) {
+
+        var section_temp = {
+          sno : i,
+          sid: this.our_contest_qpaper_sections[i]._id
+        }
+        this.section_no_with_id.push(section_temp);
+
+
         this.no_of_ques = Object.keys(
           this.our_contest_qpaper_sections[i].question_content
         ).length;
+        this.length_of_section[i] = this.no_of_ques;
         console.log(this.no_of_ques);
 
         for (var j = 0; j < this.no_of_ques; j++) {
           this.question_no_with_id[qno] = this.our_contest_qpaper_sections[i].question_content[j]._id;
           // textbox and radio
-          var actans = {
-            id: this.our_contest_qpaper_sections[i].question_content[j]._id,
-            ans: this.our_contest_qpaper_sections[i].question_content[j].answer
-          };
-          this.actual_answers[qno] = actans;
 
 
 
@@ -114,8 +118,33 @@ export class PlayQuizTypeTwoComponent implements OnInit {
                 ans: this.our_contest_qpaper_sections[i].question_content[j].text_answer
               };
               this.fib_actual_answers[qno] = actans2;
-              this.fib_temp_user_answers[qno].qid = this.our_contest_qpaper_sections[i].question_content[j]._id;
-              this.fib_temp_user_answers[qno].ans = [""];
+
+              console.log("crntquesno" + qno);
+              this.initial_ans_fib.pop();
+              var no_of_blanks =  actans2.ans.length;
+              for(var i =0;i<no_of_blanks;i++){
+                this.initial_ans_fib.push(" ");
+              }
+              console.log(this.initial_ans_fib);
+
+              var tempans2 = {
+                qid: this.our_contest_qpaper_sections[i].question_content[j]._id,
+                ans: this.initial_ans_fib
+              };
+
+              this.fib_temp_user_answers[qno] = tempans2;
+
+             /* this.fib_temp_user_answers[qno].qid = this.our_contest_qpaper_sections[i].question_content[j]._id;
+              this.fib_temp_user_answers[qno].ans = [""];*/
+            }
+            else{
+              var actans = {
+                id: this.our_contest_qpaper_sections[i].question_content[j]._id,
+                ans: this.our_contest_qpaper_sections[i].question_content[j].answer
+              };
+              this.actual_answers[qno] = actans;
+              console.log("done cb");
+
             }
 
 
@@ -123,6 +152,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
           qno = qno + 1;
         }
       }
+      console.log(this.section_no_with_id);
       this.total_no_ques_contest = qno;
 
 
@@ -140,8 +170,12 @@ export class PlayQuizTypeTwoComponent implements OnInit {
       this.crnt_ques = this.our_contest_qpaper_sections[0].question_content[0];
       this.crnt_ques_id =this.our_contest_qpaper_sections[0].question_content[0]._id;
       this.crnt_ques_options = this.our_contest_qpaper_sections[0].question_content[0].options;
+      this.no_of_ques_of_crnt_section = this.our_contest_qpaper_sections[0].question_content.length;
       this.flag = true;
+      this.calculate_start_indices_of_each_section();
+
     });
+
   }
 
   displayQuestions() {}
@@ -334,19 +368,26 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
 
   getNextQuestion(qid) {
-    for (var i = 0; i < this.question_no_with_id.length; i++) {
-      if (qid == this.question_no_with_id[i]) {
+    if((this.crnt_ques_no+1) < this.total_no_ques_contest){
+              for (var i = 0; i < this.question_no_with_id.length; i++) {
+                if (qid == this.question_no_with_id[i]) {
 
-        break;
-      }
-    }
-    // increment the question no because next question has +1 qno
+                  break;
+                }
+              }
+
+              // if the section ends fetch the next section. For that we need to get the section id of next section
 
 
-    this.fetchQuestion(this.question_no_with_id[i+1], this.crnt_section, i+1);
+              // increment the question no because next question has +1 qno
+
+
+              this.fetchQuestion(this.question_no_with_id[i+1], this.crnt_section, i+1);
+            }
   }
 
   getPreviousQuestion(qid) {
+    if(this.crnt_ques_no > 0){
     for (var i = 0; i < this.question_no_with_id.length; i++) {
       if (qid == this.question_no_with_id[i]) {
 
@@ -356,8 +397,9 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     // decrement the question no because previous question has -1 qno
 
 
-    this.fetchQuestion(this.question_no_with_id[i+1], this.crnt_section, i-1);
+    this.fetchQuestion(this.question_no_with_id[i-1], this.crnt_section, i-1);
   }
+}
 
   calculateScore() {
     var mcq_score=0;
@@ -507,4 +549,26 @@ export class PlayQuizTypeTwoComponent implements OnInit {
       }
     }
   }
+
+
+  calculate_start_indices_of_each_section(){
+
+  this.start_qno_of_a_section[0] = 0;
+  this.end_qno_of_a_section[0] = 0+this.length_of_section[0]-1;
+  console.log(this.length_of_section[0]);
+    for(var i=1;i<this.our_contest_qpaper_sections.length;i++){
+
+      this.start_qno_of_a_section[i] =this.start_qno_of_a_section[i-1]+this.length_of_section[i-1];
+      this.end_qno_of_a_section[i] = this.start_qno_of_a_section[i]+this.length_of_section[i]-1;
+
+    }
+
+    console.log("start"+this.start_qno_of_a_section);
+    console.log("end"+this.end_qno_of_a_section);
+  }
+
+
 }
+
+
+
