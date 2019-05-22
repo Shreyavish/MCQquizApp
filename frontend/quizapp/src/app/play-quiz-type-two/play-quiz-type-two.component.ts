@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit,ViewChild } from "@angular/core";
 import { questionpaper } from "../models/questionpaper";
 import { question } from "../models/question";
 import { contest } from "../models/contest";
@@ -8,6 +8,7 @@ import { leaderBoard } from "../models/leaderboard";
 import { Router } from "@angular/router";
 import { stringify } from "@angular/core/src/util";
 import { timer } from 'rxjs';
+import { CountdownComponent } from 'ngx-countdown';
 @Component({
   selector: "app-play-quiz-type-two",
   templateUrl: "./play-quiz-type-two.component.html",
@@ -19,6 +20,9 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     private contserv: ContestService,
     private router: Router
   ) {}
+
+  @ViewChild(CountdownComponent) counter: CountdownComponent;
+  config;
   username: String = "";
   questions_of_each_section = [[]];
   our_contest_qpaper_sections = [];
@@ -72,6 +76,11 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   user_answers : [{qid:string,ans:[any]}] = [{qid:"", ans:[""]}];
   act_answers:[{qid:string,ans:[any]}] = [{qid:"", ans:[""]}];
 
+  //duration of contest which we get in form of 'HH:MM:SS'
+
+  contest_duration;
+  contest_duration_in_seconds ;
+
   // for observable timer
   seconds_calculator;
   val;
@@ -98,6 +107,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     this.quesserv.getContestById(this.contest_id).subscribe(cont => {
       console.log(cont);
       this.our_contest = cont;
+      this.contest_duration = cont.duration;
       this.our_contest_quespaper = cont.questionpaperid;
       this.our_contest_qpaper_sections = cont.questionpaperid.section;
       console.log(this.our_contest_qpaper_sections);
@@ -204,6 +214,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
       this.crnt_section_no = 0;
       this.flag = true;
       this.calculate_start_indices_of_each_section();
+      this.durationOfContestInSeconds();
     });
   }
 
@@ -536,7 +547,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
     // unsubscribe the seconds calulator to get the crnt no of seconds taken by user to attempt the test
 
-    this.seconds_calculator.unsubscribe();
+
 
     var time_taken =new String(this.timeTakenByUser(this.val));
     console.log(time_taken);
@@ -553,6 +564,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
     // if finally submission is made then update into actual db
     if (this.make_final_submission == true) {
+      this.seconds_calculator.unsubscribe();
       this.quesserv
         .postResult(userresult, this.contest_id)
         .subscribe(response => {
@@ -625,6 +637,26 @@ export class PlayQuizTypeTwoComponent implements OnInit {
           result += "-" + (minutes < 10 ? "0" + minutes : minutes);
           result += "-" + (seconds  < 10 ? "0" + seconds : seconds);
       return result;
+    }
+
+    durationOfContestInSeconds(){
+          var hms = this.contest_duration;   // your input string
+          var a = hms.split(':'); // split it at the colons
+
+          // minutes are worth 60 seconds. Hours are worth 60 minutes.
+          var contest_duration_in_seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60 + (+a[2]);
+
+          console.log(contest_duration_in_seconds);
+
+          this.config = {
+            leftTime: contest_duration_in_seconds,
+            size: 'large',
+            demand: false
+          };
+
+    }
+    started(){
+      console.log('started');
     }
 
 }

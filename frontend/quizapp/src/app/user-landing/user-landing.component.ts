@@ -29,7 +29,7 @@ export class UserLandingComponent implements OnInit {
  //contest_id="5cdd3c3e848eda148cb709e8";
  //contest_id = "5cda5df743b7995dc01c18cc";
  //contest_id = "5ce244bc2772a345e86b440c";
- contest_id = "5ce373a1fd483242f0e2c3a8";
+ contest_id = "5ce4f05d1e8f36306c408c57";
   ngOnInit() {
 
       this.quesserv.getOnlyContestDetails(this.contest_id)

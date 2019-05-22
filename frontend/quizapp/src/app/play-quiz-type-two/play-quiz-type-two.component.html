@@ -11,8 +11,9 @@
 				</div>
 				<div class="col-md-5">
 					<h2>
-            <label class="label label-warning"><countdown [config]="{leftTime: 30}" (finished)="onFinished()">$!h!:$!m!:$!s!</countdown>
-              $!h!:$!m!:$!s!
+            <label class="label label-warning">
+              <countdown [config]="config" (start)="started()" (finished)="onFinished()">$!h!:$!m!:$!s!</countdown>
+
             </label>
 					</h2>
 				</div>
