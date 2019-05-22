@@ -6,12 +6,14 @@
 			<div class="row">
 				<div class="col-md-5">
 					<h2>
-						<label class="label label-primary">{{ our_contest.Name }}</label>
+						{{ our_contest.Name }}
 					</h2>
 				</div>
 				<div class="col-md-5">
 					<h2>
-						<label class="label label-warning">Timer: HH MM</label>
+            <label class="label label-warning"><countdown [config]="{leftTime: 30}" (finished)="onFinished()">$!h!:$!m!:$!s!</countdown>
+              $!h!:$!m!:$!s!
+            </label>
 					</h2>
 				</div>
 				<div class="col-md-2">
@@ -160,7 +162,7 @@
                           *ngIf="crnt_ques.type == 'checkbox'"
                           class="list-group"
                         >
-                        <h4>Options are :</h4>
+
 														<li class="list-group-item">
 															<input
                               type="checkbox"

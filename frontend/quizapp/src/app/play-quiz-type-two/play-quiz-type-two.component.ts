@@ -7,6 +7,7 @@ import { ContestService } from "../service/contest.service";
 import { leaderBoard } from "../models/leaderboard";
 import { Router } from "@angular/router";
 import { stringify } from "@angular/core/src/util";
+import { timer } from 'rxjs';
 @Component({
   selector: "app-play-quiz-type-two",
   templateUrl: "./play-quiz-type-two.component.html",
@@ -71,15 +72,25 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   user_answers : [{qid:string,ans:[any]}] = [{qid:"", ans:[""]}];
   act_answers:[{qid:string,ans:[any]}] = [{qid:"", ans:[""]}];
 
+  // for observable timer
+  seconds_calculator;
+  val;
   ngOnInit() {
+
+
+    // seconds timer : emits second as "val" variable.So, at any moment of time, we can check the total no of seconds which helps in calculating the time taken by user in completing the test
+    const source = timer(1000, 1000);
+     this.seconds_calculator = source.subscribe(val => {
+      {this.val = val;
+        console.log(this.val, '-')};
+
+    });
+
+
     //remove dummy
     this.user_answers.pop();
     this.act_answers.pop();
-
-    //this.fib_temp_user_answers.pop();
-
     this.array_userans.pop();
-
     this.section_no_with_id.pop();
     this.sum_of_scores = 0;
     var qno = 0;
@@ -100,6 +111,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
         var section_temp = {
           sno: i,
           sid: this.our_contest_qpaper_sections[i]._id
+
         };
         this.section_no_with_id.push(section_temp);
 
@@ -521,13 +533,22 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
 
   update_user_result() {
+
+    // unsubscribe the seconds calulator to get the crnt no of seconds taken by user to attempt the test
+
+    this.seconds_calculator.unsubscribe();
+
+    var time_taken =new String(this.timeTakenByUser(this.val));
+    console.log(time_taken);
+
+
     // if final submission is not to be made yet just create a user result object and store in temp_user_resullt object so that temp answers will get stored in just leaderboard not content schema.This updating is done through save_temp_db function
     var userresult = new leaderBoard();
     userresult.username = this.contserv.getusername();
     userresult.no_of_questions_attempted = this.no_of_ques_attempted_by_user;
     userresult.score = this.mcqscore;
     //  userresult.user_answers = this.temp_user_answers;
-    userresult.time_taken = "n hrs";
+    userresult.time_taken = time_taken;
     this.temp_user_result_object = userresult;
 
     // if finally submission is made then update into actual db
@@ -579,5 +600,32 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   customTrackBy(index: number, obj: any): any {
     return index;
   }
+
+  onFinished()
+      {
+        alert("oops the time ended");
+
+        this.make_final_submission = true;
+        this.update_user_result();
+      }
+
+
+
+      // observable timer triggers every one second.The no ofseconds is stored in val.
+      // supply val value into time stamp hh:mm:ss using the below function
+    timeTakenByUser(totalSeconds){
+      var hours   = Math.floor(totalSeconds / 3600);
+      var minutes = Math.floor((totalSeconds - (hours * 3600)) / 60);
+      var seconds = totalSeconds - (hours * 3600) - (minutes * 60);
+
+      // round seconds
+      seconds = Math.round(seconds * 100) / 100
+
+      var result = (hours < 10 ? "0" + hours : hours);
+          result += "-" + (minutes < 10 ? "0" + minutes : minutes);
+          result += "-" + (seconds  < 10 ? "0" + seconds : seconds);
+      return result;
+    }
+
 }
 
