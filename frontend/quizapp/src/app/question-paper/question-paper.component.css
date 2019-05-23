@@ -1,0 +1,24 @@
+
+input[type="checkbox"]{
+  width:20px;
+  height:20px;
+}
+
+.collapse-button{
+ background-color:skyblue;
+}
+
+
+.collapse-question{
+  display:none;
+}
+
+.display-questions{
+  display: block;
+}
+
+table td,th{
+  padding: 7px;
+  spacing:5px;
+}
+

@@ -12,9 +12,9 @@ export class QuestionserviceService {
 
   constructor(private http:HttpClient) { }
 
-    getQuestions(id): Observable<any>{
+    getQuestions(): Observable<any>{
 
-      let url='http://localhost:3000/quizapi/getContest/'+id;
+      let url='http://localhost:3000/quizapi/getquestions';
       return this.http.get(url);
     }
 

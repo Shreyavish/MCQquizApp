@@ -17,5 +17,6 @@ export class question    {
     level?:String;
     type?:String;
     explanation?: String;
+    collapse_flag?:boolean;
     }
 
