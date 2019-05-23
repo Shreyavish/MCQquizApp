@@ -66,7 +66,7 @@ export class QuestionserviceService {
       }
 
       postQuestions (ques:question) : Observable<any>{
-        let url='http://localhost:3000/quizapi/addquestions';
+        let url='http://localhost:3000/quizapi/addquestion';
         return this.http.post(url,ques);
       }
 

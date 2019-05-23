@@ -9,6 +9,7 @@ export class question    {
              content: String}];
 
     answer?:[Number];
+    text_answer? :  [String];// if the question type is fill in the blanks
     domain?:String;
     subdomain?: String;
     keywords?:[String];//topic tags

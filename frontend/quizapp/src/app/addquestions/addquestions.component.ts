@@ -16,7 +16,7 @@ import { Time } from '@angular/common';
 export class AddquestionsComponent implements OnInit {
 
   constructor(private quesservice:QuestionserviceService, private router: Router,private contserv:ContestService) { }
-  ngOnInit(){}
+
     /*ques: Question;
     length: number;
     question_title: String;
@@ -54,42 +54,44 @@ export class AddquestionsComponent implements OnInit {
   }*/
   //contest parameters
 
-  /*contest_id:String;
+  //contest_id:String;
 
   //question parameters
   newoption:String;
-  problem_no: string = "1";
+  //problem_no: string = "1";
   title: String;
-  options:[String]=[""];
-  answer:[String];
+  author:String;
+  options: [{option_no : Number,
+    content: String}] = [{option_no:0,content:''}];
+  answer:[number] = [0];
+  text_answer:[String] = [""];
   domain:String;
   subdomain: String;
-  keywords:String;
+  keywords:[String] = [""];
   marks:number;
-  Level:String;
-  Type: String;
-  Description: String;
+  level:String;
+  type: String;
+  description: String;
   explanation : String;
+
+    temp_options:[String] = [''];
   Questions: [question]=[{
 
       'title':'x',
-      'options': [''],
-      'answer':['x'],
+      'options': [{option_no:0,content:''}],
+      'text_answer':['x'],
       'domain':'c programming',
-      'keywords':'variables',
+      'keywords':['variables'],
       'marks':5,
-      'Level':'easy',
-      'Type':'mcq'
+      'level':'easy',
+      'type':'radio'
 
-}] ; //initializing with dummy question so that undefind error is reslove
+}] ; //initializing with dummy question so that undefind error is resolved
   newquestion: question;
-  ans_array:[String] = [""];
-  //result parameters
+  text_ans_array:[String] = [""]; // for fill in the blanks
+  number_ans_array:[number]=[0]; // for mcqs
 
-  username: String;
-    Rank: Number;
-    Score: Number;
-    Time_taken: String;
+
 
 // other calculation parameters
 
@@ -99,13 +101,24 @@ export class AddquestionsComponent implements OnInit {
   ans:String;
   optionflag=0;
   ansflag=0;
+  kwflag =0 ;
+
+
+  fibansflag=0;
+
+  option_no;
+  text_ans:string = "";
+  keyword: string ="";
 
   ngOnInit(){
-
+    //removing dummy questions
     this.Questions.pop();
-    this.contest_id= this.contserv.getdata2();
-    this.options.pop();
-    this.ans_array.pop();
+     this.options.pop();
+    this.text_ans_array.pop();
+    this.number_ans_array.pop();
+
+    this.keywords.pop();
+
   }
 
 
@@ -146,10 +159,17 @@ export class AddquestionsComponent implements OnInit {
 
 }*/
 
-    /*addOption(newoption){
+    addOption(newoption,option_no){
       this.optionflag =1;
-      console.log(newoption);
-      this.options.push(newoption);
+      //console.log(newoption);
+      //this.temp_options.push(newoption);
+
+
+      var option_object={
+        option_no: option_no,
+        content:newoption
+      }
+      this.options.push(option_object);
 
       console.log(this.options);
 
@@ -158,7 +178,7 @@ export class AddquestionsComponent implements OnInit {
     }
     deleteoption(todeleteoption){
        for(var i=0;i<this.options.length;i++){
-         if(todeleteoption == this.options[i]){
+         if(todeleteoption == this.options[i].content){
            break;
          }
        }
@@ -176,20 +196,23 @@ export class AddquestionsComponent implements OnInit {
         }*/
 
 
-      /*  addQuestionToDB(){
+       addQuestionToDB(){
+
+
+
           this.newquestion= {
-              title:this.title,
+            title:this.title,
             options:this.options,
             domain:this.domain.toLowerCase(),
             subdomain:this.subdomain.toLowerCase(),
-            keywords:this.keywords.toLowerCase(),
-            Description: this.Description,
-            answer:this.ans_array,
+            keywords:this.keywords,
+            description: this.description,
+            answer:this.number_ans_array,
+            text_answer: this.text_ans_array,
             marks:this.marks,
-            Level:this.Level,
+            level:this.level,
             explanation:this.explanation,
-            Type: this.Type,
-            collapse_flag:false
+            type: this.type,
           }
 
           console.log(this.newquestion);
@@ -202,20 +225,67 @@ export class AddquestionsComponent implements OnInit {
         console.log(this.Description);
       }*/
 
-      /*addAnswers(ans){
-        this.ansflag=1;
-        this.ans_array.push(ans);
+      // adding fib answer
+      addFibAnswers(ans){
+        this.fibansflag=1;
+        this.text_ans_array.push(ans);
+        console.log(this.text_ans_array);
       }
 
-      deleteAnswer(todeleteanswer){
-        for(var i=0;i<this.ans_array.length;i++){
-          if(todeleteanswer == this.ans_array[i]){
+      //delelting fib answer
+      deleteFibAnswer(todeleteanswer){
+        for(var i=0;i<this.text_ans_array.length;i++){
+          if(todeleteanswer == this.text_ans_array[i]){
             break;
           }
         }
-        this.ans_array.splice(i,1);
-        //console.log(this.options);
-      }*/
+        this.text_ans_array.splice(i,1);
+        console.log(this.text_ans_array);
+      }
+
+
+      // mcq options
+      addMcqAnswers(ans){
+        this.ansflag=1;
+        this.number_ans_array.push(ans);
+        console.log(this.number_ans_array);
+      }
+
+      //deleting mcq answer
+
+      deleteMcqAnswer(todeleteanswer){
+        for(var i=0;i<this.number_ans_array.length;i++){
+          if(todeleteanswer == this.number_ans_array[i]){
+            break;
+          }
+        }
+        this.number_ans_array.splice(i,1);
+        console.log(this.number_ans_array);
+      }
+
+
+      // adding  and deleting keywords
+
+      addKeywords(kw){
+      kw=kw.toLowerCase();
+
+        this.kwflag=1;
+        this.keywords.push(kw);
+        console.log(this.keywords);
+      }
+
+      //delelting fib answer
+      deleteKeyword(kw_del){
+        for(var i=0;i<this.keywords.length;i++){
+          if(kw_del == this.keywords[i]){
+            break;
+          }
+        }
+        this.keywords.splice(i,1);
+        console.log(this.keywords);
+      }
+
+
 
   }
 

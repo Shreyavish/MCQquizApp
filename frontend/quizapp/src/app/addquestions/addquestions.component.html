@@ -8,6 +8,8 @@
                 <label>Title:</label>
                 <input type="text" [(ngModel)]="title" name="title" required="true" class="form-control">
 
+                <label>Author:</label>
+                <input type="text" [(ngModel)]="author" name="author" class="form-control">
 
                 <label>Domain:</label>
                 <input type="text" [(ngModel)]="domain" name="domain" required="true" class="form-control">
@@ -15,12 +17,9 @@
                 <label>Sub Domain:</label>
                 <input type="text" [(ngModel)]="subdomain" name="subdomain" class="form-control">
 
-                <label>Question Keywords:</label>
-                <input type="text" [(ngModel)]="keywords" name="keywords" required="true" class="form-control">
-
 
                 <label>Level</label>
-                <select [(ngModel)]="Level" name="Level" required="true" class="form-control">
+                <select [(ngModel)]="level" name="level" required="true" class="form-control">
                     <option value="Beginner" >Beginner</option>
                     <option value="Easy">Easy</option>
                     <option value="Normal">Normal</option>
@@ -29,60 +28,121 @@
                 </select>
 
 
-                <label>Description:</label>
-                <div class="ngx-editor">
-                        <app-ngx-editor  [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="Description" name="Description"></app-ngx-editor>
-                </div>
+
+                <label>Add keywords one by one</label>
+
+                <input type="text" [(ngModel)]="keyword" name="keyword" required="true" class="form-control"><br />
+                <button type="button" (click)="addKeywords(keyword)" class="btn btn-primary">Add keyword</button>
+
+                <ul style="list-style:none">
+                    <div *ngFor='let k of keywords'>
+                        <li >
+
+                            <div *ngIf='kwflag == 1  '> {{k}} &nbsp; <button type="button" (click)="deleteKeyword(k)" style="background-color:orange">X</button></div>
+
+                        </li>
+                    </div>
+                </ul>
+                <br/>
+
+
 
                 <label>Type:</label>
-                <select [(ngModel)]="Type" name="Type" class ="form-control">
+                <select [(ngModel)]="type" name="type" class ="form-control">
                     <option value="checkbox" >MCQ with multiple correct answer</option>
                     <option value="radio">Mcq with only one correct answer</option>
                     <option value="text">Fill in the blank</option>
                     </select>
-                    <br>
-                <br>
+
+
           </div>
 
-            <!--<div [innerHTML]="Description">{{Description}}</div>-->
+
+            <div [innerHTML]="description">{{description}}</div>
 
 
 
                 <div class="col-md-6">
-                <label>Add options one by one</label>
-                <input type="text" [(ngModel)]="newoption" name="newoption" required="true" class="form-control"><br />
-                <button type="button" (click)="addOption(newoption)" class="btn btn-primary">Add option</button>
 
-                <ol class="list-group">
+                  <div *ngIf='type =="radio" || type =="checkbox" '>
+
+
+                <label>Add options one by one</label><br />
+                <input type="number" [(ngModel)]="option_no" name="option_no" required="true" placeholder = "option no"   > &nbsp;
+                <input type="text" [(ngModel)]="newoption" name="newoption" required="true" placeholder="content"><br />
+                <br />
+                <button type="button" (click)="addOption(newoption,option_no)" class="btn btn-primary">Add option</button>
+
+                <ul style="list-style:none">
                     <div *ngFor='let o of options'>
-                        <li class="list-group-item">
+                        <li >
 
-                            <div *ngIf='optionflag == 1  '> {{o}} &nbsp; <button type="button" (click)="deleteoption(o)" style="background-color:cornflowerblue">X</button></div>
-
-                        </li>
-                    </div>
-                </ol>
-
-
-
-                <label>Add one or more answers</label>
-                <input type="text" [(ngModel)]="ans" name="ans" required="true" class="form-control"><br />
-                <button type="button" (click)="addAnswers(ans)" class="btn btn-warning">Save Answer</button>
-
-
-                <ol class="list-group">
-                    <div *ngFor='let a of ans_array'>
-                        <li class="list-group-item">
-
-                            <div *ngIf='ansflag == 1  '> {{a}} &nbsp; <button type="button" (click)="deleteAnswer(a)" style="background-color:orange">X</button></div>
+                            <div *ngIf='optionflag == 1  '> {{o.option_no}}.{{o.content}} &nbsp; <button type="button" (click)="deleteoption(o.content)" style="background-color:orange">X</button></div>
 
                         </li>
                     </div>
-                </ol>
+                </ul>
+
+
+
+                <br />
+
+               <div *ngIf="type=='radio'"> <label>Add answer</label>
+                <input type="number" [(ngModel)]="ans" name="ans" required="true" class="form-control"><br />
+                </div>
+
+                <div *ngIf="type=='checkbox'"> <label>Add answer</label>
+                  <input type="number" [(ngModel)]="ans" name="ans" required="true" class="form-control"><br />
+                  </div>
+
+
+                <button type="button" (click)="addMcqAnswers(ans)" class="btn btn-warning">Save Answer</button>
+
+
+                <ul style="list-style:none">
+                    <div *ngFor='let a of number_ans_array'>
+                        <li >
+
+                            <div *ngIf='ansflag == 1  '>Option no:&nbsp;{{a}} &nbsp; <button type="button" (click)="deleteMcqAnswer(a)" style="background-color:orange">X</button></div>
+
+                        </li>
+                    </div>
+                </ul>
+
+                </div>
+
+
+                <div *ngIf='type == "text"'>
+
+
+                    <label>Add answers one by one</label>
+
+                    <input type="text" [(ngModel)]="text_ans" name="text_ans" required="true" class="form-control"><br />
+                    <button type="button" (click)="addFibAnswers(text_ans)" class="btn btn-primary">Add answer</button>
+
+                    <ul style="list-style: none">
+                        <div *ngFor='let a of text_ans_array'>
+                            <li>
+
+                                <div *ngIf=' fibansflag == 1  '> {{a}} &nbsp; <button type="button" (click)="deleteFibAnswer(a)" style="background-color:orange">X</button></div>
+
+                            </li>
+                        </div>
+                    </ul>
 
 
 
 
+                  </div>
+
+                  <br/>
+                  <br/>
+
+                  <label>Description:</label>
+                  <div class="ngx-editor">
+                          <app-ngx-editor  [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="description" name="description"></app-ngx-editor>
+                  </div>
+                  <br />
 
                 <label>Explanation</label>
 

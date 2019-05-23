@@ -4,12 +4,12 @@
 	<div class="panel panel-default">
 		<div class="panel-heading">
 			<div class="row">
-				<div class="col-md-5">
+				<div class="col-sm-5">
 					<h2>
 						{{ our_contest.Name }}
 					</h2>
 				</div>
-				<div class="col-md-5">
+				<div class="col-sm-5">
 					<h2>
             <label class="label label-warning">
               <countdown [config]="config" (start)="started()" (finished)="onFinished()">$!h!:$!m!:$!s!</countdown>
@@ -17,7 +17,7 @@
             </label>
 					</h2>
 				</div>
-				<div class="col-md-2">
+				<div class="col-sm-2">
 					<h2>
 						<form (submit)="promptMessageToUser()">
 							<input type="submit" value="End Test" class="btn btn-success" />
@@ -28,7 +28,7 @@
 		</div>
 		<div class="panel-body">
 			<div class="row">
-				<div class="col-md-3">
+				<div class="col-sm-3">
 					<div class="sidenav">
 						<div id="accordion">
 							<div
@@ -60,10 +60,10 @@
 													<div *ngIf="q1._id == q2">
 
 
-														<ul class="list-group">
+														<ul style ="list-style: none;padding: 5px;">
 
 
-                      					<li class="list-group-item">
+                      					<li>
 
                                     <div *ngIf='is_quesno_attempted[i] == false'>
 																<button
@@ -120,7 +120,7 @@
 				</div>
 				<!-- Latest compiled and minified JavaScript -->
 				<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> -->
-				<div class="col-md-8">
+				<div class="col-sm-7">
 					<div *ngIf="flag == true">
 						<div class="panel panel-info">
 							<div class="panel-heading">
@@ -129,9 +129,25 @@
                 </h4>
 							</div>
 							<div class="panel-body">
+
+
+                  <div class="row">
+
+                      <div class="col-sm-8" *ngIf='crnt_ques.description != ""'>
+
+                        <div [innerHTML]="crnt_ques.description">
+
+                          {{ crnt_ques.description }}
+                          </div>
+
+                      </div>
+
+                    </div>
+
+                    <br />
 								<div class="row">
 
-									<div class="col-md-6">
+									<div class="col-sm-6">
 										<div *ngIf="flag == true">
 
 											<div *ngIf="crnt_ques.type == 'radio' || crnt_ques.type=='checkbox'">
@@ -228,13 +244,8 @@
 											</div>
                     </div>
 
-                    <div class="col-md-6" *ngIf='crnt_ques.description != ""'>
-                      <div [innerHTML]="crnt_ques.description">
-                        {{ crnt_ques.description }}
-                      </div>
-                    </div>
+                </div>
 
-									</div>
 								</div>
 							</div>
 						</div>

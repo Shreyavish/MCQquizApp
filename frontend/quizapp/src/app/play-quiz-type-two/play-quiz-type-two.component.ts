@@ -282,10 +282,14 @@ export class PlayQuizTypeTwoComponent implements OnInit {
           // this.temp_user_answers[i].ans = [0];
           this.user_answers[i].ans.pop();
           this.user_answers[i].ans.push(userans);
+          this.is_quesno_attempted[this.crnt_ques_no] = true;
+          console.log('attempted');
           console.log(this.user_answers[i]);
         } else if (type == "checkbox") {
           if (ischecked == true) {
             this.user_answers[i].ans.push(userans);
+            this.is_quesno_attempted[this.crnt_ques_no] = true;
+            console.log('attempted');
           } else {
             for (var j = 0; j < this.user_answers[i].ans.length; j++) {
               if (userans == this.user_answers[i].ans[j]) {
@@ -322,6 +326,8 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
       if (this.user_answers[k].qid == qid) {
         this.user_answers[k].ans[i] = userans;
+        this.is_quesno_attempted[this.crnt_ques_no] = true;
+        console.log('attempted');
         //this.no_of_ques_attempted_by_user = this.no_of_ques_attempted_by_user + 1;
         break;
       }
@@ -359,7 +365,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
           this.temp_user_result_id = res._id;
           console.log(res);
           console.log(this.crnt_ques_no);
-          this.is_quesno_attempted[this.crnt_ques_no] = true;
+
           this.posting_res_first_time_flag = false;
 
           this.array_userans = [0];
@@ -556,7 +562,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     // if final submission is not to be made yet just create a user result object and store in temp_user_resullt object so that temp answers will get stored in just leaderboard not content schema.This updating is done through save_temp_db function
     var userresult = new leaderBoard();
     userresult.username = this.contserv.getusername();
-    userresult.no_of_questions_attempted = this.no_of_ques_attempted_by_user;
+    userresult.no_of_questions_attempted = this.calculate_no_ques_attempted();
     userresult.score = this.mcqscore;
     //  userresult.user_answers = this.temp_user_answers;
     userresult.time_taken = time_taken;
@@ -657,6 +663,18 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     }
     started(){
       console.log('started');
+    }
+
+    calculate_no_ques_attempted()
+    {
+      var no =0;
+
+      for(var i=0;i<this.total_no_ques_contest;i++){
+        if(this.is_quesno_attempted[i] == true){
+          no= no+1;
+        }
+      }
+      return no;
     }
 
 }

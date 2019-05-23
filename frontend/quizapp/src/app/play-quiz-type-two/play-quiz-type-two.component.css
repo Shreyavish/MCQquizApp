@@ -23,13 +23,16 @@
   border-radius: 0;
   border: 0;
   margin-top: 0px;
+  width: 150px;
+
 }
 #accordion a {
   display: block;
-  padding: 10px 15px;
+  padding: 5px 5px;
   color:white;
   border-bottom: 1px solid #b42b2b;
   text-decoration: none;
+  font-size: 20px;
 }
 #accordion .panel-heading a.collapsed:hover,
 #accordion .panel-heading a.collapsed:focus {
@@ -46,6 +49,7 @@
   border-radius: 0px;
   text-align: center;
   background-color:#337AB7;
+  font-size: 5px;
 }
 #accordion .panel-heading a:not(.collapsed) {
   color: white;
@@ -103,4 +107,8 @@ a {
   font-size:25px;
   color:red;
   text-decoration: none;
+}
+
+img {
+  width: 2px;
 }
