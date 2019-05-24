@@ -25,7 +25,20 @@
 
             <div class="col-md-3">
                 <br/><label>Domain:</label>
-                <input type="text" [(ngModel)]="domain" name="domain" required="true" class="form-control" placeholder="what domain do this question belong to?">
+                <!--<input type="text" [(ngModel)]="domain" name="domain" required="true" class="form-control" placeholder="what domain do this question belong to?">-->
+
+
+                <input list="domains"  [(ngModel)]="domain" name="domain" required="true" class="form-control" placeholder="Domain of the question">
+
+                <datalist id="domains">
+                    <div  *ngFor='let s of sample_domains'>
+                  <option value={{s}}>
+                    </div>
+                </datalist>
+
+
+
+
             </div>
 
             <div class="col-md-3">
@@ -52,14 +65,14 @@
 
                <br /> <label>Keywords</label>
 
-            <ngx-tags-input class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="temp_keywords" name="temp_keywords" placeholder="add some topic tags or keywords"></ngx-tags-input>
+            <ngx-tags-input class="form-control" (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="temp_keywords" name="temp_keywords" placeholder="add some topic tags or keywords"></ngx-tags-input>
             </div>
 
             <div class="col-md-6">
 
                <br /> <label>Company tags</label>
 
-                <ngx-tags-input class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="temp_ctags" name="temp_ctags" placeholder="which company is designing this question?"></ngx-tags-input>
+                <ngx-tags-input  class="form-control" (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="temp_ctags" name="temp_ctags" placeholder="which company is designing this question?"></ngx-tags-input>
             </div>
 
         </div>
@@ -132,12 +145,17 @@
                     </div>
                     </div>
                     <div *ngIf='type == "text"'>
-
                         <br /><label>Add answers one by one</label>
+                      <div class="row">
 
-                        <input type="text" [(ngModel)]="text_ans" name="text_ans" required="true" class="form-control">
-                        <br />
+
+                          <div class = "col-md-8">
+
+                        <input type="text" [(ngModel)]="text_ans" name="text_ans" required="true" class="form-control"></div>
+                        <div class="col-md-4">
                         <button type="button" (click)="addFibAnswers(text_ans)" class="btn btn-primary">Add answer</button>
+                        </div>
+                        </div>
 
                         <ul style="list-style: none">
                             <div *ngFor='let a of text_ans_array'>
@@ -155,10 +173,9 @@
 
 
 
-            </div>
           </div>
 
-
+          </div>
 
             <div class="row">
                 <div class="col-md-6">

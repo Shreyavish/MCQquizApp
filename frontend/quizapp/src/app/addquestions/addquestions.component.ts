@@ -99,7 +99,7 @@ export class AddquestionsComponent implements OnInit {
   text_ans_array:[String] = [""]; // for fill in the blanks
   number_ans_array:[number]=[0]; // for mcqs
 
-
+  sample_domains = ["maths","programming","aptitude","java","c++"];
 
 // other calculation parameters
 

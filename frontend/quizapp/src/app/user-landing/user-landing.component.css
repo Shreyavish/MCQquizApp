@@ -10,3 +10,20 @@ table td,th{
 
 }
 
+#timer {
+  font-family: Arial, sans-serif;
+  font-size: 20px;
+  color: #C9302C;
+
+
+}
+#timer span {
+  font-size: 60px;
+  color: cornflowerblue;
+
+}
+#timer span:first-child {
+  margin-left: 0;
+}
+
+
