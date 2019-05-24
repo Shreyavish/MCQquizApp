@@ -24,6 +24,8 @@ import { CountdownTimerModule } from 'ngx-countdown-timer';
 import { PlayQuizTypeTwoComponent } from './play-quiz-type-two/play-quiz-type-two.component';
 import { UserLandingComponent } from './user-landing/user-landing.component';
 import { QuestionPaperComponent } from './question-paper/question-paper.component';
+
+import { NgxTagsInputModule } from 'ngx-tags-input';
 @NgModule({
   declarations: [
     AppComponent,
@@ -39,9 +41,12 @@ import { QuestionPaperComponent } from './question-paper/question-paper.componen
     PlayQuizComponent,
     PlayQuizTypeTwoComponent,
     UserLandingComponent,
-    QuestionPaperComponent
+    QuestionPaperComponent,
+
   ],
   imports: [
+    NgxTagsInputModule,
+
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,

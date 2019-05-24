@@ -8,6 +8,7 @@ import {CalendarModule} from 'primeng/calendar'
 import {ContestService} from '../service/contest.service';
 import { Time } from '@angular/common';
 
+
 @Component({
   selector: 'app-addquestions',
   templateUrl: './addquestions.component.html',
@@ -16,7 +17,7 @@ import { Time } from '@angular/common';
 export class AddquestionsComponent implements OnInit {
 
   constructor(private quesservice:QuestionserviceService, private router: Router,private contserv:ContestService) { }
-
+  tags:[string] = ["trial"];
     /*ques: Question;
     length: number;
     question_title: String;
@@ -68,6 +69,7 @@ export class AddquestionsComponent implements OnInit {
   domain:String;
   subdomain: String;
   keywords:[String] = [""];
+  company_tags:[String] = [""];
   marks:number;
   level:String;
   type: String;
@@ -102,13 +104,14 @@ export class AddquestionsComponent implements OnInit {
   optionflag=0;
   ansflag=0;
   kwflag =0 ;
-
+  ctflag =0 ;
 
   fibansflag=0;
 
   option_no;
   text_ans:string = "";
   keyword: string ="";
+  company_tag:string="";
 
   ngOnInit(){
     //removing dummy questions
@@ -118,6 +121,7 @@ export class AddquestionsComponent implements OnInit {
     this.number_ans_array.pop();
 
     this.keywords.pop();
+    this.company_tags.pop();
 
   }
 
@@ -159,31 +163,45 @@ export class AddquestionsComponent implements OnInit {
 
 }*/
 
-    addOption(newoption,option_no){
+    addOption(newoption){
       this.optionflag =1;
       //console.log(newoption);
       //this.temp_options.push(newoption);
 
 
-      var option_object={
+     /* var option_object={
         option_no: option_no,
         content:newoption
       }
       this.options.push(option_object);
 
-      console.log(this.options);
+      console.log(this.options);*/
 
-      //console.log(this.Description);//
+       var is_option_exists_flag =false;
+
+      for(var i=0;i<this.temp_options.length;i++){
+        if(newoption == this.temp_options[i]){
+          is_option_exists_flag = true;
+          alert("option  exists");
+          break;
+        }
+      }
+
+      if(is_option_exists_flag == false){
+        this.temp_options.push(newoption);
+      }
+
+
 
     }
     deleteoption(todeleteoption){
-       for(var i=0;i<this.options.length;i++){
-         if(todeleteoption == this.options[i].content){
+       for(var i=0;i<this.temp_options.length;i++){
+         if(todeleteoption == this.temp_options[i]){
            break;
          }
        }
-       this.options.splice(i,1);
-       console.log(this.options);
+       this.temp_options.splice(i,1);
+       console.log(this.temp_options);
 
     }
 
@@ -198,7 +216,18 @@ export class AddquestionsComponent implements OnInit {
 
        addQuestionToDB(){
 
+        // create actual options
+        for(var i=0;i<this.temp_options.length;i++){
+          var option_object={
+          option_no: i+1,
+          content:this.temp_options[i]
+        }
+        this.options.push(option_object);
 
+
+
+
+        }
 
           this.newquestion= {
             title:this.title,
@@ -206,6 +235,7 @@ export class AddquestionsComponent implements OnInit {
             domain:this.domain.toLowerCase(),
             subdomain:this.subdomain.toLowerCase(),
             keywords:this.keywords,
+            company_tags:this.company_tags,
             description: this.description,
             answer:this.number_ans_array,
             text_answer: this.text_ans_array,
@@ -285,6 +315,40 @@ export class AddquestionsComponent implements OnInit {
         console.log(this.keywords);
       }
 
+      // adding and deleting company tags
+
+
+      addCompanyTag(ct){
+        ct=ct.toLowerCase();
+
+          this.ctflag=1;
+          this.keywords.push(ct);
+          console.log(this.keywords);
+        }
+
+        //delelting fib answer
+        deleteCompanyTag(ct_del){
+          for(var i=0;i<this.keywords.length;i++){
+            if(ct_del == this.keywords[i]){
+              break;
+            }
+          }
+          this.keywords.splice(i,1);
+          console.log(this.keywords);
+        }
+
+        onTagsChanged(event:any){
+          if(event.change == 'add'){
+            console.log(this.keywords);
+            console.log(this.tags[1].displayValue);
+            console.log('wor');
+          }
+          else{
+
+            console.log(this.keywords);
+            console.log('remo');
+          }
+        }
 
 
   }

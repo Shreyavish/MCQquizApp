@@ -13,6 +13,7 @@ export class question    {
     domain?:String;
     subdomain?: String;
     keywords?:[String];//topic tags
+    company_tags?:[String];
     marks?:Number;
     level?:String;
     type?:String;
