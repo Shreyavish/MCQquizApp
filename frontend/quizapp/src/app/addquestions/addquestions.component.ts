@@ -71,10 +71,16 @@ export class AddquestionsComponent implements OnInit {
   keywords:[String] = [""];
   company_tags:[String] = [""];
   marks:number;
-  level:String;
-  type: String;
+  level:String = "Beginner";
+  type: String = "radio";
   description: String;
   explanation : String;
+
+
+    // ngx tag input even emits stores the tags in these temp objects
+    temp_keywords= [{}];
+    temp_ctags=[{}];
+
 
     temp_options:[String] = [''];
   Questions: [question]=[{
@@ -122,6 +128,9 @@ export class AddquestionsComponent implements OnInit {
 
     this.keywords.pop();
     this.company_tags.pop();
+    this.temp_keywords.pop();
+    this.temp_ctags.pop()
+    this.temp_options.pop();
 
   }
 
@@ -216,6 +225,10 @@ export class AddquestionsComponent implements OnInit {
 
        addQuestionToDB(){
 
+
+        // create final keywords and company tags
+        this.createFinalKeywords();
+        this.createFinalCompanyTags();
         // create actual options
         for(var i=0;i<this.temp_options.length;i++){
           var option_object={
@@ -223,8 +236,6 @@ export class AddquestionsComponent implements OnInit {
           content:this.temp_options[i]
         }
         this.options.push(option_object);
-
-
 
 
         }
@@ -276,9 +287,21 @@ export class AddquestionsComponent implements OnInit {
 
       // mcq options
       addMcqAnswers(ans){
+
+        if(this.temp_options.length<2){
+          alert('please add atlest two options');
+        }
+        else{
+
+          if(ans >this.temp_options.length){
+            alert('No such answer exists for given options');
+          }
+          else{
         this.ansflag=1;
         this.number_ans_array.push(ans);
         console.log(this.number_ans_array);
+        }
+      }
       }
 
       //deleting mcq answer
@@ -293,62 +316,33 @@ export class AddquestionsComponent implements OnInit {
         console.log(this.number_ans_array);
       }
 
+      onTagsChanged(event:any){
+        if(event.change == 'add'){
+          console.log('added');
+        }
+        else{
+          console.log('deleted');
+        }
+      }
+      // temp_keywords are stored as event change in tag input. now we will extract only the values of those keywords ignoring other properties
+      createFinalKeywords(){
 
-      // adding  and deleting keywords
+        for(var i=0;i<this.temp_keywords.length;i++){
+          this.keywords.push(this.temp_keywords[i].displayValue);
+        }
 
-      addKeywords(kw){
-      kw=kw.toLowerCase();
 
-        this.kwflag=1;
-        this.keywords.push(kw);
-        console.log(this.keywords);
       }
 
-      //delelting fib answer
-      deleteKeyword(kw_del){
-        for(var i=0;i<this.keywords.length;i++){
-          if(kw_del == this.keywords[i]){
-            break;
-          }
+      createFinalCompanyTags(){
+
+        for(var i=0;i<this.temp_ctags.length;i++){
+          this.company_tags.push(this.temp_ctags[i].displayValue);
         }
-        this.keywords.splice(i,1);
-        console.log(this.keywords);
+
+
       }
 
-      // adding and deleting company tags
-
-
-      addCompanyTag(ct){
-        ct=ct.toLowerCase();
-
-          this.ctflag=1;
-          this.keywords.push(ct);
-          console.log(this.keywords);
-        }
-
-        //delelting fib answer
-        deleteCompanyTag(ct_del){
-          for(var i=0;i<this.keywords.length;i++){
-            if(ct_del == this.keywords[i]){
-              break;
-            }
-          }
-          this.keywords.splice(i,1);
-          console.log(this.keywords);
-        }
-
-        onTagsChanged(event:any){
-          if(event.change == 'add'){
-            console.log(this.keywords);
-            console.log(this.tags[1].displayValue);
-            console.log('wor');
-          }
-          else{
-
-            console.log(this.keywords);
-            console.log('remo');
-          }
-        }
 
 
   }

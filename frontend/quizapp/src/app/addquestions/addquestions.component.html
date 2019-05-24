@@ -1,12 +1,13 @@
 <div class="container">
     <h1>Add Questions</h1>
 
-    <form class="form-group" ngNativeValidate (submit)="addQuestionToDB()">
+    <form class="form-group" ngNativeValidate (submit)="addQuestionToDB()" (keydown.enter)="$event.preventDefault()">
         <div class="row">
+          <div class="col-md-12">
 
             <label>Title of the question:</label>
-            <input type="text" [(ngModel)]="title" name="title" required="true" class="form-control">
-
+            <input type="text" [(ngModel)]="title" name="title" required="true" class="form-control" placeholder="Enter the title of the question here">
+            </div>
         </div>
 
         <div class="row">
@@ -17,24 +18,24 @@
 
             <div class="col-md-3">
 
-                <label>Author:</label>
-                <input type="text" [(ngModel)]="author" name="author" class="form-control">
+               <br /> <label>Author:</label>
+                <input type="text" [(ngModel)]="author" name="author" class="form-control" placeholder="who is the author of this question?" >
 
             </div>
 
             <div class="col-md-3">
-                <label>Domain:</label>
-                <input type="text" [(ngModel)]="domain" name="domain" required="true" class="form-control">
+                <br/><label>Domain:</label>
+                <input type="text" [(ngModel)]="domain" name="domain" required="true" class="form-control" placeholder="what domain do this question belong to?">
             </div>
 
             <div class="col-md-3">
 
-                <label>Sub Domain:</label>
-                <input type="text" [(ngModel)]="subdomain" name="subdomain" class="form-control">
+                <br/><label>Sub Domain:</label>
+                <input type="text" [(ngModel)]="subdomain" name="subdomain" class="form-control" placeholder="Enter sub domain, if any required">
             </div>
 
             <div class="col-md-3">
-                <label>Level</label>
+               <br /> <label>Level</label>
                 <select [(ngModel)]="level" name="level" required="true" class="form-control">
                     <option value="Beginner">Beginner</option>
                     <option value="Easy">Easy</option>
@@ -49,44 +50,16 @@
 
             <div class="col-md-6">
 
-                <label>Add keywords one by one</label>
+               <br /> <label>Keywords</label>
 
-                <input type="text" [(ngModel)]="keyword" name="keyword" required="true" class="form-control">
-                <br />
-                <button type="button" (click)="addKeywords(keyword)" class="btn btn-primary">Add</button>
-
-                <ul style="list-style:none">
-                    <div *ngFor='let k of keywords'>
-                        <li>
-
-                            <div *ngIf='kwflag == 1  '> {{k}} &nbsp;
-                                <button type="button" (click)="deleteKeyword(k)" style="background-color:orange">X</button>
-                            </div>
-
-                        </li>
-                    </div>
-                </ul>
+            <ngx-tags-input class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="temp_keywords" name="temp_keywords" placeholder="add some topic tags or keywords"></ngx-tags-input>
             </div>
 
             <div class="col-md-6">
 
-                <label>Add company tags one by one</label>
+               <br /> <label>Company tags</label>
 
-                <input type="text" [(ngModel)]="company_tag" name="company_tag" required="true" class="form-control">
-                <br />
-                <button type="button" (click)="addCompanyTag(company_tag)" class="btn btn-primary">Add</button>
-
-                <ul style="list-style:none">
-                    <div *ngFor='let c of company_tags'>
-                        <li>
-
-                            <div *ngIf='ctflag == 1  '> {{c}} &nbsp;
-                                <button type="button" (click)="deleteCompanyTag(c)" style="background-color:orange">X</button>
-                            </div>
-
-                        </li>
-                    </div>
-                </ul>
+                <ngx-tags-input class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="temp_ctags" name="temp_ctags" placeholder="which company is designing this question?"></ngx-tags-input>
             </div>
 
         </div>
@@ -94,7 +67,7 @@
         <div class="row">
 
             <div class="col-md-6">
-                <label>Type:</label>
+               <br /> <label>Type:</label>
                 <select [(ngModel)]="type" name="type" class="form-control">
                     <option value="checkbox" selected="selected">MCQ with multiple correct answer</option>
                     <option value="radio">Mcq with only one correct answer</option>
@@ -109,7 +82,7 @@
                     <div class="row">
                         <div class="col-md-6">
 
-                            <label>Add options one by one</label>
+                          <br />  <label>Add options one by one</label>
                             <br />
 
                             <input type="text" [(ngModel)]="newoption" name="newoption" required="true" placeholder="content" class="form-control">
@@ -120,7 +93,7 @@
                                 <div *ngFor='let o of temp_options;let i=index;'>
                                     <li>
 
-                                        <div *ngIf='optionflag == 1  '> {{i+1}}.{{o.content}} &nbsp;
+                                        <div *ngIf='optionflag == 1  '> {{i+1}}.{{o}} &nbsp;
                                             <button type="button" (click)="deleteoption(o)" style="background-color:orange">X</button>
                                         </div>
 
@@ -131,13 +104,13 @@
                         </div>
                         <div class="col-md-6">
                             <div *ngIf="type=='radio'">
-                                <label>Add answer</label>
+                              <br />  <label>Add answer</label>
                                 <input type="number" [(ngModel)]="ans" name="ans" required="true" class="form-control">
                                 <br />
                             </div>
 
                             <div *ngIf="type=='checkbox'">
-                                <label>Add answer</label>
+                                <br /><label>Add answer</label>
                                 <input type="number" [(ngModel)]="ans" name="ans" required="true" class="form-control">
                                 <br />
                             </div>
@@ -160,7 +133,7 @@
                     </div>
                     <div *ngIf='type == "text"'>
 
-                        <label>Add answers one by one</label>
+                        <br /><label>Add answers one by one</label>
 
                         <input type="text" [(ngModel)]="text_ans" name="text_ans" required="true" class="form-control">
                         <br />
@@ -190,19 +163,19 @@
             <div class="row">
                 <div class="col-md-6">
 
-                    <label>Description</label>
+                    <br /><label>Description</label>
 
                     <div class="ngx-editor">
-                        <app-ngx-editor height="200px" [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="description" name="description"></app-ngx-editor>
+                        <app-ngx-editor height="200px" [placeholder]="'Describe your question here, if required...'" [spellcheck]="true" [(ngModel)]="description" name="description"></app-ngx-editor>
                     </div>
 
                 </div>
 
                 <div class="col-md-6">
-                    <label>Explanation</label>
+                   <br /> <label>Explanation</label>
 
                     <div class="ngx-editor">
-                        <app-ngx-editor height="200px" [placeholder]="'Enter text here...'" [spellcheck]="true" [(ngModel)]="explanation" name="explanation"></app-ngx-editor>
+                        <app-ngx-editor height="200px" [placeholder]="'Describe your explanation, if required...'" [spellcheck]="true" [(ngModel)]="explanation" name="explanation"></app-ngx-editor>
                     </div>
                 </div>
 
@@ -212,9 +185,11 @@
             <br />
 
             <div class="row">
+              <div class="col-md-6">
                 <label>
                     <input type="submit" value="submit" class="btn btn-success" style="width: 250px;height:50px;">
                 </label>
+                </div>
             </div>
 
 
@@ -223,7 +198,9 @@
 
 
 
-  <ngx-tags-input class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="tags" name="tags"></ngx-tags-input>
 
 
-  <ngx-tags-input class="form-control input-lg" (onTagsChanged)="onTagsChanged($event)" [(ngModel)]="keywords" name="keywords"></ngx-tags-input>
+    <div class = "input-group">
+        <input type = "text" class = "form-control">
+        <span class = "input-group-addon"><button class="btn btn-danger">hjrh</button></span>
+     </div>
