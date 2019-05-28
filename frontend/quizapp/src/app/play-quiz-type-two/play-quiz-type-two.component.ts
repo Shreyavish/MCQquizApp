@@ -333,14 +333,11 @@ export class PlayQuizTypeTwoComponent implements OnInit {
       }
     }
    /* this.user
-
     if (check_flag2 == false) {
       var temp: { qid: string; ans: [string] } = { qid: "", ans: [""] };
       temp.ans.pop();
-
       temp.qid = qid;
       temp.ans[i] = userans;
-
       this.user_answers.push(temp);
     }*/
     console.log(this.user_answers);
@@ -678,4 +675,3 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     }
 
 }
-

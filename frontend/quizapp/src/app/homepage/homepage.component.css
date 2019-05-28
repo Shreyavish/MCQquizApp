@@ -185,3 +185,9 @@
   -ms-transform: translateY(-50%) rotate(90deg);
   transform: translateY(-50%) rotate(90deg);
 }
+
+div.content{
+  width : 700px;
+  height: 400px;
+  overflow: auto;
+}

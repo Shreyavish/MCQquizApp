@@ -26,6 +26,7 @@ import { UserLandingComponent } from './user-landing/user-landing.component';
 import { QuestionPaperComponent } from './question-paper/question-paper.component';
 
 import { NgxTagsInputModule } from 'ngx-tags-input';
+import { AddQuestionPaperToContestComponent } from './add-question-paper-to-contest/add-question-paper-to-contest.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -42,6 +43,7 @@ import { NgxTagsInputModule } from 'ngx-tags-input';
     PlayQuizTypeTwoComponent,
     UserLandingComponent,
     QuestionPaperComponent,
+    AddQuestionPaperToContestComponent,
 
   ],
   imports: [

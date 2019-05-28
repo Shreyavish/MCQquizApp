@@ -101,4 +101,9 @@ export class QuestionserviceService {
         let url = "http://localhost:3000/quizapi/createQuestionPaper";
         return this.http.post(url,item);
       }
+
+      getQuestionPapers():Observable <any>{
+        let url ="http://localhost:3000/quizapi/getAvailableQuestionPapers";
+        return this.http.get(url);
+      }
 }

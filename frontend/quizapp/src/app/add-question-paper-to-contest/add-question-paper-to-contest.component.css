@@ -1,0 +1,10 @@
+div.content{
+  width: 700px;
+  height: 400px;
+  overflow:auto;
+}
+
+container{
+  width: 700px;
+  height: 400px;
+}

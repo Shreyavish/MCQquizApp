@@ -35,7 +35,7 @@ export class QuestionPaperComponent implements OnInit {
   section_name:String ="";
   IsmodelShow = false;
   q: question ;
-temp_sections:[{name : string,content:[string]}]=[{name:"", content:[""]}];
+temp_sections=[];
 final_sections:[{name : string,question_content:[string]}]=[{name:"",question_content:[""]}];
   temp_questions=[];
 

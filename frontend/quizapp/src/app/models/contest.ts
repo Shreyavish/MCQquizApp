@@ -16,7 +16,3 @@ export class contest{
   length?:Number;
   active_time?:String;
 }
-
-
-
-

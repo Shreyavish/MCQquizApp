@@ -118,14 +118,10 @@ this.guidelines_read = true;
   /*calculateTimeLeft()
   {
     this.contest_starts_in =+(new Date(this.starts)) - +(Date.now());  // return time left in milli seconds
-
     //console.log(starts_in);
-
     if(this.contest_starts_in > 0){
       // convert miliseconds to seconds
-
       this.contest_starts_in = this.contest_starts_in / 1000;
-
       console.log(this.contest_starts_in)
           // this is for countdown component. setting the configurations
           this.config = {
@@ -133,16 +129,10 @@ this.guidelines_read = true;
             demand: false
           };
           this.is_time_calculated = true;
-
-
     }
-
   }
-
   setConfig(){
-
   }
-
   started(){
     console.log('started');
   }
@@ -191,7 +181,3 @@ this.guidelines_read = true;
 
 
     }
-
-
-
-

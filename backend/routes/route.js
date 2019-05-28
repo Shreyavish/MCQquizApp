@@ -207,6 +207,20 @@ router.get('/getContest/:_id',(req,res)=>{
 router.put('/postresult/:_id',(req,res)=> {
    var result_obtained = req.body;
 console.log(result_obtained);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
   Contest.findOneAndUpdate({_id:req.params._id},
     {$push : {'LeaderBoard':result_obtained}},
     {new: true},
@@ -436,6 +450,20 @@ router.get('/getOnlyContestDetails/:_id',(req,res) => {
       }
     }
   ).select("-questionpaperid");
+
+})
+
+
+// sending all the available question paper to let author choose one
+
+router.get('/getAvailableQuestionPapers',(req,res)=>{
+
+  quespaper.find()
+  .populate({path : 'section.question_content'},
+  ).exec(function(err, ques) {
+    if(err) console.log(err);
+    else res.send(ques);
+  }) ;
 
 })
 
