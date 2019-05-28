@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,ViewChild } from '@angular/core';
 import {QuestionserviceService} from '../service/questionservice.service'
 import {questionpaper}from '../models/questionpaper';
 import {searchkey} from '../models/searchkey'
 import {question} from '../models/question';
   import { from } from 'rxjs';
+
 
 @Component({
   selector: 'app-question-paper',
@@ -14,6 +15,7 @@ export class QuestionPaperComponent implements OnInit {
 
   constructor(private quesserv:QuestionserviceService) { }
 
+
   title: string;
   no_of_sections : number;
   sections : [{name:string,question_content:[string]}] = [{name:"",question_content:[""]}];
@@ -22,7 +24,7 @@ export class QuestionPaperComponent implements OnInit {
 
   crnt_section_name:string="";
 
-  nofpages: number = 2; //default
+  nofpages: number = 5; //default
   collapse_flag: boolean = false;
 
   //search related
@@ -31,9 +33,10 @@ export class QuestionPaperComponent implements OnInit {
 
   section_names: [String] = [""];
   section_name:String ="";
-
+  IsmodelShow = false;
   q: question ;
-temp_sections=[];
+temp_sections:[{name : string,content:[string]}]=[{name:"", content:[""]}];
+final_sections:[{name : string,question_content:[string]}]=[{name:"",question_content:[""]}];
   temp_questions=[];
 
 
@@ -41,6 +44,7 @@ temp_sections=[];
     this.sections.pop();
     this.section_names.pop();
     this.temp_sections.pop();
+    this.final_sections.pop();
     this.quesserv.getQuestions().subscribe(questions =>
       {this.questions = questions;
 
@@ -58,10 +62,11 @@ temp_sections=[];
 		this.nofpages = nofpages;
 	}
 
+
 	collapse(q) {
 		q.collapse_flag = !q.collapse_flag;
-		this.q.collapse_flag = q.collapse_flag;
-		console.log(this.collapse_flag)
+		//this.q.collapse_flag = q.collapse_flag;
+		//console.log(this.collapse_flag)
 	}
 
    searchQuery(value_of_sk){
@@ -85,11 +90,6 @@ temp_sections=[];
       else{
 
         // case 1: the section is already there but you want to add some more questions
-
-
-
-
-
 
 
         // case 2: create a new section
@@ -122,6 +122,7 @@ temp_sections=[];
       console.log(this.temp_questions);
 
 
+
     }
 
 
@@ -144,6 +145,48 @@ temp_sections=[];
       console.log(this.temp_sections);
     }
 
-    makeFinalSection
+ // total marks yet to be implemented
+    submitQuesPaper(){
+      this.makeFinalSections();
+      let fin_ques_paper = {
+        "title" :this.title,
+        "section" : this.final_sections,
+        "total_marks" : 40
+      }
+      console.log(fin_ques_paper);
+      this.quesserv.postQuestionPaper(fin_ques_paper).subscribe(item=>{
+        console.log(item);
+        window.location.reload();
+      })
+
+    }
+
+    // they will contain only the question ids in their content as we defined in our schema of backend
+
+    makeFinalSections(){
+       var id_array = [];
+
+       for(var i=0;i<this.temp_sections.length;i++){
+
+       for(var j=0;j<this.temp_sections[i].content.length;j++){
+        id_array.push(this.temp_sections[i].content[j]._id)
+      }
+
+      let temp ={
+        name: this.temp_sections[i].name,
+        question_content:id_array
+      };
+      this.final_sections.push(temp);
+    }
+
+
+    }
+
+    close() {
+      this.IsmodelShow=true;// set false while you need open your model popup
+     // do your more code
+     console.log('working');
+  }
+
 
 }

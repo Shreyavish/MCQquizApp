@@ -39,13 +39,10 @@ export class UserLandingComponent implements OnInit {
  //contest_id = "5cda5df743b7995dc01c18cc";
  //contest_id = "5ce244bc2772a345e86b440c";
  //default
- //contest_id = "5ce4f05d1e8f36306c408c57";
-contest_id= "5ce7b3b4b3f09904f2c26163";
+ contest_id = "5ce4f05d1e8f36306c408c57";
+//contest_id= "5ce7b3b4b3f09904f2c26163";
 //contest_id ="5ce7cb77b3f09904f2c26164";
   ngOnInit() {
-
-
-
 
       this.quesserv.getOnlyContestDetails(this.contest_id)
       .subscribe(contest=>{

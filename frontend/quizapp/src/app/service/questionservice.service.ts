@@ -95,4 +95,10 @@ export class QuestionserviceService {
         let url ="http://localhost:3000/quizapi/posttempresult/"+id;
         return this.http.put(url,result);
       }
+
+      postQuestionPaper(item):Observable<any>{
+
+        let url = "http://localhost:3000/quizapi/createQuestionPaper";
+        return this.http.post(url,item);
+      }
 }

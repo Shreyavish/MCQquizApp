@@ -22,3 +22,12 @@ table td,th{
   spacing:5px;
 }
 
+div.ex1 {
+  background-color:#DFF0D8;
+  margin: 15px;
+  width: 500px;
+  height: 200px;
+  overflow: auto;
+  /* overflow : scroll */
+}
+

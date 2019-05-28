@@ -78,8 +78,8 @@ export class AddquestionsComponent implements OnInit {
 
 
     // ngx tag input even emits stores the tags in these temp objects
-    temp_keywords= [{}];
-    temp_ctags=[{}];
+    temp_keywords= [];
+    temp_ctags=[];
 
 
     temp_options:[String] = [''];
