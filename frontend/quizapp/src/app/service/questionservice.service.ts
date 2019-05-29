@@ -106,4 +106,9 @@ export class QuestionserviceService {
         let url ="http://localhost:3000/quizapi/getAvailableQuestionPapers";
         return this.http.get(url);
       }
+
+      postQuestionPaperToContest(id,item):Observable<any>{
+        let url = "http://localhost:3000/quizapi/addQuesPaperToContest/"+id;
+        return this.http.put(url,item);
+      }
 }

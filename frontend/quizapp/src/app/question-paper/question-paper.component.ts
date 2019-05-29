@@ -176,7 +176,7 @@ final_sections:[{name : string,question_content:[string]}]=[{name:"",question_co
         name: this.temp_sections[i].name,
         question_content:id_array
       };
-      this.final_sections.push(temp);
+      //this.final_sections.push(temp);
     }
 
 

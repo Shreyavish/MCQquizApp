@@ -7,7 +7,7 @@
   <h4>Available question papers are:</h4>
     </div>
     <div class="col-md-3">
-  <form>
+  <form (submit)="submitQuespaper()">
     <input type="submit" value = "submit" class="btn btn-danger">
     </form>
     </div>
@@ -20,13 +20,13 @@
               <div class="row">
                 <div class="col-sm-6">
 
-                    <input type="radio" name="quespapers" [(ngModel)]="q._id" value="{{q._id}}">&nbsp;<label>{{q.title}}</label>
+                    <input type="radio" name="quespapers" [(ngModel)]="q._id" value="{{q._id}}" (change)="storeSelectedId(q._id)">&nbsp;<label>{{q.title}}</label>
 
                 </div>
 
-                <div *ngIf = "contest_id != ''">
+               <!-- <div *ngIf = "contest_id != ''">
                 <div class="col-sm-2"><button type="button" class="btn btn-warning">Edit</button></div>
-                </div>
+                </div>-->
 
                 <div class="col-sm-2"><button type="button" class="btn btn-info">View</button></div>
               </div>

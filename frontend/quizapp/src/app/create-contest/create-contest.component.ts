@@ -28,7 +28,7 @@ export class CreateContestComponent implements OnInit {
   Organized_by:String;
   Contest_Link:String;
 
-    duration:String;
+    duration:String = "01:30:00";
   ngOnInit() {
   }
 
@@ -60,7 +60,7 @@ export class CreateContestComponent implements OnInit {
         console.log(this.newcontest);
         alert('Contest Created Successfully');
         this.contserv.setdata2(this.newcontest._id);
-       // this.router.navigate(['/getexistquestions']);
+       this.router.navigate(['/showquestionpapers']);
 
 
       }

@@ -467,6 +467,23 @@ router.get('/getAvailableQuestionPapers',(req,res)=>{
 
 })
 
+router.put('/addQuesPaperToContest/:_id',(req,res)=>{
+  console.log(req.body.qpaperid);
+  Contest.findByIdAndUpdate(
+    {_id:req.params._id},
+    {$set : {questionpaperid:req.body.qpaperid}},
+    {new: true},
+    function(err,item){
+      if(err){
+      res.send(err)
+    }
+      else{
+        res.send(item)
+      }
+
+    })
+});
+
 
 
 module.exports=router;
