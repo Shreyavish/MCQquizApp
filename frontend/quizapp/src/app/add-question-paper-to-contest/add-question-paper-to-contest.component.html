@@ -1,51 +1,105 @@
-<div class = "container">
-<div class="panel panel-default" style="width:720px;">
 
-<div class="panel-heading">
-  <div class="row">
-    <div class="col-md-8">
-  <h4>Available question papers are:</h4>
-    </div>
-    <div class="col-md-3">
-  <form (submit)="submitQuespaper()">
-    <input type="submit" value = "submit" class="btn btn-danger">
-    </form>
-    </div>
-  </div>
-</div>
-  <div class="panel-body">
-    <div class="content">
-        <ul style="list-style: none">
-            <li *ngFor="let q of question_papers ">
-              <div class="row">
-                <div class="col-sm-6">
 
-                    <input type="radio" name="quespapers" [(ngModel)]="q._id" value="{{q._id}}" (change)="storeSelectedId(q._id)">&nbsp;<label>{{q.title}}</label>
+  <div class = "container">
 
+    <div class="row">
+
+      <div class="col-md-6">
+
+          <div class="panel panel-default">
+
+          <div class="panel-heading">
+            <div class="row">
+              <div class="col-md-8">
+            <h4>Available question papers are:</h4>
+              </div>
+              <div class="col-md-3">
+            <form (submit)="submitQuespaper()">
+              <input type="submit" value = "submit" class="btn btn-danger">
+              </form>
+              </div>
+            </div>
+          </div>
+            <div class="panel-body">
+              <div class="content">
+                  <ul class="list-group">
+                      <li *ngFor="let q of question_papers " class="list-group-item">
+                        <div class="row">
+                          <div class="col-md-6">
+
+                              <input type="radio" name="quespapers" [(ngModel)]="q._id" value="{{q._id}}" (change)="storeSelectedId(q._id)">&nbsp;<label>{{q.title}}</label>
+
+                          </div>
+
+                         <!-- <div *ngIf = "contest_id != ''">
+                          <div class="col-sm-2"><button type="button" class="btn btn-warning">Edit</button></div>
+                          </div>-->
+
+                          <div class="col-md-2"><button type="button" class="btn btn-info" (click)="viewQuesPaper(q._id)">View</button></div>
+                        </div>
+                        <br/>
+                      </li>
+                    </ul>
                 </div>
 
-               <!-- <div *ngIf = "contest_id != ''">
-                <div class="col-sm-2"><button type="button" class="btn btn-warning">Edit</button></div>
-                </div>-->
-
-                <div class="col-sm-2"><button type="button" class="btn btn-info">View</button></div>
               </div>
-              <br/>
-            </li>
-          </ul>
-      </div>
+          </div>
+
+
+        </div>
+
+
+        <div class="col-md-6">
+
+            <div *ngFor='let t of sections'>
+                <div class ="panel panel-default">
+
+                  <div class = "panel-heading">
+
+                    <div class="row">
+                      <div class="col-md-6">
+                      <label>Section : &nbsp;{{t.name}}</label>
+                      </div>
+
+                      </div>
+
+                    </div>
+
+                    <div class ="panel-body">
+                      <ol>
+
+                        <div *ngFor='let ques of t.question_content'>
+                          <li>
+                            <table>
+                              <tr>
+                                <td>{{ques.title}}</td>
+
+                                </tr>
+                              </table>
+
+                            </li>
+
+
+                        </div>
+
+                        </ol>
+
+                    </div>
+
+
+                </div>
+            </div>
+
+
+
+          </div>
+
+
+
+
+
+
+
 
     </div>
-</div>
   </div>
-
-
-
-
-
-
-
-
-
-
-

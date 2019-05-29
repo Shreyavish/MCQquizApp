@@ -111,4 +111,16 @@ export class QuestionserviceService {
         let url = "http://localhost:3000/quizapi/addQuesPaperToContest/"+id;
         return this.http.put(url,item);
       }
+
+
+      filterByLevel(item):Observable<any>{
+        let url = "http://localhost:3000/quizapi/filterbylevel";
+        return this.http.post(url,item);
+      }
+
+
+      filterByType(item):Observable<any>{
+        let url = "http://localhost:3000/quizapi/filterbytype";
+        return this.http.post(url,item);
+      }
 }

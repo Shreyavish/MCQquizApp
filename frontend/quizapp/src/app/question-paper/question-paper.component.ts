@@ -37,9 +37,11 @@ export class QuestionPaperComponent implements OnInit {
   q: question ;
 temp_sections=[];
 final_sections:[{name : string,question_content:[string]}]=[{name:"",question_content:[""]}];
-  temp_questions=[];
 
+temp_questions=[];
 
+type: string;
+level: string= "Beginner";
   ngOnInit() {
     this.sections.pop();
     this.section_names.pop();
@@ -51,6 +53,7 @@ final_sections:[{name : string,question_content:[string]}]=[{name:"",question_co
 
         for(var i=0;i<this.questions.length;i++){
          this.questions[i].collapse_flag=false;
+         this.questions[i].checked = false;
 
         }
         console.log(this.questions);
@@ -65,7 +68,7 @@ final_sections:[{name : string,question_content:[string]}]=[{name:"",question_co
 
 	collapse(q) {
 		q.collapse_flag = !q.collapse_flag;
-		//this.q.collapse_flag = q.collapse_flag;
+		this.q.collapse_flag = q.collapse_flag;
 		//console.log(this.collapse_flag)
 	}
 
@@ -73,6 +76,7 @@ final_sections:[{name : string,question_content:[string]}]=[{name:"",question_co
      this.key={
        "search_key":this.value_of_sk.toLowerCase()
      }
+     console.log("searching");
      this.quesserv.searchByDomainKeyword(this.key).subscribe(questions =>
       {this.questions = questions,
         console.log(this.questions);
@@ -84,6 +88,10 @@ final_sections:[{name : string,question_content:[string]}]=[{name:"",question_co
 
     {
 
+      if(this.section_name.length <=0){
+        alert('please give a name to the section');
+      }
+      else{
       if(this.temp_questions.length <=0){
         alert('please add atleast one questions');
       }
@@ -101,9 +109,16 @@ final_sections:[{name : string,question_content:[string]}]=[{name:"",question_co
       this.temp_sections.push(new_section);
       this.temp_questions = [];
 
-      console.log(this.temp_sections);
+     //  console.log(this.temp_sections);
+      for(var i=0;i<this.questions.length;i++){
+
+        this.questions[i].checked = false;
+
+       }
+
       }
     }
+  }
 
     // when checkboxes are checkd and unchecked
     saveQuestions(ques, ischecked){
@@ -186,6 +201,37 @@ final_sections:[{name : string,question_content:[string]}]=[{name:"",question_co
       this.IsmodelShow=true;// set false while you need open your model popup
      // do your more code
      console.log('working');
+  }
+
+  filteringByLevel(op){
+
+    let level_obj = {
+      level : op
+    }
+    console.log(op);
+    this.quesserv.filterByLevel(level_obj).subscribe(questions=>{
+      this.questions = questions;
+      for(var i=0;i<this.questions.length;i++){
+        this.questions[i].collapse_flag=false;
+        this.questions[i].checked = false;
+
+       }
+    })
+  }
+
+  filteringByType(op){
+
+    let type_obj = {
+      type : op
+    }
+    this.quesserv.filterByType(type_obj).subscribe(questions=>{
+      this.questions = questions;
+      for(var i=0;i<this.questions.length;i++){
+        this.questions[i].collapse_flag=false;
+        this.questions[i].checked = false;
+
+       }
+    })
   }
 
 

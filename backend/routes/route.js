@@ -380,6 +380,42 @@ router.post('/search',(req,res)=> {
   )
 })
 
+router.post('/filterbylevel',(req,res)=>{
+  question.find(
+
+    {"level" : req.body.level},
+    function(err,item){
+      if(err){
+        res.send({msg:'failed to retrieve'});
+      }else{
+        res.send(item);
+      }
+    }
+
+
+  )
+})
+
+
+
+
+router.post('/filterbytype',(req,res)=>{
+  question.find(
+
+    {"type" : req.body.type},
+    function(err,item){
+      if(err){
+        res.send({msg:'failed to retrieve'});
+      }else{
+        res.send(item);
+      }
+    }
+
+
+  )
+})
+
+
 router.get('/getQuestionsofaContest/:_id',(req,res)=>{
 
   Contest.findOne(

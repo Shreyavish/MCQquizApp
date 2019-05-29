@@ -27,7 +27,7 @@ export class CreateContestComponent implements OnInit {
   e_time: Time;
   Organized_by:String;
   Contest_Link:String;
-
+  editlater_flag= false;
     duration:String = "01:30:00";
   ngOnInit() {
   }
@@ -60,12 +60,21 @@ export class CreateContestComponent implements OnInit {
         console.log(this.newcontest);
         alert('Contest Created Successfully');
         this.contserv.setdata2(this.newcontest._id);
+        if(this.editlater_flag == false){
        this.router.navigate(['/showquestionpapers']);
+        }else{
+          this.router.navigate(['/homepage']);
+        }
 
 
       }
     )
     }
+   }
+
+   editquestionslater(){
+     this.editlater_flag = true;
+     this.createContest();
    }
 
 }
