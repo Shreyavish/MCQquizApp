@@ -19,6 +19,6 @@ export class question    {
     type?:String;
     explanation?: String;
     collapse_flag?:boolean;
-    checked?:boolean;
+   checked?:boolean;
     }
 
