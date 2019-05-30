@@ -200,6 +200,7 @@ is_section_being_edited= false;
             if(qid == this.temp_sections[i].content[j]._id){
               console.log('found question');
               this.temp_sections[i].content.splice(j,1);
+              break;
 
             }
           }
@@ -256,7 +257,7 @@ is_section_being_edited= false;
 
   filteringByLevel(op){
 
-
+    this.temp_questions =[];
     let level_obj = {
       level : op
     }
@@ -272,6 +273,7 @@ is_section_being_edited= false;
   }
 
   filteringByType(op){
+    this.temp_questions = [];
 
 
     let type_obj = {
@@ -287,7 +289,22 @@ is_section_being_edited= false;
       })
     }
 
-  editAlreadyCreatedSection(sec_name){
+
+    deleteSection(sec_name){
+
+      for(var i=0;i<this.temp_sections.length;i++){
+        if(this.temp_sections[i].name == sec_name){
+          this.temp_sections.splice(i,1);
+          break;
+        }
+      }
+
+    }
+
+
+
+
+  editExistingSection(sec_name){
 
 
     //this.crnt_section_being_edited = sec_name;

@@ -4,13 +4,15 @@
     <div style ="margin-left: 5px;">
        <div class="container">
           <div class="row">
-             <div class = "col-sm-12">
+             <div class = "col-sm-10">
                 <label>Title of the question paper:</label>
                 <input type="text" class ="form-control" [(ngModel)]="title" required="true" name="title">
                 <br />
+             </div>
+          </div>
                 <div class="row">
                    <div class ="col-sm-1"><label>Section name</label></div>
-                   <div class ="col-sm-6">
+                   <div class ="col-sm-7">
                       <div class="input-group">
                          <input type ="text" class="form-control" [(ngModel)]="section_name" required="true" name="section_name">
                          <span class="input-group-btn">
@@ -18,171 +20,186 @@
                          </span>
                       </div>
                    </div>
-                   <div  class ="col-sm-4">
-                      <!-- Trigger the modal with a button -->
-                      <!-- Modal -->
-                      <div [hidden]="true" class="modal fade" id="myModal" role="dialog"  >
-                         <div  class="modal-dialog" style="width:90%">
-                            <!-- Modal content-->
-                            <div class="modal-content">
-                               <div class="modal-header">
-                                  <button type="button" class="close" data-dismiss="modal" >&times;</button>
-                                  <h4 class="modal-title">Select the questions</h4>
-                               </div>
-                               <div class="modal-body">
-                                  <div class="panel panel-success">
-                                     <div class="panel-heading">
-                                        <div class="row">
-                                           <br>
-                                           <div class="col-sm-4">
-                                              <label>#Questions per page</label>
-                                              <select name="no_pages" [(ngModel)]="nofpages" (change)="selected(nofpages)" class="form-control" >
-                                              <option value="3">3</option>
-                                              <option value="5" selected="true">5</option>
-                                              <option value="7">7</option>
-                                              <option value="9">9</option>
-                                              <option value="11">11</option>
-                                              </select>
-                                           </div>
-                                           <div class="col-sm-4">
-                                              <label>Search questions:</label>
-                                              <input type="text" placeholder="keyword or domain" [(ngModel)]="value_of_sk" name="value_of_sk" class="form-control">
-                                           </div>
-                                           <div class="col-sm-4">
-                                              <br>
-                                              <button type="button" (click)="searchQuery(value_of_sk)" class="btn btn-primary">Search</button>
-                                           </div>
-                                        </div>
-                                     </div>
-                                     <br>
-                                     <br>
 
-                                     <div class="panel-body">
-                                       <div class="row">
-                                         <div class="col-md-6">
-                                        <div class="row" >
-                                           <div class = "ex1">
-                                             <div *ngIf='crnt_questions.length>0'>
-                                              <div  *ngFor='let q of crnt_questions | paginate: { itemsPerPage: nofpages, currentPage: p }'>
-                                                 <div class="row">
-                                                    <div class="col-sm-9">
-                                                       <table>
-                                                          <tr>
-                                                             <td> <button style="background-color: cornflowerblue;color: white;margin-left: 10px" type="button" (click)="collapse(q)" id="{{q}}">+</button></td>
-                                                             <td>  {{q.title}}</td>
-                                                          </tr>
-                                                       </table>
-                                                    </div>
-                                                    <!-- <div class="col-sm-2">
-                                                       <label> Marks</label>
-                                                        <input type="text" name="q.marks" [(ngModel)]="q.marks" class="form-control input-sm">
-                                                           </div>-->
-                                                    <div class="col-sm-3">
-                                                       <br>
-                                                       {{q.checked}}
-                                                       <input type="checkbox" name="question" class="form-control input-sm" [(ngModel)]="q.checked" (change)="saveQuestions(q,q.checked)">
-                                                    </div>
-                                                 </div>
-                                                 <div class="row">
-                                                    <div [ngClass]="{'collapse-question': q.collapse_flag == false}">
-                                                       <ul>
-                                                          <div *ngFor='let o of q.options'>
-                                                             <li>{{o.option_no}}. &nbsp;{{o.content}}</li>
-                                                          </div>
-                                                       </ul>
-                                                    </div>
-                                                 </div>
-                                              </div>
-                                              </div>
-
-                                              <div *ngIf='crnt_questions.length &lt; 1'>
-                                                <h3>Uh oh! No questions available</h3>
-                                                </div>
-                                           </div>
-                                        </div>
-                                        </div>
-                                        <div class="col-md-3">
-                                          <label class="label label-danger">Filter By level</label>
-                                          <select name="level" class="form-control"  [(ngModel)]="level"  (change)="filteringByLevel(level)">
-                                              <option value="Beginner" selected="true">Beginner</option>
-                                              <option value="Easy">Easy</option>
-                                              <option value="Normal">Normal</option>
-                                              <option value="Hard">Hard</option>
-                                              <option value="Very Hard">Very Hard</option>
-                                          </select>
-
-                                          </div>
-                                        </div>
-                                     </div>
-
-
-
-                                     <div class="row">
-                                        <pagination-controls (pageChange)="p = $event"></pagination-controls>
-                                     </div>
-                                  </div>
-                               </div>
-                               <div class="modal-footer">
-                                 <div *ngIf='is_section_being_edited == false'>
-                                  <button type="button" class="btn btn-default" data-dismiss="modal" (click)="saveChanges()">Create section</button>
-                                  </div>
-
-                                  <div *ngIf='is_section_being_edited == true'>
-                                      <button type="button" class="btn btn-default" data-dismiss="modal" (click)="saveChanges()">Save changes and Close</button>
-                                      </div>
-                               </div>
-                            </div>
-                         </div>
-                      </div>
+                   <div class="col-sm-2">
+                      <input type="submit" value="Create Question paper" class="btn btn-success">
                    </div>
-                   <!--<div class="col-sm-3">
-                      <button type="button" (click)="saveChanges()" class="btn btn-danger">Create</button>
-                   </div>-->
                 </div>
-             </div>
-             <div class="col-sm-4">
-             </div>
-          </div>
+                <br />
           <div class = "row" *ngIf='temp_sections.length>0'>
              <div class = "col-md-10">
                 <div *ngFor='let t of temp_sections'>
-                   <div class ="panel panel-default">
+                   <div class ="panel panel-warning">
                       <div class = "panel-heading">
                          <div class="row">
-                            <div class="col-md-6">
-                               {{t.name}}
+                            <div class="col-md-4">
+                              <h4> Section :&nbsp; {{t.name}}</h4>
                             </div>
-                            <div class="col-md-6">
-                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" (click)="editAlreadyCreatedSection(t.name)">Edit questions</button>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-info" data-toggle="modal" data-target="#myModal" (click)="editExistingSection(t.name)">Edit questions</button>
 
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-warning"  (click)="deleteSection(t.name)">Delete Section</button>
                             </div>
                          </div>
                       </div>
                       <div class ="panel-body">
-                         <ol>
+                         <ul class="list-group">
 
                             <div *ngFor='let ques of t.content'>
-                               <li>
-                                   <table>
-                                     <tr>
-                                        <td>{{ques.title}}</td>
-                                        <td><button type="button" class="btn btn-danger" (click)="removeQuestionFromSection(t.name,ques._id)">remove</button></td>
-                                     </tr>
-                                  </table>
-                               </li>
+
+                            <li class="list-group-item">   <div class="row">
+                                <div class="col-md-4">
+                                    {{ques.title}}
+                                  </div>
+
+                                  <div class="col-md-4">
+                                      <button type="button" class="btn btn-danger" (click)="removeQuestionFromSection(t.name,ques._id)">remove question</button>
+                                    </div>
+
+                                </div>
+                              </li>
+
+
+
                             </div>
-                         </ol>
+                          </ul>
                       </div>
                    </div>
                 </div>
              </div>
           </div>
-          <div class="row">
-             <div class="col-md-6">
-                <input type="submit" value="Create Question paper" class="btn btn-success">
-             </div>
-          </div>
+
        </div>
     </div>
     </form>
+
+
+
+
+
+
+
+
+
+
+
+    <div  class ="col-sm-4">
+        <!-- Trigger the modal with a button -->
+        <!-- Modal -->
+        <div [hidden]="true" class="modal fade" id="myModal" role="dialog"  >
+           <div  class="modal-dialog" style="width:90%">
+              <!-- Modal content-->
+              <div class="modal-content">
+                 <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" >&times;</button>
+                    <h4 class="modal-title">Select the questions</h4>
+                 </div>
+                 <div class="modal-body">
+                    <div class="panel panel-success">
+                       <div class="panel-heading">
+                          <div class="row">
+                             <br>
+                             <div class="col-sm-4">
+                                <label>#Questions per page</label>
+                                <select name="no_pages" [(ngModel)]="nofpages" (change)="selected(nofpages)" class="form-control" >
+                                <option value="3">3</option>
+                                <option value="5" selected="true">5</option>
+                                <option value="7">7</option>
+                                <option value="9">9</option>
+                                <option value="11">11</option>
+                                </select>
+                             </div>
+                             <div class="col-sm-4">
+                                <label>Search questions:</label>
+                                <input type="text" placeholder="keyword or domain" [(ngModel)]="value_of_sk" name="value_of_sk" class="form-control">
+                             </div>
+                             <div class="col-sm-4">
+                                <br>
+                                <button type="button" (click)="searchQuery(value_of_sk)" class="btn btn-primary">Search</button>
+                             </div>
+                          </div>
+                       </div>
+                       <br>
+                       <br>
+
+                       <div class="panel-body">
+                         <div class="row">
+                           <div class="col-md-6">
+                          <div class="row" >
+                             <div class = "ex1">
+                               <div *ngIf='crnt_questions.length>0'>
+                                <div  *ngFor='let q of crnt_questions | paginate: { itemsPerPage: nofpages, currentPage: p }'>
+                                   <div class="row">
+                                      <div class="col-sm-9">
+                                         <table>
+                                            <tr>
+                                               <td> <button style="background-color: cornflowerblue;color: white;margin-left: 10px" type="button" (click)="collapse(q)" id="{{q}}">+</button></td>
+                                               <td>  {{q.title}}</td>
+                                            </tr>
+                                         </table>
+                                      </div>
+                                      <!-- <div class="col-sm-2">
+                                         <label> Marks</label>
+                                          <input type="text" name="q.marks" [(ngModel)]="q.marks" class="form-control input-sm">
+                                             </div>-->
+                                      <div class="col-sm-3">
+                                         <br>
+
+                                         <input type="checkbox" name="question" class="form-control input-sm" [(ngModel)]="q.checked" (change)="saveQuestions(q,q.checked)">
+                                      </div>
+                                   </div>
+                                   <div class="row">
+                                      <div [ngClass]="{'collapse-question': q.collapse_flag == false}">
+                                         <ul>
+                                            <div *ngFor='let o of q.options'>
+                                               <li>{{o.option_no}}. &nbsp;{{o.content}}</li>
+                                            </div>
+                                         </ul>
+                                      </div>
+                                   </div>
+                                </div>
+                                </div>
+
+                                <div *ngIf='crnt_questions.length &lt; 1'>
+                                  <h3>Uh oh! No questions available</h3>
+                                  </div>
+                             </div>
+                          </div>
+                          </div>
+                          <div class="col-md-3">
+                            <label class="label label-danger">Filter By level</label>
+                            <select name="level" class="form-control"  [(ngModel)]="level"  (change)="filteringByLevel(level)">
+                                <option value="Beginner" selected="true">Beginner</option>
+                                <option value="Easy">Easy</option>
+                                <option value="Normal">Normal</option>
+                                <option value="Hard">Hard</option>
+                                <option value="Very Hard">Very Hard</option>
+                            </select>
+
+                            </div>
+                          </div>
+                       </div>
+
+
+
+                       <div class="row">
+                          <pagination-controls (pageChange)="p = $event"></pagination-controls>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="modal-footer">
+                                       <button type="button" class="btn btn-default" data-dismiss="modal" (click)="saveChanges()">Save and close</button>
+
+
+                    <!--<div *ngIf='is_section_being_edited == true'>
+                        <button type="button" class="btn btn-default" data-dismiss="modal" (click)="saveChanges()">Save changes and Close</button>
+                        </div>-->
+                 </div>
+              </div>
+           </div>
+        </div>
+     </div>
+
 

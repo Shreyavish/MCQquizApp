@@ -17,10 +17,7 @@ input[type="checkbox"]{
   display: block;
 }
 
-table td,th{
-  padding: 7px;
-  spacing:5px;
-}
+
 
 div.ex1 {
   background-color:#DFF0D8;
@@ -30,4 +27,3 @@ div.ex1 {
   overflow: auto;
   /* overflow : scroll */
 }
-
