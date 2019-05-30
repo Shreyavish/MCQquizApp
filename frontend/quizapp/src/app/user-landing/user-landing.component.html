@@ -8,7 +8,7 @@
 
                 <div class="col-md-8">
                    <h3>{{ Name }}</h3>
-                   <h5><button type="button" class="btn btn-danger" (click)="showLeaderBoard()">Show leader board</button></h5>
+                   <h5><button type="button" class="btn btn-danger" (click)="showLeaderBoard()" [disabled]="is_contest_active == false">Show leader board</button></h5>
                    <h4 style="color: maroon">{{printmsg}}</h4>
                  </div>
                  <div class="col-md-4">
@@ -20,7 +20,7 @@
 
                          <label>Username:</label><input type="text" [(ngModel)]="username" name="username" style="width: 130px;" class="form-control"><br />
                          <br />
-                         <input type="submit" value="Start Test" class="btn btn-success" >
+                         <input type="submit" value="Start Test" class="btn btn-success"  [disabled]="is_contest_active == false" >
                          </p>
                          </form>
 
@@ -43,7 +43,7 @@
                 </tr>
                 <tr>
                   <td><label>Ends on:</label></td>
-                  <td>{{ starts }}</td>
+                  <td>{{ ends }}</td>
                 </tr>
 
                 <tr>
@@ -64,25 +64,24 @@
                     </tr>
 
                     <tr>
-                      <div *ngIf='is_time_calculated == true'>
-                        <countdown [config]="config" (start)="started()" (finished)="onFinished()" >$!h!:$!m!:$!s!</countdown>
-                        </div>
+                        <label style="color: cornflowerblue"><h3>{{msg}}</h3></label>
                     </tr>
 
-                    <tr>
 
-
-
-
+                        <tr>
+                      <div *ngIf='is_contest_ended == false'>
                         <div id="timer">
-                            <label style="color: cornflowerblue">{{msg}}</label>
-                            <span id="days"></span>{{days}}days
-                            <span id="hours"></span>{{hrs}}hrs
-                            <span id="minutes"></span>{{min}} min
-                            <span id="seconds"></span>{{sec}} sec
+
+
+                            <span id="days"></span>{{days}}days&nbsp;
+                            <span id="hours"></span>{{hrs}}hrs&nbsp;
+                            <span id="minutes"></span>{{min}} min&nbsp;
+                            <span id="seconds"></span>{{sec}} sec&nbsp;
+                          </div>
                           </div>
 
                       </tr>
+
               </table>
                     </div>
 
@@ -144,6 +143,7 @@
     </div>
   </div>
 </div>
+
 
 
 

@@ -34,14 +34,21 @@ export class UserLandingComponent implements OnInit {
   is_contest_active = false;
   is_time_calculated = false;
   contest_starts_in  ;
+  is_contest_ended = false;
  //contest_id : getdata2() using contestserviceclass
  //contest_id="5cdd3c3e848eda148cb709e8";
  //contest_id = "5cda5df743b7995dc01c18cc";
  //contest_id = "5ce244bc2772a345e86b440c";
- //default
- contest_id = "5ce4f05d1e8f36306c408c57";
+ //default contest active
+ //contest_id = "5ce4f05d1e8f36306c408c57";
 //contest_id= "5ce7b3b4b3f09904f2c26163";
 //contest_id ="5ce7cb77b3f09904f2c26164";
+
+// contest ended
+//contest_id = "5cef8e2e9c92e72e9064d1fa";
+
+// contest not yet started
+contest_id = "5cef8e7c9c92e72e9064d1fb";
   ngOnInit() {
 
       this.quesserv.getOnlyContestDetails(this.contest_id)
@@ -58,6 +65,7 @@ export class UserLandingComponent implements OnInit {
         var timer = setInterval( ()=>{
         this.timeBetweenDates();
         }, 1000);
+        //this.timeBetweenDates();
 
 
   }
@@ -65,6 +73,7 @@ export class UserLandingComponent implements OnInit {
 
 
   startTest(uname){
+    if(this.is_contest_active == true){
     this.username = uname;
      this.checkIfAlreadyAttempted();
      console.log(this.already_attempted);
@@ -86,6 +95,10 @@ export class UserLandingComponent implements OnInit {
               }
 
       }
+    }else{
+
+
+    }
   }
   check(){
 this.guidelines_read = true;
@@ -143,40 +156,62 @@ this.guidelines_read = true;
 
    timeBetweenDates() {
     var now = new Date();
-    var difference = new Date(this.starts).getTime() - now.getTime();
+    var difference1 =  new Date(this.starts).getTime() -now.getTime() ;
+    var  difference2 =  new Date(this.ends).getTime() -now.getTime() ;
 
-  if(difference > 0) {
 
-      this.sec = Math.floor(difference / 1000);
-    this.min = Math.floor(this.sec / 60);
-    this.hrs = Math.floor(this.min / 60);
-     this.days = Math.floor(this.hrs / 24);
+    if(difference1 < 0 && difference2 > 0) // contest is active
 
-      this.hrs %= 24;
-      this.min %= 60;
-      this.sec %= 60;
-      this.is_contest_active =false;
-      this.msg="Starts in : ";
+    {
 
-  }
-  else
+      // code for contest ends in
 
-      // check if the contest is going on or already completed
 
-      var diff = new Date(this.ends).getTime() - now.getTime();
+      this.sec = Math.floor(difference2 / 1000);
+      this.min = Math.floor(this.sec / 60);
+      this.hrs = Math.floor(this.min / 60);
+       this.days = Math.floor(this.hrs / 24);
 
-      if(diff > 0){
-        this.is_contest_active = true;
-       this.msg = " The contest is active"
+        this.hrs %= 24;
+        this.min %= 60;
+        this.sec %= 60;
+      this.is_contest_active = true;
+      this.msg = " The contest is active for ";
+
+    }
+    else{
+
+      if(difference1 > 0){
+        // code for contest starts in
+
+
+
+        this.sec = Math.floor(difference1 / 1000);
+        this.min = Math.floor(this.sec / 60);
+        this.hrs = Math.floor(this.min / 60);
+         this.days = Math.floor(this.hrs / 24);
+
+          this.hrs %= 24;
+          this.min %= 60;
+          this.sec %= 60;
+          this.is_contest_active =false;
+          this.msg="The contest starts in : ";
       }
-      else if(diff <= 0){
+      else if (difference2 <0){
+        // contest has ended already
         this.is_contest_active = false;
+        this.is_contest_ended = true;// for msg printing in html it comes into handy
         this.msg = "Uh oh! The contest has already ended";
       }
+      else{
+        this.msg = "Something went wrong!";
+      }
 
+    }
 
 
   }
+
 
 
 
