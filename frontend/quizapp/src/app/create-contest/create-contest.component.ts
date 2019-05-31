@@ -63,7 +63,7 @@ export class CreateContestComponent implements OnInit {
         if(this.editlater_flag == false){
        this.router.navigate(['/showquestionpapers']);
         }else{
-          this.router.navigate(['/homepage']);
+          this.router.navigate(['/getcontests']);
         }
 
 

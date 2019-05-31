@@ -14,5 +14,5 @@ export class contest{
   Level?:String;
   LeaderBoard?:[leaderBoard];
   length?:Number;
-  active_time?:String;
+  duration?:String;
 }

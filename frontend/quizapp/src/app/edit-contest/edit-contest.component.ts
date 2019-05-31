@@ -14,10 +14,10 @@ import {Router } from '@angular/router';
 export class EditContestComponent implements OnInit {
 
   constructor(private quesserv: QuestionserviceService,private contserv:ContestService,private router:Router) { }
-  ngOnInit(){}
- /* toEditContest : contest;
-  editedContest: contest;
-  fetchedContests: [contest];
+
+  toEditContest;
+  editedContest;
+
   //id:String = '5ccc14803e016d813437bcd2';
 
   // contest parameters:
@@ -44,16 +44,17 @@ export class EditContestComponent implements OnInit {
   flag=0;
   ngOnInit() {
 
-    this.quesserv.getContest().subscribe(fetchedContests =>
+    /*this.quesserv.getContest().subscribe(fetchedContests =>
       {this.fetchedContests = fetchedContests,
         console.log(this.fetchedContests);
-      })
+      })*/
+      this.getContestDetails();
   }
 
   getContestDetails(){
 
 
-    this.contserv.setdata2(this.contest_id);
+    this.contest_id = this.contserv.getdata2();
     this.quesserv.getContestToEdit(this.contest_id).subscribe( toEditContest =>
       {this.toEditContest = toEditContest;
         this.Name = this.toEditContest.Name;
@@ -61,8 +62,8 @@ export class EditContestComponent implements OnInit {
         this.End_time = this.toEditContest.End_time,
         this.Organized_by = this.toEditContest.Organized_by,
         this.Contest_Link = this.toEditContest.Contest_Link,
-        this.Questions = this.toEditContest.Questions,
-        this.contest_time = this.toEditContest.active_time
+
+        this.contest_time = this.toEditContest.duration
         console.log(this.toEditContest);
 
         // splitting date and time
@@ -99,18 +100,19 @@ export class EditContestComponent implements OnInit {
       End_time: this.End_time,
       Organized_by: this.Organized_by,
       Contest_Link:this.Contest_Link,
-      active_time:this.contest_time
+     duration:this.contest_time
     }
 
+    console.log(this.editedContest);
     this.quesserv.editContest(this.contest_id,this.editedContest).subscribe(editedContest=>
       {this.editedContest = editedContest;
         console.log(this.editedContest);
-      this.router.navigate(['/getexistquestions']);
+      this.router.navigate(['/getcontests']);
     })
   }
 
 
-  removeQuesFromArray(ques:question){
+  /*removeQuesFromArray(ques:question){
     for(var i=0;i<this.Questions.length;i++){
       if(this.Questions[i] == ques ){
         break;
@@ -151,4 +153,9 @@ export class EditContestComponent implements OnInit {
     });
     }
   }*/
+  editQuestionsNow(){
+
+
+  }
+  
 }

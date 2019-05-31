@@ -440,7 +440,7 @@ router.delete('/deleteContest/:_id',(req,res)=>{
     function(err,item){
       if(err)
       res.send(err);
-      res.send(item);
+      res.send({msg:'deleted successfully'});
     }
   )
 })

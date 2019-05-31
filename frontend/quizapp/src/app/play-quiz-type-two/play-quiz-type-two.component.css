@@ -13,6 +13,8 @@
 
 .sidenav{
   border-width: 2px;
+  background-color: #F5F5F5;
+
 }
 .container {
 
@@ -24,6 +26,7 @@
   border: 0;
   margin-top: 0px;
   width: 150px;
+  margin-left:5px;
 
 }
 #accordion a {

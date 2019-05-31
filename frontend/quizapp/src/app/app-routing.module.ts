@@ -18,7 +18,7 @@ const routes: Routes = [
     {path: 'addquestions' , component: AddquestionsComponent },
   //{path: 'questioncomp' , component:  QuestioncompComponent },
   {path: 'leaderboard' , component: LeaderboardComponent},
-  {path: 'getcontest',component:GetcontestsComponent},
+  {path: 'getcontests',component:GetcontestsComponent},
   {path:'createcontest',component:CreateContestComponent},
   {path:'qtypeselector',component:QuestionTypeSelectorComponent},
   {path:'getexistquestions',component:GetExistingQuestionsComponent},

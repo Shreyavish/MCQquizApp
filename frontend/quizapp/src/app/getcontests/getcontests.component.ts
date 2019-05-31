@@ -19,16 +19,18 @@ export class GetcontestsComponent implements OnInit {
   user_chosen_contest : contest;
   ngOnInit() {
 
-    this.quesserv.getContest().subscribe(Contest =>
+    this.quesserv.getAllContests().subscribe(Contest =>
       {
         this.Contest = Contest;
+        this.Contest.sort((a, b) => a.Start_time > b.Start_time ? 1 : a.Start_time < b.Start_time ? -1 : 0);
+
         console.log(this.Contest);
 
       });
 
   }
   // get questions of particular contest chosen by user
-  getQuestions(id){
+  /*getQuestions(id){
     this.contestserv.setdata(id);
     //this.router.navigate(['/questioncomp']);
 
@@ -57,6 +59,39 @@ export class GetcontestsComponent implements OnInit {
       else{
       this.router.navigate(['/playquiz']);
       }
+  }*/
+
+
+  deleteChosenContest(id){
+
+    var response =  confirm('Are you sure you want to delete the contest?');
+
+    if( response == true){
+      this.quesserv.deleteContest(id).subscribe( result =>{
+        this.refetchContests();
+      })
+
+    }else{
+      alert('something went wrong');
+    }
+  }
+  refetchContests(){
+
+    this.quesserv.getAllContests().subscribe(Contest =>
+      {
+        this.Contest = Contest;
+        console.log(this.Contest);
+
+      });
+
+  }
+
+  editOrViewContest(cid){
+      this.contestserv.setdata2(cid);
+      this.router.navigate(['//editcontest']);
+  }
+  check(){
+    alert('jghd');
   }
 }
 

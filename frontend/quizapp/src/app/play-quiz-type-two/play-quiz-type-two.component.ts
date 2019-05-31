@@ -9,6 +9,7 @@ import { Router } from "@angular/router";
 import { stringify } from "@angular/core/src/util";
 import { timer } from 'rxjs';
 import { CountdownComponent } from 'ngx-countdown';
+import { CanActivate, CanDeactivate, ActivatedRouteSnapshot, RouterStateSnapshot } from "@angular/router";
 @Component({
   selector: "app-play-quiz-type-two",
   templateUrl: "./play-quiz-type-two.component.html",
@@ -18,10 +19,15 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   constructor(
     private quesserv: QuestionserviceService,
     private contserv: ContestService,
-    private router: Router
-  ) {}
+    private router: Router,
+
+  ) {
+
+
+  }
 
   @ViewChild(CountdownComponent) counter: CountdownComponent;
+
   config;
   username: String = "";
   questions_of_each_section = [[]];
@@ -673,5 +679,6 @@ export class PlayQuizTypeTwoComponent implements OnInit {
       }
       return no;
     }
+
 
 }

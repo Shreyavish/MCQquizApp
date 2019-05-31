@@ -1,87 +1,80 @@
-<div class="container">
+<form class="form-group" ngNativeValidate (submit)="editContest()">
+        <div class="container" style="width: 700px;">
+<div class="panel panel-warning">
 
+
+<div class="panel-heading">
   <div class="row">
-        <div *ngIf='flag == 0'>
-            <h1 style="margin-left: 15px;"> <span class="label label-warning" >Edit your contest</span></h1>
-            <br />
-            <div *ngFor='let c of fetchedContests'>
-                <div class="col-md-6">
-              <ul class="list-group">
-
-                    <li class="list-group-item">
-                      <div class="row">
-
-                      <div class="col-md-6">
-                      <h4>{{c.Name}}</h4>
-                        </div>
-
-                        <div class="col-md-3">
-                      <button type="button" class="btn btn-primary" [(ngModel)]="c._id" (click)="supplyId(c._id)" name="{{c.Name}}" ngDefaultControl>Edit/View</button>
-                          </div>
-
-                          <div class="col-md-2">
-                      <button type="button" class="btn btn-danger"  (click)="deleteContest(c._id)" ngDefaultControl>Delete</button>
-                            </div>
-
-                    </div>
-                    </li>
-                </ul>
-            </div>
-            </div>
+    <div class = "col-md-8">
+        <label style="font-size: x-large">Edit Quiz!</label>>
+      </div>
+      <div class="col-md-4">
+        <button type="button" class="btn btn-danger">Delete Contest</button>
         </div>
-        </div>
+  </div>
 </div>
+<br />
 
-
-
-
-<div *ngIf='flag == 1'>
-    <div class="container">
-        <div class="row">
-            <div class="col-md-6">
-                <h1 style="text-align: center">Create Quiz!</h1>
-                <form class="form-group" ngNativeValidate (submit)="editContest()">
-
-                    <label>Name of the Quiz:</label>
-                    <input type="text" [(ngModel)]="Name" name="Name" required="true" class="form-control" value="{{Name}}">
-
-                    <br>
-
-                    <div class="row">
-
-                        <div class="col-md-6">
-                            <label>Start Date:</label>
-                            <input type="date" [(ngModel)]="st_temp" name="Start_time" value={{st_temp}} class="form-control">
-                        </div>
-                        <div class="col-md-6">
-                            <label>Start time:</label>
-                            <input type="time" [(ngModel)]="st2" name="st2" value={{st2}} class="form-control">
-                        </div>
-                    </div>
-                    <br>
-
-
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label> End Date: </label>
-                            <input type="date" [(ngModel)]="et_temp" name="End_time" required="true" class="form-control" value={{et_temp}}>
-                        </div>
-                        <div class="col-md-6">
-                            <label> End time: </label>
-                            <input type="time" [(ngModel)]="et2" name="e_time" required="true" class="form-control" value={{et2}}>
-                        </div>
-                    </div>
-                    <br>
-
-                    <label>Organized by:</label>
-                    <input type="text" [(ngModel)]="Organized_by" name="Organized_by" required="true" class="form-control" value="{{Organized_by}}">
-                    <br>
-
-
-
-                    <input type="submit" value="Edit Questions" class="btn btn-success">
-                </form>
-            </div>
-        </div>
+<div class="panel-body">
+    <div class="row">
+    <div class="col-md-12">
+              <label>Name of the Quiz:</label>
+              <input type="text" [(ngModel)]="Name" name="Name" required="true" class="form-control" value="{{Name}}">
+              <br>
+              </div>
     </div>
+
+              <div class="row">
+
+                  <div class="col-md-6">
+                      <label>Start Date:</label>
+                      <input type="date" [(ngModel)]="st_temp" name="Start_time" value={{st_temp}} class="form-control">
+                  </div>
+                  <div class="col-md-6">
+                      <label>Start time:</label>
+                      <input type="time" [(ngModel)]="st2" name="st2" value={{st2}} class="form-control">
+                  </div>
+              </div>
+              <br>
+
+
+              <div class="row">
+                  <div class="col-md-6">
+                      <label> End Date: </label>
+                      <input type="date" [(ngModel)]="et_temp" name="End_time" required="true" class="form-control" value={{et_temp}}>
+                  </div>
+                  <div class="col-md-6">
+                      <label> End time: </label>
+                      <input type="time" [(ngModel)]="et2" name="e_time" required="true" class="form-control" value={{et2}}>
+              </div>
+              </div>
+              <br>
+              <div class="row">
+                    <div class="col-md-12">
+              <label>Organized by:</label>
+              <input type="text" [(ngModel)]="Organized_by" name="Organized_by" required="true" class="form-control" value="{{Organized_by}}">
+              </div>
+              </div>
+              <br>
+              <div class="row">
+                    <div class="col-md-12">
+              <label>Contest link:</label>
+              <input type="text" [(ngModel)]="Contest_Link" name="Contest_Link" required="true" class="form-control" value="{{Contest_Link}}">
+              </div>
+              </div>
+              <br>
+
+              <!--duration field with hh mm ss in drop down-->
+
+
+              <div class="row">
+              <div class="col-md-6"><input type="submit" value="Edit Questions later" class="btn btn-success"></div>
+              <div class="col-md-6"><button type="button" class="btn btn-warning" (click)="editQuestionsNow()">Edit questions</button></div>
+              </div>
+
+
+
 </div>
+      </div>
+</div>
+</form>

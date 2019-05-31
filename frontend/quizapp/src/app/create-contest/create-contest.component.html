@@ -1,59 +1,81 @@
-<div class="container">
-    <div class="row">
-        <div class="col-md-6">
-            <h1 style="text-align: center">Create Quiz!</h1>
-            <form class="form-group" ngNativeValidate (submit)="createContest()">
-
-                <label>Name of the Quiz:</label>
-                <input type="text" [(ngModel)]="Name" name="Name" required="true" class="form-control">
-
-                <br>
-
-                <div class="row">
-
-                    <div class="col-md-6">
-                        <label>Start Date:</label>
-                        <input type="date" [(ngModel)]="Start_time" name="Start_time" required="true" class="form-control">
-                    </div>
-                    <div class="col-md-6">
-                        <label>Start time:</label>
-                        <input type="time" [(ngModel)]="s_time" name="s_time" required="true" class="form-control">
-                    </div>
-                </div>
-                <br>
 
 
-                <div class="row">
-                    <div class="col-md-6">
-                        <label> End Date: </label>
-                        <input type="date" [(ngModel)]="End_time" name="End_time" required="true" class="form-control">
-                    </div>
-                    <div class="col-md-6">
-                        <label> End time: </label>
-                        <input type="time" [(ngModel)]="e_time" name="e_time" required="true" class="form-control">
-                    </div>
-                </div>
-                <br>
+<form class="form-group" ngNativeValidate (submit)="createContest()">
 
-                <label>Organized by:</label>
-                <input type="text" [(ngModel)]="Organized_by" name="Organized_by" required="true" class="form-control">
-                <br>
-
-                <label>Contest link:</label>
-                <input type="text" [(ngModel)]="Contest_Link" name="Contest_Link" required="true" class="form-control">
-                <br>
-
-                <!--duration field with hh mm ss in drop down-->
+    <div class="container" style="width: 700px;">
+<div class="panel panel-warning">
 
 
-                <div class="row">
-                <div class="col-md-6"><input type="submit" value="Edit Questions" class="btn btn-success"></div>
-                <div class="col-md-6"><button type="button" class="btn btn-warning" (click)="editquestionslater()">Edit questions later</button></div>
-                </div>
-                </form>
+<div class="panel-heading">
+<div class="row">
+<div class = "col-md-8">
+    <label style="font-size: x-large">Create Quiz!</label>>
+  </div>
 
-
-
-        </div>
-    </div>
 </div>
+</div>
+<br />
+
+<div class="panel-body">
+<div class="row">
+<div class="col-md-12">
+          <label>Name of the Quiz:</label>
+          <input type="text" [(ngModel)]="Name" name="Name" required="true" class="form-control">
+          <br>
+          </div>
+</div>
+
+          <div class="row">
+
+              <div class="col-md-6">
+                  <label>Start Date:</label>
+                  <input type="date" [(ngModel)]="Start_time" name="Start_time" required="true" class="form-control">
+              </div>
+              <div class="col-md-6">
+                  <label>Start time:</label>
+                  <input type="time" [(ngModel)]="s_time" name="s_time" required="true" class="form-control">
+                              </div>
+          </div>
+          <br>
+
+
+          <div class="row">
+              <div class="col-md-6">
+                  <label> End Date: </label>
+                  <input type="date" [(ngModel)]="End_time" name="End_time" required="true" class="form-control">
+              </div>
+              <div class="col-md-6">
+                  <label> End time: </label>
+                  <input type="time" [(ngModel)]="e_time" name="e_time" required="true" class="form-control">
+              </div>
+          </div>
+          <br>
+          <div class="row">
+                <div class="col-md-12">
+          <label>Organized by:</label>
+          <input type="text" [(ngModel)]="Organized_by" name="Organized_by" required="true" class="form-control" >
+          </div>
+          </div>
+          <br>
+          <div class="row">
+                <div class="col-md-12">
+          <label>Contest link:</label>
+          <input type="text" [(ngModel)]="Contest_Link" name="Contest_Link" required="true" class="form-control" >
+          </div>
+          </div>
+          <br>
+
+          <!--duration field with hh mm ss in drop down-->
+
+
+          <div class="row">
+              <div class="col-md-6"><input type="submit" value="Edit Questions" class="btn btn-success"></div>
+              <div class="col-md-6"><button type="button" class="btn btn-warning" (click)="editquestionslater()">Edit questions later</button></div>
+              </div>
+
+
+
+</div>
+  </div>
+</div>
+</form>

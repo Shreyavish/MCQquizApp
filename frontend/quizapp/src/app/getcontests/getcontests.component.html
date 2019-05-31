@@ -9,28 +9,61 @@
       <div class="row">
                 <h1 style="margin-left: 15px;"> <span class="label label-warning" >Edit your contest</span></h1>
                 <br />
-                <div *ngFor='let c of Contest'>
-                    <div class="col-md-6">
-                  <ul class="list-group">
 
-                        <li class="list-group-item">
+                <table class="table table-bordered table-striped">
+                  <thead>
+
+                      <tr>
+                          <div class="row">
+                      <div class="col-md-3"><th>Contest Name</th></div>
+                      <div class="col-md-3"><th>Start time</th></div>
+                      <div class="col-md-3"><th>End time</th></div>
+                      <div class="col-md-3"><th>Organized by</th></div>
+                      </div>
+                      <tr>
+                    </thead>
+
+                    <tbody>
+
+
+
+                    <tr *ngFor='let c of Contest'>
                           <div class="row">
 
-                          <div class="col-md-6">
-                          <h4>{{c.Name}}</h4>
+                          <div class="col-md-3">
+                          <td><a role="button" (click)="editOrViewContest(c._id)">{{c.Name}}</a></td>
                             </div>
 
-                            <div class="col-md-6">
-                                <button type="button" class="btn btn-success" (click)="getQuestions(c._id)">Participate</button>
+                            <div class="col-md-3">
+                                <td>{{c.Start_time}}</td>
+                                  </div>
+
+                                  <div class="col-md-3">
+                                      <td>{{c.End_time}}</td>
+                                        </div>
+
+                                        <div class="col-md-3">
+                                            <td>{{c.Organized_by}}</td>
+                                              </div>
+
+
+                            <!--<div class="col-md-3">
+                                <button type="button" class="btn btn-info" (click)="editOrViewContest(c._id)">Edit/View</button>
                               </div>
 
+                              <div class="col-md-3">
+                                <button type="button" class="btn btn-danger" (click)="deleteChosenContest(c._id)">Delete</button>
+                              </div>-->
 
 
                         </div>
-                        </li>
-                    </ul>
-                </div>
-                </div>
+
+
+                  </tr>
+
+
+                </tbody>
+                </table>
 
             </div>
     </div>

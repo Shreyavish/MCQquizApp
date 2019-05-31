@@ -14,7 +14,8 @@ export class QuestionserviceService {
 
     getQuestions(): Observable<any>{
 
-      let url='http://localhost:3000/quizapi/getquestions';
+      //let url='http://localhost:3000/quizapi/getquestions';
+      let url='https://afternoon-bayou-53156.herokuapp.com/questions'
       return this.http.get(url);
     }
 
@@ -34,7 +35,7 @@ export class QuestionserviceService {
       return this.http.post('http://localhost:3000/quizapi/createContest',contest);
     }
 
-    getContest(): Observable<any>{
+    getAllContests(): Observable<any>{
 
       return this.http.get('http://localhost:3000/quizapi/getcontests');
     }
@@ -45,7 +46,8 @@ export class QuestionserviceService {
     }
 
     getExistingQuestiond():Observable<any>{
-      let url='http://localhost:3000/quizapi/getquestions';
+      //let url='http://localhost:3000/quizapi/getquestions';
+      let url='https://afternoon-bayou-53156.herokuapp.com/questions'
       return this.http.get(url);
     }
 
