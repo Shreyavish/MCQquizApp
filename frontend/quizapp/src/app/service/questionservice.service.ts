@@ -14,8 +14,9 @@ export class QuestionserviceService {
 
     getQuestions(): Observable<any>{
 
-      //let url='http://localhost:3000/quizapi/getquestions';
-      let url='https://afternoon-bayou-53156.herokuapp.com/questions'
+      let url='http://localhost:3000/quizapi/getquestions';
+      //let url='https://afternoon-bayou-53156.herokuapp.com/questions'
+     // let url='http://quizapp01.herokuapp.com/questions/'
       return this.http.get(url);
     }
 
@@ -48,6 +49,7 @@ export class QuestionserviceService {
     getExistingQuestiond():Observable<any>{
       //let url='http://localhost:3000/quizapi/getquestions';
       let url='https://afternoon-bayou-53156.herokuapp.com/questions'
+
       return this.http.get(url);
     }
 
@@ -68,7 +70,8 @@ export class QuestionserviceService {
       }
 
       postQuestions (ques:question) : Observable<any>{
-        let url='http://localhost:3000/quizapi/addquestion';
+        //let url='http://localhost:3000/quizapi/addquestion';
+        let url = 'http://quizapp01.herokuapp.com/questions/';
         return this.http.post(url,ques);
       }
 

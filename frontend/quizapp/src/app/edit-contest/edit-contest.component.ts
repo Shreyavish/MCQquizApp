@@ -154,8 +154,8 @@ export class EditContestComponent implements OnInit {
     }
   }*/
   editQuestionsNow(){
-
+    this.router.navigate(['/showquestionpapers']);
 
   }
-  
+
 }

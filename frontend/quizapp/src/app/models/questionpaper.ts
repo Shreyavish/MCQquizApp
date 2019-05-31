@@ -1,6 +1,7 @@
 import { question } from './question';
 
 export class questionpaper {
+  _id?: String;
   title : String;
   section : {
     name: String;
