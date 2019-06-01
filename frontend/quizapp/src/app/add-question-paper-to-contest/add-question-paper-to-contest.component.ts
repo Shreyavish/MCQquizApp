@@ -19,10 +19,10 @@ export class AddQuestionPaperToContestComponent implements OnInit {
   title;
   question_content = [];
 
-
   contest_id = this.contserv.getdata2();
 selected_question_paper_id;
   ngOnInit(){
+
     this.quesserv.getQuestionPapers().subscribe(question_papers=>{
       this.question_papers = question_papers;
 

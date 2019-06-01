@@ -14,9 +14,10 @@ export class QuestionserviceService {
 
     getQuestions(): Observable<any>{
 
-      let url='http://localhost:3000/quizapi/getquestions';
+      //let url='http://localhost:3000/quizapi/getquestions';
       //let url='https://afternoon-bayou-53156.herokuapp.com/questions'
-     // let url='http://quizapp01.herokuapp.com/questions/'
+      //let url='http://quizapp01.herokuapp.com/questions/'
+      let url= "http://localhost:1337/questions"
       return this.http.get(url);
     }
 
@@ -117,7 +118,15 @@ export class QuestionserviceService {
         return this.http.put(url,item);
       }
 
+      getQuestionPaper(id):Observable<any>{
+        let url = 'http://localhost:3000/quizapi/getQuestionPaper/'+id;
+        return this.http.get(url);
+      }
 
+      updateQpaper(id,item):Observable<any>{
+        let url = 'http://localhost:3000/quizapi/updateQuestionPaper/'+id;
+        return this.http.put(url,item);
+      }
       filterByLevel(item):Observable<any>{
         let url = "http://localhost:3000/quizapi/filterbylevel";
         return this.http.post(url,item);
@@ -128,4 +137,9 @@ export class QuestionserviceService {
         let url = "http://localhost:3000/quizapi/filterbytype";
         return this.http.post(url,item);
       }
+      deleteQuestionPaper(id): Observable<any>{
+        let url = 'http://localhost:3000/deleteQpaper/'+id;
+        return this.http.delete(url);
+      }
 }
+

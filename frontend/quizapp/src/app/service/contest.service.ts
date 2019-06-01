@@ -10,6 +10,7 @@ export class ContestService {
 
   private iddata;  //data sharing for getting contest id of particular contest chosen by user
  private iddata2; //data sharing- for creating contest and getting its id and later updating the questions and leaderboard
+ private qpaperid ;
  private username;
   setdata (iddata){
     this.iddata=iddata;
@@ -31,5 +32,12 @@ export class ContestService {
   }
   getusername(){
     return this.username;
+  }
+
+  setqpaperid (qpaperid){
+    this.qpaperid=qpaperid;
+  }
+  getqpaperid(){
+    return this.qpaperid;
   }
 }

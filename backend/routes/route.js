@@ -461,6 +461,22 @@ router.post('/createQuestionPaper',(req,res)=>{
 });
 
 
+router.put('/updateQuestionPaper/:_id',(req,res)=>{
+
+  quespaper.findOneAndUpdate(
+    {_id: req.params._id},
+    {$set : req.body},
+    function(err,item){
+      if(err)
+      {res.send(err);
+      }else{
+        res.send(item);
+      }
+
+    });
+});
+
+
 router.get('/getQuestionPaper/:_id',(req,res)=>{
   quespaper.findById(req.params._id)
   .populate({path : 'section.question_content'},
@@ -471,6 +487,16 @@ router.get('/getQuestionPaper/:_id',(req,res)=>{
 });
 
 
+router.get('/deleteQpaper/:_id',(req,res)=>{
+  quespaper.find(
+    {_id:req.params._id},
+    function(err,item){
+      if(err)
+      res.send(err);
+      res.send({msg:'deleted successfully'});
+    }
+  )
+})
 
 // sending only contest details (excluding question paper) 
 // this  is for user landing page

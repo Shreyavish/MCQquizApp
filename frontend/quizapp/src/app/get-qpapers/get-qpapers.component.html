@@ -1,0 +1,80 @@
+
+
+
+
+
+
+  <div class="container">
+
+    <div class="row">
+      <div class="panel panel-info">
+        <div class="panel panel-heading">
+              <h1 style="margin-left: 35px;"> <span class="label label-warning" >Edit question paper:</span></h1>
+              <br />
+          </div>
+          <div class="panel panel-body">
+              <table class="table table-bordered table-striped">
+                <thead>
+
+                    <tr>
+                        <div class="row">
+                    <div class="col-md-4"><th>Title of Question paper</th></div>
+                    <div class="col-md-4"><th>Sections</th></div>
+                    <div class="col-md-4"><th>total_marks</th></div>
+
+                    </div>
+                    <tr>
+                  </thead>
+
+                  <tbody>
+
+
+
+                  <tr *ngFor='let q of qpapers'>
+                        <div class="row">
+
+                        <div class="col-md-4">
+                        <td><a role="button" (click)="editQuestionPaper(q._id)"><b>{{q.title}}</b></a></td>
+                          </div>
+
+
+
+                                <div class="col-md-4">
+                                    <td>
+                                        <table>
+                                          <tbody>
+                                            <tr *ngFor='let s of q.section'>
+                                              <td>{{s.name}}</td>
+                                            </tr>
+                                            </tbody>
+                                          </table>
+
+                                    </td>
+                                      </div>
+
+                                      <div class="col-md-4">
+                                          <td>{{q.total_marks}}</td>
+                                            </div>
+
+
+                          <!--<div class="col-md-3">
+                              <button type="button" class="btn btn-info" (click)="editOrViewContest(c._id)">Edit/View</button>
+                            </div>
+
+                            <div class="col-md-3">
+                              <button type="button" class="btn btn-danger" (click)="deleteChosenContest(c._id)">Delete</button>
+                            </div>-->
+
+
+                      </div>
+
+
+                </tr>
+
+
+              </tbody>
+              </table>
+              </div>
+              </div>
+          </div>
+  </div>

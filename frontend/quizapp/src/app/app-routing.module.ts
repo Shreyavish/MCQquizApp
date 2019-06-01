@@ -13,6 +13,7 @@ import { PlayQuizTypeTwoComponent } from './play-quiz-type-two/play-quiz-type-tw
 import { UserLandingComponent } from './user-landing/user-landing.component';
 import { QuestionPaperComponent } from './question-paper/question-paper.component';
 import { AddQuestionPaperToContestComponent } from './add-question-paper-to-contest/add-question-paper-to-contest.component';
+import { GetQpapersComponent } from './get-qpapers/get-qpapers.component';
 const routes: Routes = [
 
     {path: 'addquestions' , component: AddquestionsComponent },
@@ -27,7 +28,8 @@ const routes: Routes = [
   {path: 'playquiz2' , component:PlayQuizTypeTwoComponent},
   {path: 'userlanding' , component:UserLandingComponent},
   {path: 'questionpaper' , component:QuestionPaperComponent},
-  {path:'showquestionpapers',component:AddQuestionPaperToContestComponent}
+  {path:'showquestionpapers',component:AddQuestionPaperToContestComponent},
+  {path: 'availablequestionpapers',component:GetQpapersComponent}
 ]
 
 @NgModule({

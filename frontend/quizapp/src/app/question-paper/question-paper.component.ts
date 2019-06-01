@@ -4,6 +4,8 @@ import {questionpaper}from '../models/questionpaper';
 import {searchkey} from '../models/searchkey'
 import {question} from '../models/question';
   import { from } from 'rxjs';
+import { ContestService } from '../service/contest.service';
+import { Router } from '@angular/router';
 
 
 @Component({
@@ -13,7 +15,7 @@ import {question} from '../models/question';
 })
 export class QuestionPaperComponent implements OnInit {
 
-  constructor(private quesserv:QuestionserviceService) { }
+  constructor(private quesserv:QuestionserviceService,private contserv : ContestService,private router:Router) { }
 
 
   title: string;
@@ -37,18 +39,36 @@ export class QuestionPaperComponent implements OnInit {
   IsmodelShow = false;
   q: question ;
 temp_sections=[];
-final_sections:[{name : string,question_content:[string]}]=[{name:"",question_content:[""]}];
+final_sections=[];
 
 temp_questions=[];
 
 type: string;
 level: string= "Beginner";
 is_section_being_edited= false;
+
+
+update_qpaper =false;
+
+qpaper_id_of_editing = this.contserv.getqpaperid();
   ngOnInit() {
     this.sections.pop();
     this.section_names.pop();
     this.temp_sections.pop();
     this.final_sections.pop();
+
+    console.log(this.qpaper_id_of_editing);
+    if(this.qpaper_id_of_editing != undefined){
+      this.update_qpaper = true;
+      this.quesserv.getQuestionPaper(this.qpaper_id_of_editing).subscribe(qpaper=>{
+        this.title = qpaper.title;
+        for(var i = 0;i<qpaper.section.length;i++){
+            this.temp_sections.push(qpaper.section[i]);
+            console.log(this.temp_sections);
+        }
+      })
+    }
+
     this.quesserv.getQuestions().subscribe(questions =>
       {this.crnt_questions = questions;
 
@@ -62,6 +82,7 @@ is_section_being_edited= false;
 
       })
   }
+
 
   selected(nofpages) {
 
@@ -119,7 +140,7 @@ is_section_being_edited= false;
           // push the newly added questions to the crnt section
 
           for(var j =0;j<this.temp_questions.length;j++){
-            this.temp_sections[i].content.push( this.temp_questions[j]);
+            this.temp_sections[i].question_content.push( this.temp_questions[j]);
           }
 
 
@@ -138,7 +159,7 @@ is_section_being_edited= false;
       this.section_names.push(this.section_name);
       var new_section = {
         name: this.section_name,
-        content: this.temp_questions
+        question_content: this.temp_questions
       }
       this.temp_sections.push(new_section);
       this.temp_questions = [];
@@ -195,11 +216,11 @@ is_section_being_edited= false;
       for(var i=0;i<this.temp_sections.length;i++){
         if(sname == this.temp_sections[i].name){
           console.log('found section');
-          for(var j=0;j<this.temp_sections[i].content.length;j++){
+          for(var j=0;j<this.temp_sections[i].question_content.length;j++){
 
-            if(qid == this.temp_sections[i].content[j]._id){
+            if(qid == this.temp_sections[i].question_content[j]._id){
               console.log('found question');
-              this.temp_sections[i].content.splice(j,1);
+              this.temp_sections[i].question_content.splice(j,1);
               break;
 
             }
@@ -219,14 +240,21 @@ is_section_being_edited= false;
         "total_marks" : 40
       }
       console.log(fin_ques_paper);
+
+      if(this.update_qpaper == false){
       this.quesserv.postQuestionPaper(fin_ques_paper).subscribe(item=>{
         console.log(item);
-        window.location.reload();
+        this.router.navigate(['/availablequestionpapers']);
       })
-
+    }else{
+      this.quesserv.updateQpaper(this.qpaper_id_of_editing,fin_ques_paper).subscribe(item=>{
+        console.log(item);
+        this.router.navigate(['/availablequestionpapers']);
+      })
+    }
     }
 
-    // they will contain only the question ids in their content as we defined in our schema of backend
+    // they will contain only the question ids in their question_content as we defined in our schema of backend
 
     makeFinalSections(){
 
@@ -234,15 +262,18 @@ is_section_being_edited= false;
 
        for(var i=0;i<this.temp_sections.length;i++){
 
-       for(var j=0;j<this.temp_sections[i].content.length;j++){
-        id_array.push(this.temp_sections[i].content[j]._id)
+       for(var j=0;j<this.temp_sections[i].question_content.length;j++){
+        id_array.push(this.temp_sections[i].question_content[j]._id)
       }
+      console.log(id_array);
 
       let temp ={
         name: this.temp_sections[i].name,
         question_content:id_array
       };
-      //this.final_sections.push(temp);
+      this.final_sections.push(temp);
+      id_array=[];
+
     }
 
 
@@ -354,4 +385,10 @@ is_section_being_edited= false;
 
 
   }*/
+  deleteQPaper(){
+    this.quesserv.deleteQuestionPaper(this.qpaper_id_of_editing).subscribe(item=>{
+      console.log('deleted successfully');
+      this.router.navigate(['/availablequestionpapers']);
+    })
+  }
 }
