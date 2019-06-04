@@ -20,7 +20,7 @@ export class QuestionPaperComponent implements OnInit {
 
   title: string;
   no_of_sections : number;
-  sections : [{name:string,question_content:[string]}] = [{name:"",question_content:[""]}];
+  sections : [{name:string,questions:[string]}] = [{name:"",questions:[""]}];
   questions : [question];
   crnt_questions : [question];
   total_marks:number=0;
@@ -40,7 +40,8 @@ export class QuestionPaperComponent implements OnInit {
   q: question ;
 temp_sections=[];
 final_sections=[];
-
+section_ids =[];
+id_of_section_being_updated ;
 temp_questions=[];
 
 type: string;
@@ -59,12 +60,17 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
 
     console.log(this.qpaper_id_of_editing);
     if(this.qpaper_id_of_editing != undefined){
+
       this.update_qpaper = true;
       this.quesserv.getQuestionPaper(this.qpaper_id_of_editing).subscribe(qpaper=>{
         this.title = qpaper.title;
-        for(var i = 0;i<qpaper.section.length;i++){
-            this.temp_sections.push(qpaper.section[i]);
+        for(var i = 0;i<qpaper.sections.length;i++){
+            this.temp_sections.push(qpaper.sections[i]);
+
             console.log(this.temp_sections);
+        }
+        for(i=0;i<this.temp_sections.length;i++){
+          this.section_ids.push(this.temp_sections[i]._id);
         }
       })
     }
@@ -116,7 +122,14 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
 
 
       if(this.section_name.length <=0){
-        alert('please give a name to the section');
+        alert('please give a name to the section first');
+
+        this.temp_questions=[];
+        for(var i=0;i<this.crnt_questions.length;i++){
+
+          this.crnt_questions[i].checked = false;
+
+         }
       }
       else{
       if(this.temp_questions.length <=0){
@@ -124,7 +137,7 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
       }
       else{
 
-        // case 1: the section is already there but you want to add some more questions
+
         var sec_found ;
 
         for(var i =0;i<this.temp_sections.length;i++){
@@ -134,17 +147,28 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
             break;
           }
         }
+        // case 1: the section is already there but you want to add some more questions
         if(sec_found == true){
         console.log(this.temp_questions);
 
           // push the newly added questions to the crnt section
 
           for(var j =0;j<this.temp_questions.length;j++){
-            this.temp_sections[i].question_content.push( this.temp_questions[j]);
+            this.temp_sections[i].questions.push( this.temp_questions[j]);
           }
 
 
         console.log(this.temp_sections[i]);
+
+          var updateques = {
+            "questions" : this.temp_sections[i].questions
+          }
+          this.quesserv.updateSection(updateques,this.temp_sections[i]._id).subscribe(res=>
+            {
+              console.log(res);
+            })
+
+
         this.temp_questions=[];
         for(var i=0;i<this.crnt_questions.length;i++){
 
@@ -157,12 +181,24 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
 
               // case 2: create a new section
       this.section_names.push(this.section_name);
+      // generating question ids
+      /*var ques_ids = [];
+      for(var i=0;i<this.temp_questions.length;i++){
+        ques_ids.push(this.temp_questions[i]._id)
+      }*/
       var new_section = {
         name: this.section_name,
-        question_content: this.temp_questions
+        questions: this.temp_questions
       }
-      this.temp_sections.push(new_section);
-      this.temp_questions = [];
+     // console.log(ques_ids);
+     // this.temp_sections.push(new_section);
+      this.quesserv.addNewSection(new_section).subscribe(sec =>{
+        this.section_ids.push(sec._id);
+       this.temp_sections.push(sec);
+       console.log(this.temp_sections);
+       this.temp_questions = [];
+      })
+
 
      //  console.log(this.temp_sections);
       for(var i=0;i<this.crnt_questions.length;i++){
@@ -172,14 +208,6 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
        }
 
         }
-
-
-
-
-
-
-
-
 
 
 
@@ -216,11 +244,11 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
       for(var i=0;i<this.temp_sections.length;i++){
         if(sname == this.temp_sections[i].name){
           console.log('found section');
-          for(var j=0;j<this.temp_sections[i].question_content.length;j++){
+          for(var j=0;j<this.temp_sections[i].questions.length;j++){
 
-            if(qid == this.temp_sections[i].question_content[j]._id){
+            if(qid == this.temp_sections[i].questions[j]._id){
               console.log('found question');
-              this.temp_sections[i].question_content.splice(j,1);
+              this.temp_sections[i].questions.splice(j,1);
               break;
 
             }
@@ -233,14 +261,19 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
  // total marks yet to be implemented
     submitQuesPaper(){
 
-      this.makeFinalSections();
+      //this.makeFinalSections();
       let fin_ques_paper = {
         "title" :this.title,
-        "section" : this.final_sections,
+        "sections" : this.section_ids,
         "total_marks" : 40
       }
       console.log(fin_ques_paper);
 
+      if(fin_ques_paper.sections.length <=0)
+      {
+        alert("Please add atleast one section");
+      }
+      else{
       if(this.update_qpaper == false){
       this.quesserv.postQuestionPaper(fin_ques_paper).subscribe(item=>{
         console.log(item);
@@ -253,8 +286,9 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
       })
     }
     }
+  }
 
-    // they will contain only the question ids in their question_content as we defined in our schema of backend
+    // they will contain only the question ids in their questions as we defined in our schema of backend
 
     makeFinalSections(){
 
@@ -262,14 +296,14 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
 
        for(var i=0;i<this.temp_sections.length;i++){
 
-       for(var j=0;j<this.temp_sections[i].question_content.length;j++){
-        id_array.push(this.temp_sections[i].question_content[j]._id)
+       for(var j=0;j<this.temp_sections[i].questions.length;j++){
+        id_array.push(this.temp_sections[i].questions[j]._id)
       }
       console.log(id_array);
 
       let temp ={
         name: this.temp_sections[i].name,
-        question_content:id_array
+        questions:id_array
       };
       this.final_sections.push(temp);
       id_array=[];
@@ -321,14 +355,28 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
     }
 
 
-    deleteSection(sec_name){
+    deleteSection(id){
 
-      for(var i=0;i<this.temp_sections.length;i++){
-        if(this.temp_sections[i].name == sec_name){
-          this.temp_sections.splice(i,1);
-          break;
+      this.quesserv.deleteSection(id).subscribe(res=>{
+        console.log("The deleted is"+res);
+        console.log("deleted");
+        for(var i=0;i<this.temp_sections.length;i++){
+          if(this.temp_sections[i]._id == id){
+
+            this.temp_sections.splice(i,1);
+            break;
+          }
         }
-      }
+        for(var i=0;i<this.section_ids.length;i++){
+          if(this.section_ids[i] == id){
+            this.section_ids.splice(i,1);
+            break;
+          }
+        }
+        console.log(this.section_ids);
+      })
+
+
 
     }
 

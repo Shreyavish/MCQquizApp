@@ -19,7 +19,8 @@ export class CreateContestComponent implements OnInit {
   newcontest: contest;
   newquestion: question;
   Questions = [];
-  Leaderboard= ["",0,""];
+  //Leaderboard= ["",0,""]
+  //always post leaderboard as a blank array
   Name: String;
   Start_time: Date;
   End_time: Date;
@@ -44,15 +45,17 @@ export class CreateContestComponent implements OnInit {
     } else{
 
     let newcontest={
-      Name: this.Name,
-      Start_time:new Date(this.Start_time+' '+this.s_time),
-      End_time:new Date(this.End_time+' '+this.e_time),
-      Organized_by:this.Organized_by,
-      Contest_Link:this.Contest_Link,
-      Questions: this.Questions,
-     Leaderboard:this.Leaderboard,
+      name: this.Name,
+      start_time:new Date(this.Start_time+' '+this.s_time),
+      end_time:new Date(this.End_time+' '+this.e_time),
+      organized_by:this.Organized_by,
+      contest_link:this.Contest_Link,
+      //Questions: this.Questions,
+     // questionpaper: "",
+     leaderboard:[],
     duration:this.duration
     }
+    console.log(newcontest);
 
     this.quesserv.createContest(newcontest).subscribe(
       newcontest=>

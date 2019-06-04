@@ -23,15 +23,19 @@
             <div class="panel-body">
               <div class="content">
                   <ul class="list-group">
-                      <li *ngFor="let q of question_papers " class="list-group-item">
+                      <li *ngFor="let q of question_papers; let idx =index " class="list-group-item">
                         <div class="row">
                           <div class="col-md-6">
 
-                              <input type="radio" name="quespapers" [(ngModel)]="q._id" value="{{q._id}}" (change)="storeSelectedId(q._id)">&nbsp;<label>{{q.title}}</label>
+                                <div *ngIf='is_empty_quespaper == true'>
+                                <input type="radio" name="quespapers"  value="{{q._id}}" [checked]="idx === 0" (change)="storeSelectedId(q._id)">&nbsp;<label>{{q.title}}</label>
+                                </div>
+                                  <div *ngIf='is_empty_quespaper == false'>
+                                      <input type="radio" name="quespapers"
 
-
-
-
+                                      [(ngModel)]="selected_question_paper_id"
+                                      value="{{q._id}}" (change)="storeSelectedId(q._id)">&nbsp;<label>{{q.title}}</label>
+                                    </div>
                           </div>
 
                          <!-- <div *ngIf = "contest_id != ''">
@@ -71,7 +75,7 @@
                     <div class ="panel-body">
                       <ol>
 
-                        <div *ngFor='let ques of t.question_content'>
+                        <div *ngFor='let ques of t.questions'>
                           <li>
                             <table>
                               <tr>

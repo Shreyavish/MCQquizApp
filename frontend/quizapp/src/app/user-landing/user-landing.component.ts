@@ -18,8 +18,8 @@ export class UserLandingComponent implements OnInit {
   config;
   fetched_contest:contest;
   Name:string;
-  starts: string;
-  ends : string;
+  starts;
+  ends ;
   company: string;
   time: string;
   msg : string;
@@ -40,7 +40,7 @@ export class UserLandingComponent implements OnInit {
  //contest_id = "5cda5df743b7995dc01c18cc";
  //contest_id = "5ce244bc2772a345e86b440c";
  //default contest active
- contest_id = "5ce4f05d1e8f36306c408c57";
+// contest_id = "5ce4f05d1e8f36306c408c57";
 //contest_id= "5ce7b3b4b3f09904f2c26163";
 //contest_id ="5ce7cb77b3f09904f2c26164";
 
@@ -49,17 +49,24 @@ export class UserLandingComponent implements OnInit {
 
 // contest not yet started
 //contest_id = "5cef8e7c9c92e72e9064d1fb";
+
+//strapi
+contest_id ="5cf4c647c75025126c11b534";
+user_result_ids =[];
   ngOnInit() {
 
-      this.quesserv.getOnlyContestDetails(this.contest_id)
+      this.quesserv.getContestDetails(this.contest_id)
       .subscribe(contest=>{
         this.fetched_contest = contest;
-        this.Name = contest.Name;
-        this.starts=contest.Start_time;
-        this.ends = contest.End_time;
-        this.company=contest.Organized_by;
+        this.Name = contest.name;
+        this.starts=new Date(contest.start_time);
+        this.ends = new Date(contest.end_time);
+        this.company=contest.organized_by;
         this.time = contest.duration;
-        this.contest_leaderboard = contest.LeaderBoard;
+        this.contest_leaderboard = contest.leaderboarditems;
+        for(var i=0;i<this.contest_leaderboard.length;i++){
+          this.user_result_ids.push(this.contest_leaderboard[i]._id);
+        }
         console.log(this.fetched_contest);
 
         var timer = setInterval( ()=>{
@@ -88,7 +95,38 @@ export class UserLandingComponent implements OnInit {
               if(this.guidelines_read == true){
                 this.contserv.setdata(this.contest_id);
                 this.contserv.setusername(this.username);
-                this.router.navigate(['/playquiz2']);
+                //this.postStartingStatus();
+
+
+                let tempresult = {
+
+                  "username": this.username,
+                  "no_of_questions_attempted": 0,
+                  "score": 0,
+                  "time_taken": "00:00:00",
+                  "contest_id" : this.contest_id
+                }
+                this.quesserv.postResultFirstTime(tempresult).subscribe(res=>{
+                  var id = res._id;
+                  console.log(id);
+                  this.contserv.setuserresultid(id);
+                  this.user_result_ids.push(id);
+                  console.log(this.contserv.getuserresultid());
+                  let lbitems = {
+                    leaderboarditems : this.user_result_ids
+                  }
+                  this.quesserv.postUserResultIdsToContest(lbitems,this.contest_id).subscribe(res=>{
+                    console.log(res);
+                  })
+
+
+
+                  this.router.navigate(['/playquiz2']);
+                })
+
+
+
+
               }
               else{
                 alert('please read guidelines and tick the box to start the test')
@@ -212,7 +250,10 @@ this.guidelines_read = true;
 
   }
 
+  // when start button is clicked store the initial status of the username with the contest id and other fields
+    postStartingStatus(){
 
+    }
 
 
     }

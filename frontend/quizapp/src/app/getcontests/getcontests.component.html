@@ -19,8 +19,8 @@
                       <tr>
                           <div class="row">
                       <div class="col-md-3"><th>Contest Name</th></div>
-                      <div class="col-md-3"><th>Start time</th></div>
-                      <div class="col-md-3"><th>End time</th></div>
+                      <div class="col-md-3"><th>Start time (YYYY-MM-DD)</th></div>
+                      <div class="col-md-3"><th>End time (YYYY-MM-DD)</th></div>
                       <div class="col-md-3"><th>Organized by</th></div>
                       </div>
                       <tr>
@@ -34,19 +34,19 @@
                           <div class="row">
 
                           <div class="col-md-3">
-                          <td><a role="button" (click)="editOrViewContest(c._id)">{{c.Name}}</a></td>
+                          <td><a role="button" (click)="editOrViewContest(c._id)">{{c.name}}</a></td>
                             </div>
 
                             <div class="col-md-3">
-                                <td>{{c.Start_time}}</td>
+                                <td>{{c.start_time}}</td>
                                   </div>
 
                                   <div class="col-md-3">
-                                      <td>{{c.End_time}}</td>
+                                      <td>{{c.end_time}}</td>
                                         </div>
 
                                         <div class="col-md-3">
-                                            <td>{{c.Organized_by}}</td>
+                                            <td>{{c.organized_by}}</td>
                                               </div>
 
 

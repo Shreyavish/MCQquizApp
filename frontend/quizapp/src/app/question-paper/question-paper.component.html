@@ -50,14 +50,14 @@
 
                             </div>
                             <div class="col-md-4">
-                                <button type="button" class="btn btn-warning"  (click)="deleteSection(t.name)">Delete Section</button>
+                                <button type="button" class="btn btn-warning"  (click)="deleteSection(t._id)">Delete Section</button>
                             </div>
                          </div>
                       </div>
                       <div class ="panel-body">
                          <ul class="list-group">
 
-                            <div *ngFor='let ques of t.question_content'>
+                            <div *ngFor='let ques of t.questions'>
 
                             <li class="list-group-item">   <div class="row">
                                 <div class="col-md-4">

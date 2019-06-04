@@ -6,6 +6,7 @@ import { Time } from '@angular/common';
 import {ContestService} from '../service/contest.service';
 import { Console } from '@angular/core/src/console';
 import {Router } from '@angular/router';
+import * as moment from 'moment';
 @Component({
   selector: 'app-edit-contest',
   templateUrl: './edit-contest.component.html',
@@ -22,8 +23,8 @@ export class EditContestComponent implements OnInit {
 
   // contest parameters:
   Name: String;
-  Start_time: Date;
-  End_time: Date;
+  Start_time;
+  End_time;
   Organized_by:String;
   Contest_Link:String;
   Questions:[question];
@@ -48,28 +49,61 @@ export class EditContestComponent implements OnInit {
       {this.fetchedContests = fetchedContests,
         console.log(this.fetchedContests);
       })*/
+      if(this.contserv.geteditcontest() == true){
       this.getContestDetails();
+      }
   }
 
   getContestDetails(){
 
 
     this.contest_id = this.contserv.getdata2();
+
+    console.log(moment(new Date()).format("YYYY-MM-DD hh:mm A"));
     this.quesserv.getContestToEdit(this.contest_id).subscribe( toEditContest =>
       {this.toEditContest = toEditContest;
-        this.Name = this.toEditContest.Name;
-        this.Start_time = this.toEditContest.Start_time,
-        this.End_time = this.toEditContest.End_time,
-        this.Organized_by = this.toEditContest.Organized_by,
-        this.Contest_Link = this.toEditContest.Contest_Link,
+        this.Name = this.toEditContest.name;
+        this.Start_time = new Date(this.toEditContest.start_time),
+        this.End_time = new Date(this.toEditContest.end_time),
+        this.Organized_by = this.toEditContest.organized_by,
+        this.Contest_Link = this.toEditContest.contest_link,
 
         this.contest_time = this.toEditContest.duration
-        console.log(this.toEditContest);
+
+       this.Start_time= moment(this.Start_time).format("YYYY-MM-DD hh:mm A");
+       this.End_time =moment(this.End_time).format("YYYY-MM-DD hh:mm A");
+        /*var sd = this.Start_time.getDate();
+        if(sd<10){
+          sd='0'+sd;
+        }
+        var sm = this.Start_time.getMonth();
+        if(sm<10){
+          sm='0'+sm;
+        }
+        var sy = this.Start_time.getFullYear();
+
+        var sh = this.Start_time.getHours();
+        var sm= this.Start_time.getMinutes();
+        var ss= this.Start_time.getSeconds();
+
+
+        //console.log(this.Start_time.toISOString());
+        //console.log(this.Start_time.toDateString());
+        /*console.log(this.Start_time.getDate());
+        console.log(this.Start_time.getMonth());
+        console.log(this.Start_time.getFullYear());
+        console.log(this.Start_time.getHours());
+        console.log(this.Start_time.getMinutes());
+        console.log(this.Start_time.getSeconds());*/
+
+
+        //this.st_temp = sy+'-'+sm+'-'+sd;
 
         // splitting date and time
         this.st_temp =this.Start_time.toString();
         this.st_temp =this.st_temp.substr(0,10);
 
+        //this.st2 = sh+':'+sm+':'+ss;
         this.st2 =this.Start_time.toString();
         this.st2=this.st2.substr(11,5);
         console.log(this.st_temp);
@@ -95,11 +129,11 @@ export class EditContestComponent implements OnInit {
      this.End_time = new Date(this.et_temp+' '+this.et2);
 
     this.editedContest = {
-      Name: this.Name,
-      Start_time: this.Start_time,
-      End_time: this.End_time,
-      Organized_by: this.Organized_by,
-      Contest_Link:this.Contest_Link,
+      name: this.Name,
+      start_time: this.Start_time,
+      end_time: this.End_time,
+      organized_by: this.Organized_by,
+      contest_link:this.Contest_Link,
      duration:this.contest_time
     }
 
@@ -154,7 +188,25 @@ export class EditContestComponent implements OnInit {
     }
   }*/
   editQuestionsNow(){
+    this.contserv.seteditcontest(true);
     this.router.navigate(['/showquestionpapers']);
+
+  }
+  deleteContest(){
+    console.log(this.contest_id);
+    var r = confirm("Are you sure you want to delete this contest?")
+    if(r==true){
+
+      this.quesserv.deleteContest(this.contest_id).subscribe(res=>{
+        if(res._id ==this.contest_id){
+          alert("Contest deleted successfully");
+          this.contserv.seteditcontest(false);
+          this.router.navigate(['/getcontests']);
+        }
+      })
+    }else{
+      //alert("no");
+    }
 
   }
 

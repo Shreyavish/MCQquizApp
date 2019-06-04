@@ -12,6 +12,9 @@ export class ContestService {
  private iddata2; //data sharing- for creating contest and getting its id and later updating the questions and leaderboard
  private qpaperid ;
  private username;
+ private userresid;
+ private cont_edit = false;
+ private quespaper_edit = false;
   setdata (iddata){
     this.iddata=iddata;
   }
@@ -39,5 +42,28 @@ export class ContestService {
   }
   getqpaperid(){
     return this.qpaperid;
+  }
+  setuserresultid(id){
+    this.userresid = id;
+
+  }
+  getuserresultid(){
+    return this.userresid;
+  }
+
+  seteditcontest(isedited){
+    this.cont_edit = isedited;
+
+  }
+  geteditcontest(){
+    return this.cont_edit;
+  }
+  seteditquespaper(isedited){
+    this.quespaper_edit = isedited;
+
+  }
+  geteditquespaper(){
+    return this.quespaper_edit;
+
   }
 }

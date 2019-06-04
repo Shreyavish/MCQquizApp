@@ -33,6 +33,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   questions_of_each_section = [[]];
   our_contest_qpaper_sections = [];
   our_contest_quespaper;
+  our_contest_leaderboarditems;
   our_contest = [];
   no_of_sections;
   temp = [[]];
@@ -67,7 +68,8 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   ];
   total_no_ques_contest = 0;
   no_of_ques_attempted_by_user = 0;
-  is_quesno_attempted: [boolean] = [false];
+
+  is_quesno_attempted=[0];
   posting_res_first_time_flag = true;
   temp_user_result_object;
   temp_user_result_id;
@@ -97,7 +99,8 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     const source = timer(1000, 1000);
      this.seconds_calculator = source.subscribe(val => {
       {this.val = val;
-        console.log(this.val, '-')};
+       // console.log(this.val, '-')
+      };
 
     });
 
@@ -110,15 +113,20 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     this.sum_of_scores = 0;
     var qno = 0;
     this.contest_id = this.contserv.getdata();
+    this.temp_user_result_id =this.contserv.getuserresultid();
+    console.log(this.temp_user_result_id);
+
     this.quesserv.getContestById(this.contest_id).subscribe(cont => {
       console.log(cont);
       this.our_contest = cont;
       this.contest_duration = cont.duration;
-      this.our_contest_quespaper = cont.questionpaperid;
-      this.our_contest_qpaper_sections = cont.questionpaperid.section;
+      this.our_contest_quespaper = cont.questionpaper;
+      // store the leaderboard item ids in an array
+      console.log(this.our_contest_quespaper);
+      this.our_contest_qpaper_sections = cont.questionpaper.sections;
       console.log(this.our_contest_qpaper_sections);
       this.no_of_sections = Object.keys(
-        this.our_contest_quespaper.section
+        this.our_contest_quespaper.sections
       ).length;
       console.log(this.no_of_sections);
       console.log(this.our_contest);
@@ -132,7 +140,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
         this.section_no_with_id.push(section_temp);
 
         this.no_of_ques = Object.keys(
-          this.our_contest_qpaper_sections[i].question_content
+          this.our_contest_qpaper_sections[i].questions
         ).length;
         this.length_of_section[i] = this.no_of_ques;
         console.log(this.no_of_ques);
@@ -140,17 +148,18 @@ export class PlayQuizTypeTwoComponent implements OnInit {
         for (var j = 0; j < this.no_of_ques; j++) {
           this.question_no_with_id[qno] = this.our_contest_qpaper_sections[
             i
-          ].question_content[j]._id;
+          ].questions[j]._id;
           // textbox and radio
 
           if (
-            this.our_contest_qpaper_sections[i].question_content[j].type ==
+            this.our_contest_qpaper_sections[i].questions[j].type ==
             "text"
           ) {
+            console.log(this.our_contest_qpaper_sections[i]);
 
             var actans3 = {
-              qid: this.our_contest_qpaper_sections[i].question_content[j]._id,
-              ans: this.our_contest_qpaper_sections[i].question_content[j]
+              qid: this.our_contest_qpaper_sections[i].questions[j]._id,
+              ans: this.our_contest_qpaper_sections[i].questions[j]
                 .text_answer
             };
 
@@ -162,12 +171,12 @@ export class PlayQuizTypeTwoComponent implements OnInit {
             console.log("crntquesno" + qno);
             this.initial_ans_fib.pop();
             var no_of_blanks = actans3.ans.length;
-            for (var i = 0; i < no_of_blanks; i++) {
+            for (var k = 0;k < no_of_blanks; k++) {
               this.initial_ans_fib.push(" ");
             }
 
             var tempblankans = {
-              qid: this.our_contest_qpaper_sections[i].question_content[j]._id,
+              qid: this.our_contest_qpaper_sections[i].questions[j]._id,
               ans: this.initial_ans_fib
             };
             this.user_answers.push(tempblankans);
@@ -177,8 +186,8 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
           } else {
             var actans = {
-              qid: this.our_contest_qpaper_sections[i].question_content[j]._id,
-              ans: this.our_contest_qpaper_sections[i].question_content[j]
+              qid: this.our_contest_qpaper_sections[i].questions[j]._id,
+              ans: this.our_contest_qpaper_sections[i].questions[j]
                 .answer
             };
 
@@ -200,7 +209,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
       // initially no question is attempted
       for (var i = 0; i < this.total_no_ques_contest; i++) {
-        this.is_quesno_attempted[i] = false;
+        this.is_quesno_attempted[i] = 0;
       }
 
       console.log(this.total_no_ques_contest);
@@ -213,10 +222,10 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
       //at start of the test display first question of first section
       this.crnt_section = this.our_contest_qpaper_sections[0]._id;
-      this.crnt_ques = this.our_contest_qpaper_sections[0].question_content[0];
-      this.crnt_ques_id = this.our_contest_qpaper_sections[0].question_content[0]._id;
-      this.crnt_ques_options = this.our_contest_qpaper_sections[0].question_content[0].options;
-      this.no_of_ques_of_crnt_section = this.our_contest_qpaper_sections[0].question_content.length;
+      this.crnt_ques = this.our_contest_qpaper_sections[0].questions[0];
+      this.crnt_ques_id = this.our_contest_qpaper_sections[0].questions[0]._id;
+      this.crnt_ques_options = this.our_contest_qpaper_sections[0].questions[0].options;
+      this.no_of_ques_of_crnt_section = this.our_contest_qpaper_sections[0].questions.length;
       this.crnt_section_no = 0;
       this.flag = true;
       this.calculate_start_indices_of_each_section();
@@ -240,22 +249,22 @@ export class PlayQuizTypeTwoComponent implements OnInit {
         console.log("found sid");
         this.no_of_ques_of_crnt_section = this.our_contest_qpaper_sections[
           i
-        ].question_content.length;
+        ].questions.length;
         this.crnt_section = sid;
         for (var j = 0; j < this.no_of_ques; j++) {
           if (
-            this.our_contest_qpaper_sections[i].question_content[j]._id == qid
+            this.our_contest_qpaper_sections[i].questions[j]._id == qid
           ) {
             console.log("found qid");
             this.crnt_ques = this.our_contest_qpaper_sections[
               i
-            ].question_content[j];
+            ].questions[j];
             this.crnt_ques_id = this.our_contest_qpaper_sections[
               i
-            ].question_content[j]._id;
+            ].questions[j]._id;
             this.crnt_ques_options = this.our_contest_qpaper_sections[
               i
-            ].question_content[j].options;
+            ].questions[j].options;
             break;
           }
         }
@@ -271,7 +280,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     }
 
     this.no_of_ques_of_crnt_section = Object.keys(
-      this.our_contest_qpaper_sections[i].question_content
+      this.our_contest_qpaper_sections[i].questions
     ).length;
   }
 
@@ -284,17 +293,18 @@ export class PlayQuizTypeTwoComponent implements OnInit {
       if (this.user_answers[i].qid == qid) {
         check_flag = true;
 
-        if (type == "radio") {
+        if (type == 'radio') {
           // this.temp_user_answers[i].ans = [0];
           this.user_answers[i].ans.pop();
           this.user_answers[i].ans.push(userans);
-          this.is_quesno_attempted[this.crnt_ques_no] = true;
+          //this.is_quesno_attempted[this.crnt_ques_no] = 1;
+         // console.log(this.crnt_ques_no + ' '+this.is_question_attempted[this.crnt_ques_no]);
           console.log('attempted');
           console.log(this.user_answers[i]);
-        } else if (type == "checkbox") {
+        } else if (type == 'checkbox' ) {
           if (ischecked == true) {
             this.user_answers[i].ans.push(userans);
-            this.is_quesno_attempted[this.crnt_ques_no] = true;
+            this.is_quesno_attempted[this.crnt_ques_no] = 1;
             console.log('attempted');
           } else {
             for (var j = 0; j < this.user_answers[i].ans.length; j++) {
@@ -316,9 +326,9 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
       temp.qid = qid;
       temp.ans.push(userans);
-
+      this.is_quesno_attempted[this.crnt_ques_no] = 1;
       this.user_answers.push(temp);
-      this.no_of_ques_attempted_by_user = this.no_of_ques_attempted_by_user + 1;
+      //this.no_of_ques_attempted_by_user = this.no_of_ques_attempted_by_user + 1;
     }
 
     console.log(this.user_answers);
@@ -332,7 +342,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
       if (this.user_answers[k].qid == qid) {
         this.user_answers[k].ans[i] = userans;
-        this.is_quesno_attempted[this.crnt_ques_no] = true;
+        this.is_quesno_attempted[this.crnt_ques_no] = 1;
         console.log('attempted');
         //this.no_of_ques_attempted_by_user = this.no_of_ques_attempted_by_user + 1;
         break;
@@ -354,7 +364,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   save_temp_ans_to_db() {
     console.log(this.user_answers.length);
     console.log(this.user_answers.length);
-    if (this.posting_res_first_time_flag == true) {
+    /*if (this.posting_res_first_time_flag == true) {
       this.mcqscore =0;
 
       this.calculateScore();// for mcqs
@@ -374,7 +384,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
           this.array_userans = [0];
           this.array_userans.pop(); // make array empty so that next question's answers would not get pushed rather they should be int0 new array
         });
-    } else {
+    } else {*/
       this.mcqscore =0;
 
 
@@ -382,16 +392,17 @@ export class PlayQuizTypeTwoComponent implements OnInit {
         //this.calculateScoreforFIB();
 
       this.update_user_result();
+      console.log(this.temp_user_result_id);
       this.quesserv
         .postTempResult(this.temp_user_result_object, this.temp_user_result_id)
         .subscribe(res => {
           console.log(res);
-          this.is_quesno_attempted[this.crnt_ques_no] = true;
+          this.is_quesno_attempted[this.crnt_ques_no] = 1;
         });
 
       this.array_userans = [0];
       this.array_userans.pop(); // make array empty so that next question's answers would not get pushed rather they should be int0 new array
-    }
+    //}
   }
 
   getNextQuestion(qid) {
@@ -562,24 +573,54 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     console.log(time_taken);
 
 
-    // if final submission is not to be made yet just create a user result object and store in temp_user_resullt object so that temp answers will get stored in just leaderboard not content schema.This updating is done through save_temp_db function
+
+
+    //calculate_no_ques_attempted()
+    //{
+      var no =0;
+      console.log("entered no of ques");
+      for(var i=0;i<this.total_no_ques_contest;i++){
+        if(this.is_quesno_attempted[i] == 1){
+          no= no+1;
+          console.log('no = '+no);
+        }
+      }
+
+      //return no;
+    //}
+
+
+    // if final submission is not to be made yet just create a user result object and store in temp_user_resullt object so that temp answers will get stored in just leaderboarditems not contest schema.This updating is done through save_temp_db function
     var userresult = new leaderBoard();
     userresult.username = this.contserv.getusername();
-    userresult.no_of_questions_attempted = this.calculate_no_ques_attempted();
+    userresult.no_of_questions_attempted = no;
     userresult.score = this.mcqscore;
     //  userresult.user_answers = this.temp_user_answers;
     userresult.time_taken = time_taken;
+    userresult.contest_id = this.contest_id;
     this.temp_user_result_object = userresult;
 
     // if finally submission is made then update into actual db
+    console.log(this.temp_user_result_object.no_of_questions_attempted);
     if (this.make_final_submission == true) {
-      this.seconds_calculator.unsubscribe();
+
+
+
       this.quesserv
+      .postTempResult(this.temp_user_result_object, this.temp_user_result_id)
+      .subscribe(res => {
+        console.log(res);
+        this.seconds_calculator.unsubscribe();
+        this.router.navigate(["/userlanding"]);
+      });
+
+      /*this.quesserv
         .postResult(userresult, this.contest_id)
         .subscribe(response => {
           console.log(response);
           this.router.navigate(["/userlanding"]);
-        });
+        });*/
+
     }
   }
 
@@ -671,10 +712,11 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     calculate_no_ques_attempted()
     {
       var no =0;
-
+      console.log("entered no of ques");
       for(var i=0;i<this.total_no_ques_contest;i++){
-        if(this.is_quesno_attempted[i] == true){
+        if(this.is_quesno_attempted[i] == 1){
           no= no+1;
+          console.log('no = '+no);
         }
       }
       return no;

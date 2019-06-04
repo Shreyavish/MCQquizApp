@@ -8,5 +8,6 @@ export class leaderBoard{
   }];
   score:Number;
   time_taken: String;
+  contest_id: String;
 
 }

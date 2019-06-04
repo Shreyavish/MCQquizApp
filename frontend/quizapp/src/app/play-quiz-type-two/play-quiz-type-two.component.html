@@ -6,7 +6,7 @@
 			<div class="row">
 				<div class="col-sm-5">
 					<h2>
-						{{ our_contest.Name }}
+						{{ our_contest.name }}
 					</h2>
 				</div>
 				<div class="col-sm-5">
@@ -55,7 +55,7 @@
                     [attr.id]="'collapseOne_' + i"
                   >
 										<div class="panel-body">
-											<div *ngFor="let q1 of s.question_content">
+											<div *ngFor="let q1 of s.questions">
 												<div *ngFor="let q2 of question_no_with_id; index as i">
 													<div *ngIf="q1._id == q2">
 
@@ -163,7 +163,7 @@
                               [(ngModel)]="o.option_no"
                               value="{{ o.option_no }}"
                               name="options"
-                              (click)="
+                              (change)="
                                 saveTempAnswers(
                                   o.option_no,
                                   crnt_ques._id,

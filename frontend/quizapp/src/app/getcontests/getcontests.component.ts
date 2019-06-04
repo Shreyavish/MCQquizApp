@@ -4,7 +4,7 @@ import {ContestService} from '../service/contest.service';
 import { Component, OnInit } from '@angular/core';
 
 import {Router } from '@angular/router';
-
+import * as moment from 'moment';
 @Component({
   selector: 'app-getcontests',
   templateUrl: './getcontests.component.html',
@@ -12,7 +12,7 @@ import {Router } from '@angular/router';
 })
 export class GetcontestsComponent implements OnInit {
   constructor(private quesserv: QuestionserviceService,private router: Router,private contestserv:ContestService) { }
-  Contest: [contest];
+  Contest =[];
   contestname: String;
   keys;
   length: number;
@@ -23,6 +23,13 @@ export class GetcontestsComponent implements OnInit {
       {
         this.Contest = Contest;
         this.Contest.sort((a, b) => a.Start_time > b.Start_time ? 1 : a.Start_time < b.Start_time ? -1 : 0);
+
+        // change timstamps to date format for start an end times
+
+        for(var i=0;i<this.Contest.length;i++){
+          this.Contest[i].start_time = moment(new Date(this.Contest[i].start_time)).format("YYYY-MM-DD hh:mm A");
+          this.Contest[i].end_time = moment(new Date(this.Contest[i].end_time)).format("YYYY-MM-DD hh:mm A");
+        }
 
         console.log(this.Contest);
 
@@ -62,7 +69,7 @@ export class GetcontestsComponent implements OnInit {
   }*/
 
 
-  deleteChosenContest(id){
+ /* deleteChosenContest(id){
 
     var response =  confirm('Are you sure you want to delete the contest?');
 
@@ -74,8 +81,8 @@ export class GetcontestsComponent implements OnInit {
     }else{
       alert('something went wrong');
     }
-  }
-  refetchContests(){
+  }*/
+  /*refetchContests(){
 
     this.quesserv.getAllContests().subscribe(Contest =>
       {
@@ -84,14 +91,13 @@ export class GetcontestsComponent implements OnInit {
 
       });
 
-  }
+  }*/
 
   editOrViewContest(cid){
       this.contestserv.setdata2(cid);
-      this.router.navigate(['//editcontest']);
+      this.contestserv.seteditcontest(true);
+      this.router.navigate(['/editcontest']);
   }
-  check(){
-    alert('jghd');
-  }
+
 }
 
