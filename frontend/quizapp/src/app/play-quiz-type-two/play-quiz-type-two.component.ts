@@ -62,6 +62,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
 
 
+  is_saved =[];
 
   is_question_attempted: [{ qno: number; flag: boolean }] = [
     { qno: 0, flag: false }
@@ -80,7 +81,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   make_final_submission = false;
 
 
-
+  saved_user_answers : [{qid:string,ans:[any]}] = [{qid:"", ans:[""]}];
   user_answers : [{qid:string,ans:[any]}] = [{qid:"", ans:[""]}];
   act_answers:[{qid:string,ans:[any]}] = [{qid:"", ans:[""]}];
 
@@ -110,6 +111,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     this.act_answers.pop();
     this.array_userans.pop();
     this.section_no_with_id.pop();
+    this.saved_user_answers.pop();
     this.sum_of_scores = 0;
     var qno = 0;
     this.contest_id = this.contserv.getdata();
@@ -150,6 +152,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
             i
           ].questions[j]._id;
           // textbox and radio
+          this.is_saved[qno] = false;
 
           if (
             this.our_contest_qpaper_sections[i].questions[j].type ==
@@ -244,6 +247,14 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     // start fetching
     this.flag = true;
     this.crnt_ques_no = crntquesno;
+
+    for(var i=0;i<this.section_no_with_id.length;i++){
+      if(this.section_no_with_id[i].sid == sid){
+        this.crnt_section_no = this.section_no_with_id[i].sno;
+        break;
+      }
+    }
+
     for (var i = 0; i < this.no_of_sections; i++) {
       if (sid == this.our_contest_qpaper_sections[i]._id) {
         console.log("found sid");
@@ -251,7 +262,8 @@ export class PlayQuizTypeTwoComponent implements OnInit {
           i
         ].questions.length;
         this.crnt_section = sid;
-        for (var j = 0; j < this.no_of_ques; j++) {
+
+        for (var j = 0; j < this.no_of_ques_of_crnt_section; j++) {
           if (
             this.our_contest_qpaper_sections[i].questions[j]._id == qid
           ) {
@@ -361,16 +373,21 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     // calculating the score here itself
   }
 
-  save_temp_ans_to_db() {
+  save_temp_ans_to_db(saveqid) {
     console.log(this.user_answers.length);
-    console.log(this.user_answers.length);
+    var flag =0;
+    for(var i=0;i<this.user_answers.length;i++){
+      if(this.user_answers[i].qid == saveqid){
+        this.saved_user_answers.push(this.user_answers[i]);
+        break;
+      }
+    }
+
+    //console.log(this.user_answers.length);
     /*if (this.posting_res_first_time_flag == true) {
       this.mcqscore =0;
-
       this.calculateScore();// for mcqs
       //this.calculateScoreforFIB();
-
-
       this.update_user_result();
       this.quesserv
         .postResultFirstTime(this.temp_user_result_object)
@@ -378,9 +395,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
           this.temp_user_result_id = res._id;
           console.log(res);
           console.log(this.crnt_ques_no);
-
           this.posting_res_first_time_flag = false;
-
           this.array_userans = [0];
           this.array_userans.pop(); // make array empty so that next question's answers would not get pushed rather they should be int0 new array
         });
@@ -397,7 +412,25 @@ export class PlayQuizTypeTwoComponent implements OnInit {
         .postTempResult(this.temp_user_result_object, this.temp_user_result_id)
         .subscribe(res => {
           console.log(res);
-          this.is_quesno_attempted[this.crnt_ques_no] = 1;
+          //this.is_quesno_attempted[this.crnt_ques_no] = 1;
+
+          // updating is saved variable to change color
+          for(var i=0;i<this.question_no_with_id.length;i++){
+
+            for(var j=0;j<this.saved_user_answers.length;j++){
+              if(this.question_no_with_id[i] == this.saved_user_answers[j].qid){
+                this.is_saved[i] = true;
+                break;
+              }
+            }
+            // for now we are storing only those questions count which have been saved
+            this.no_of_ques_attempted_by_user = this.saved_user_answers.length;
+
+          }
+
+          console.log(this.crnt_section_no);
+          console.log(this.crnt_ques_no);
+
         });
 
       this.array_userans = [0];
@@ -406,6 +439,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   }
 
   getNextQuestion(qid) {
+    console.log("get next of "+qid);
     var next_section_no=0;
     var next_section_id="";
     var flag = 0;
@@ -448,7 +482,8 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
       // increment the question no because next question has +1 qno
 
-
+      console.log(" calcul   section is "+this.crnt_section);
+      console.log("next calculated is"+this.question_no_with_id[i]);
       this.fetchQuestion(this.question_no_with_id[i], this.crnt_section, i);
     }
   }
@@ -511,15 +546,15 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     //var mcq_score = 0;
     var compareAnswers = false;
 
-    for (var i = 0; i < this.user_answers.length; i++) {
+    for (var i = 0; i < this.saved_user_answers.length; i++) {
       for (var j = 0; j < this.act_answers.length; j++) {
-        if ( this.user_answers[i].qid == this.act_answers[j].qid){
+        if ( this.saved_user_answers[i].qid == this.act_answers[j].qid){
           console.log("entered id");
 
 
 
           compareAnswers = this.compare(
-            this.user_answers[i].ans,
+            this.saved_user_answers[i].ans,
             this.act_answers[j].ans
           );
 
@@ -593,7 +628,9 @@ export class PlayQuizTypeTwoComponent implements OnInit {
     // if final submission is not to be made yet just create a user result object and store in temp_user_resullt object so that temp answers will get stored in just leaderboarditems not contest schema.This updating is done through save_temp_db function
     var userresult = new leaderBoard();
     userresult.username = this.contserv.getusername();
-    userresult.no_of_questions_attempted = no;
+    //userresult.no_of_questions_attempted = no;
+    // attempted are those which are both attempted and saved
+    userresult.no_of_questions_attempted = this.saved_user_answers.length;
     userresult.score = this.mcqscore;
     //  userresult.user_answers = this.temp_user_answers;
     userresult.time_taken = time_taken;
@@ -625,13 +662,15 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   }
 
   promptMessageToUser() {
+    console.log(this.no_of_ques_attempted_by_user);
     if (this.no_of_ques_attempted_by_user == this.total_no_ques_contest) {
       this.make_final_submission = true;
       this.calculateScore();
+      this.update_user_result();
     } else {
       if (this.no_of_ques_attempted_by_user < this.total_no_ques_contest) {
         var input = prompt(
-          "You some questions left unanswered.Do you still wish to end the test? (Y/N)"
+          "You some questions left unanswered or unsaved.Do you still wish to end the test? (Y/N)"
         );
       }
 
@@ -645,16 +684,20 @@ export class PlayQuizTypeTwoComponent implements OnInit {
   calculate_start_indices_of_each_section() {
     this.start_qno_of_a_section[0] = 0;
     this.end_qno_of_a_section[0] = 0 + this.length_of_section[0] - 1;
+    console.log("start" + this.start_qno_of_a_section[0]);
+    console.log("end" + this.end_qno_of_a_section[0]);
     console.log(this.length_of_section[0]);
     for (var i = 1; i < this.our_contest_qpaper_sections.length; i++) {
+      console.log("length of sec "+i+" is"+this.length_of_section[i]);
       this.start_qno_of_a_section[i] =
         this.start_qno_of_a_section[i - 1] + this.length_of_section[i - 1];
       this.end_qno_of_a_section[i] =
         this.start_qno_of_a_section[i] + this.length_of_section[i] - 1;
+        console.log("start" + this.start_qno_of_a_section[i]);
+    console.log("end" + this.end_qno_of_a_section[i]);
     }
 
-    console.log("start" + this.start_qno_of_a_section);
-    console.log("end" + this.end_qno_of_a_section);
+
   }
 
 

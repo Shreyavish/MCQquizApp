@@ -238,7 +238,7 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
 
 
     removeQuestionFromSection(sname,qid){
-
+      var flag =0;
       console.log(sname);
       console.log(qid);
       for(var i=0;i<this.temp_sections.length;i++){
@@ -249,12 +249,23 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
             if(qid == this.temp_sections[i].questions[j]._id){
               console.log('found question');
               this.temp_sections[i].questions.splice(j,1);
+              flag =1;
               break;
 
             }
           }
+          if(flag ==1){
+            break;
+          }
         }
       }
+      var updateques = {
+        "questions" : this.temp_sections[i].questions
+      }
+      this.quesserv.updateSection(updateques,this.temp_sections[i]._id).subscribe(res=>
+        {
+          console.log(res);
+        })
       console.log(this.temp_sections);
     }
 

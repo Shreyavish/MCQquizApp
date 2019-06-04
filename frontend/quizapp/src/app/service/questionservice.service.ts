@@ -181,8 +181,9 @@ export class QuestionserviceService {
       }
 
       deleteSection(id):Observable <any>{
-        let url = 'http://localhost:1337/secti ons/' + id;
+        let url = 'http://localhost:1337/sections/' + id;
         return this.http.delete(url);
       }
+
 }
 

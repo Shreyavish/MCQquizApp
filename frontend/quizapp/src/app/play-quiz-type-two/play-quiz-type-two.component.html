@@ -1,256 +1,254 @@
-
-
 <div class="container" style="margin-left: 20px;" *ngIf="flag == true">
-	<div class="panel panel-default">
-		<div class="panel-heading">
-			<div class="row">
-				<div class="col-sm-5">
-					<h2>
-						{{ our_contest.name }}
-					</h2>
-				</div>
-				<div class="col-sm-5">
-					<h2>
-            <label class="label label-warning">
-              <countdown [config]="config" (start)="started()" (finished)="onFinished()">$!h!:$!m!:$!s!</countdown>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <div class="row">
+          <div class="col-sm-5">
+            <h2>
+              {{ our_contest.name }}
+            </h2>
+          </div>
+          <div class="col-sm-5">
+            <h2>
+              <label class="label label-warning">
+                <countdown [config]="config" (start)="started()" (finished)="onFinished()">$!h!:$!m!:$!s!</countdown>
 
-            </label>
-					</h2>
-				</div>
-				<div class="col-sm-2">
-					<h2>
-						<form (submit)="promptMessageToUser()">
-							<input type="submit" value="End Test" class="btn btn-success" />
-						</form>
-					</h2>
-				</div>
-			</div>
-		</div>
-		<div class="panel-body">
-			<div class="row">
-				<div class="col-sm-2">
-					<div class="sidenav">
-						<div id="accordion">
-							<div
-                class="panel-group"
-                [attr.id]="'accordion_' + i"
-                *ngFor="let s of our_contest_qpaper_sections; let i = index"
-              >
-								<div class="panel">
-									<div class="panel-heading">
-										<h5 class="panel-title">
-											<a
-                        href="#panelBodyOne"
-                        class="accordion-toggle"
-                        data-toggle="collapse"
-                        [attr.data-parent]="'#accordion_' + i"
-                        [attr.href]="'#collapseOne_' + i"
-                        >{{ s.name }}</a>
+              </label>
+            </h2>
+          </div>
+          <div class="col-sm-2">
+            <h2>
+              <form (submit)="promptMessageToUser()">
+                <input type="submit" value="End Test" class="btn btn-success" />
+              </form>
+            </h2>
+          </div>
+        </div>
+      </div>
+      <div class="panel-body">
+        <div class="row">
+          <div class="col-sm-2">
+            <div class="sidenav">
+              <div id="accordion">
+                <div
+                  class="panel-group"
+                  [attr.id]="'accordion_' + i"
+                  *ngFor="let s of our_contest_qpaper_sections; let i = index"
+                >
+                  <div class="panel">
+                    <div class="panel-heading">
+                      <h5 class="panel-title">
+                        <a
+                          href="#panelBodyOne"
+                          class="accordion-toggle"
+                          data-toggle="collapse"
+                          [attr.data-parent]="'#accordion_' + i"
+                          [attr.href]="'#collapseOne_' + i"
+                          >{{ s.name }}</a>
 
-										</h5>
-									</div>
-									<div
-                    id="panelBodyOne"
-                    class="panel-collapse collapse in"
-                    [attr.id]="'collapseOne_' + i"
-                  >
-										<div class="panel-body">
-											<div *ngFor="let q1 of s.questions">
-												<div *ngFor="let q2 of question_no_with_id; index as i">
-													<div *ngIf="q1._id == q2">
-
-
-														<ul style ="list-style: none;padding: 5px;">
+                      </h5>
+                    </div>
+                    <div
+                      id="panelBodyOne"
+                      class="panel-collapse collapse in"
+                      [attr.id]="'collapseOne_' + i"
+                    >
+                      <div class="panel-body">
+                        <div *ngFor="let q1 of s.questions">
+                          <div *ngFor="let q2 of question_no_with_id; index as i">
+                            <div *ngIf="q1._id == q2">
 
 
-                      					<li>
-
-                                    <div *ngIf='is_quesno_attempted[i] == false'>
-																<button
-                                  type="button"
-                                  (click)="fetchQuestion(q2, s._id, i)"
-                                  class="btn btn-info"
-                                >
-                                  Question {{ i + 1 }}
-
-                                </button>
-                                </div>
-
-                                <div *ngIf='is_quesno_attempted[i] == true'>
-                                    <button
-                                      type="button"
-                                      (click)="fetchQuestion(q2, s._id, i)"
-                                      class="btn btn-warning"
-                                    >
-                                      Question {{ i + 1 }}
-
-                                    </button>
-                                    </div>
+                              <ul style ="list-style: none;padding: 5px;">
 
 
+                                  <li>
 
-
-
-																<!--<div *ngIf="is_quesno_attempted[i] == true">
-																	<p>para</p>
-																	<a
-                                    style="background-color: lightcoral"
-                                    title="You attempted this already"
-                                    class="tooltip"
-                                    >
-																		<button type="button">Done</button>
-																	</a
+                                      <div *ngIf='is_saved[i] == false'>
+                                  <button
+                                    type="button"
+                                    (click)="fetchQuestion(q2, s._id, i)"
+                                    class="btn btn-info"
                                   >
-                                </div>-->
+                                    Question {{ i + 1 }}
 
-                              </li>
+                                  </button>
+                                  </div>
 
-														</ul>
+                                  <div *ngIf='is_saved[i] == true'>
+                                      <button
+                                        type="button"
+                                        (click)="fetchQuestion(q2, s._id, i)"
+                                        class="btn btn-warning"
+                                      >
+                                        Question {{ i + 1 }}
+
+                                      </button>
+                                      </div>
+
+
+
+
+
+                                  <!--<div *ngIf="is_quesno_attempted[i] == true">
+                                    <p>para</p>
+                                    <a
+                                      style="background-color: lightcoral"
+                                      title="You attempted this already"
+                                      class="tooltip"
+                                      >
+                                      <button type="button">Done</button>
+                                    </a
+                                    >
+                                  </div>-->
+
+                                </li>
+
+                              </ul>
+                            </div>
+
+
                           </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Latest compiled and minified JavaScript -->
+          <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> -->
+          <div class="col-sm-9">
+            <div *ngIf="flag == true">
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <h4>
+                   {{crnt_section.name}}&nbsp; Question&nbsp;{{ crnt_ques_no + 1 }}: {{ crnt_ques.title }}
+                  </h4>
+                </div>
+                <div class="panel-body">
 
 
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<!-- Latest compiled and minified JavaScript -->
-				<!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script><script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script> -->
-				<div class="col-sm-9">
-					<div *ngIf="flag == true">
-						<div class="panel panel-info">
-							<div class="panel-heading">
-								<h4>
-                 {{crnt_section.name}}&nbsp; Question&nbsp;{{ crnt_ques_no + 1 }}: {{ crnt_ques.title }}
-                </h4>
-							</div>
-							<div class="panel-body">
+                    <div class="row">
 
+                        <div class="col-sm-8" *ngIf='crnt_ques.description != ""'>
 
-                  <div class="row">
+                          <div [innerHTML]="crnt_ques.description">
 
-                      <div class="col-sm-8" *ngIf='crnt_ques.description != ""'>
+                            {{ crnt_ques.description }}
+                            </div>
 
-                        <div [innerHTML]="crnt_ques.description">
-
-                          {{ crnt_ques.description }}
-                          </div>
+                        </div>
 
                       </div>
 
-                    </div>
+                      <br />
+                  <div class="row">
 
-                    <br />
-								<div class="row">
+                    <div class="col-sm-6">
+                      <div *ngIf="flag == true">
 
-									<div class="col-sm-6">
-										<div *ngIf="flag == true">
+                        <div *ngIf="crnt_ques.type == 'radio' || crnt_ques.type=='checkbox'">
+                          <div *ngFor="let o of crnt_ques_options">
+                            <ul
+                            *ngIf="crnt_ques.type == 'radio'"
+                            class="list-group"
+                          >
 
-											<div *ngIf="crnt_ques.type == 'radio' || crnt_ques.type=='checkbox'">
-												<div *ngFor="let o of crnt_ques_options">
-													<ul
-                          *ngIf="crnt_ques.type == 'radio'"
-                          class="list-group"
-                        >
+                              <li class="list-group-item">
+                                <input
+                                type="radio"
+                                [(ngModel)]="o.option_no"
+                                value="{{ o.option_no }}"
+                                name="options"
+                                (change)="
+                                  saveTempAnswers(
+                                    o.option_no,
+                                    crnt_ques._id,
+                                    crnt_ques.type,
+                                    true
+                                  )
+                                "
+                              />&nbsp; {{ o.content }}
 
-														<li class="list-group-item">
-															<input
-                              type="radio"
-                              [(ngModel)]="o.option_no"
-                              value="{{ o.option_no }}"
-                              name="options"
-                              (change)="
-                                saveTempAnswers(
-                                  o.option_no,
-                                  crnt_ques._id,
-                                  crnt_ques.type,
-                                  true
-                                )
-                              "
-                            />&nbsp; {{ o.content }}
+                              </li>
+                            </ul>
+                            <ul
+                            *ngIf="crnt_ques.type == 'checkbox'"
+                            class="list-group"
+                          >
 
-														</li>
-													</ul>
-													<ul
-                          *ngIf="crnt_ques.type == 'checkbox'"
-                          class="list-group"
-                        >
-
-														<li class="list-group-item">
-															<input
-                              type="checkbox"
-                              [(ngModel)]="o.checked"
-                              value="{{ o.content }}"
-                              name="options"
-                              (change)="
-                                saveTempAnswers(
-                                  o.option_no,
-                                  crnt_ques._id,
-                                  crnt_ques.type,
-                                  o.checked
-                                )
-                              "
-                            />&nbsp; {{ o.content }}
+                              <li class="list-group-item">
+                                <input
+                                type="checkbox"
+                                [(ngModel)]="o.checked"
+                                value="{{ o.content }}"
+                                name="options"
+                                (change)="
+                                  saveTempAnswers(
+                                    o.option_no,
+                                    crnt_ques._id,
+                                    crnt_ques.type,
+                                    o.checked
+                                  )
+                                "
+                              />&nbsp; {{ o.content }}
 
 
-														</li>
-													</ul>
-												</div>
-											</div>
-											<div *ngIf="crnt_ques.type == 'text'" >
-												<div *ngFor= ' let item of user_answers'>
-													<div *ngIf = 'crnt_ques._id == item.qid '>
-														<div *ngFor= 'let a of item.ans;let i = index ; trackBy: customTrackBy '>
-															<label>{{i+1}})</label>
-															<input (change)="save_temp_fib_ans(crnt_ques._id,item.ans[i],i)" type="text"  [(ngModel)]="item.ans[i]" name = "'uni'+{{i}}" class="form-control" >
-															</div>
-														</div>
-													</div>
-													<!--<div *ngFor= ' let a of crnt_ques.text_answer; let i =index'><label>{{i+1}})</label><input (change)="save_temp_fib_ans(crnt_ques._id,user_answers[crnt_ques_no].ans[i],i)" type="text"  [(ngModel)]="user_answers[crnt_ques_no].ans[i]" value="user_answers[crnt_ques_no].ans[i]" name = "'uni'+{{i}}"  ></div>-->
-												</div>
-												<br />
-												<div style="text-align: center" >
-													<button *ngIf='crnt_ques_no &gt; 0'
-                          type="button"
-                          class="btn btn-primary"
-                          (click)="getPreviousQuestion(crnt_ques._id)"
-                        >
-                          Previous
-                        </button>
-                        &nbsp;
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                        <div *ngIf="crnt_ques.type == 'text'" >
+                          <div *ngFor= ' let item of user_answers'>
+                            <div *ngIf = 'crnt_ques._id == item.qid '>
+                              <div *ngFor= 'let a of item.ans;let i = index ; trackBy: customTrackBy '>
+                                <label>{{i+1}})</label>
+                                <input (change)="save_temp_fib_ans(crnt_ques._id,item.ans[i],i)" type="text"  [(ngModel)]="item.ans[i]" name = "'uni'+{{i}}" class="form-control" >
+                                </div>
+                              </div>
+                            </div>
+                            <!--<div *ngFor= ' let a of crnt_ques.text_answer; let i =index'><label>{{i+1}})</label><input (change)="save_temp_fib_ans(crnt_ques._id,user_answers[crnt_ques_no].ans[i],i)" type="text"  [(ngModel)]="user_answers[crnt_ques_no].ans[i]" value="user_answers[crnt_ques_no].ans[i]" name = "'uni'+{{i}}"  ></div>-->
+                          </div>
+                          <br />
+                          <div style="text-align: center" >
+                            <button *ngIf='crnt_ques_no &gt; 0'
+                            type="button"
+                            class="btn btn-primary"
+                            (click)="getPreviousQuestion(crnt_ques._id)"
+                          >
+                            Previous
+                          </button>
+                          &nbsp;
 
-													<button
-                          type="button"
-                          class="btn btn-primary"
-                          (click)="save_temp_ans_to_db()"
-                        >
-                          Save it
-                        </button>
+                            <button
+                            type="button"
+                            class="btn btn-primary"
+                            (click)="save_temp_ans_to_db(crnt_ques.id)"
+                          >
+                            Save it
+                          </button>
 
-                        &nbsp;
+                          &nbsp;
 
-													<button *ngIf='(crnt_ques_no+1) &lt; total_no_ques_contest'
-                          type="button"
-                          class="btn btn-primary"
-                          (click)="getNextQuestion(crnt_ques._id)"
-                        >
-                          Next
-                        </button>
-												</div>
-											</div>
-                    </div>
+                            <button *ngIf='(crnt_ques_no+1) &lt; total_no_ques_contest'
+                            type="button"
+                            class="btn btn-primary"
+                            (click)="getNextQuestion(crnt_ques._id)"
+                          >
+                            Next
+                          </button>
+                          </div>
+                        </div>
+                      </div>
 
+                  </div>
+
+                  </div>
                 </div>
-
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-		<router-outlet></router-outlet>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  <router-outlet></router-outlet>
