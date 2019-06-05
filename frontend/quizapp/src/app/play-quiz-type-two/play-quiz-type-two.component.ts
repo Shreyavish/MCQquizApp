@@ -375,10 +375,22 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
   save_temp_ans_to_db(saveqid) {
     console.log(this.user_answers.length);
-    var flag =0;
+
     for(var i=0;i<this.user_answers.length;i++){
+      var flag =0;
       if(this.user_answers[i].qid == saveqid){
+
+        // check if it was already saved or being saved for the first time
+        for(var j=0;j<this.saved_user_answers.length;j++){
+          if(this.saved_user_answers[j].qid == saveqid){
+            this.saved_user_answers[j] = this.user_answers[i];
+            flag=1;
+            break;
+          }
+        }
+        if(flag == 0){
         this.saved_user_answers.push(this.user_answers[i]);
+        }
         break;
       }
     }
@@ -425,17 +437,20 @@ export class PlayQuizTypeTwoComponent implements OnInit {
             }
             // for now we are storing only those questions count which have been saved
             this.no_of_ques_attempted_by_user = this.saved_user_answers.length;
+            console.log("no of attempted"+this.no_of_ques_attempted_by_user);
 
           }
 
           console.log(this.crnt_section_no);
           console.log(this.crnt_ques_no);
 
+          this.getNextQuestion(saveqid);
         });
 
       this.array_userans = [0];
       this.array_userans.pop(); // make array empty so that next question's answers would not get pushed rather they should be int0 new array
     //}
+
   }
 
   getNextQuestion(qid) {
@@ -663,7 +678,7 @@ export class PlayQuizTypeTwoComponent implements OnInit {
 
   promptMessageToUser() {
     console.log(this.no_of_ques_attempted_by_user);
-    if (this.no_of_ques_attempted_by_user == this.total_no_ques_contest) {
+    if (this.no_of_ques_attempted_by_user >= this.total_no_ques_contest) {
       this.make_final_submission = true;
       this.calculateScore();
       this.update_user_result();

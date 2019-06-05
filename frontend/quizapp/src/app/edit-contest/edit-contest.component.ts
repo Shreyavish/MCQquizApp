@@ -7,6 +7,7 @@ import {ContestService} from '../service/contest.service';
 import { Console } from '@angular/core/src/console';
 import {Router } from '@angular/router';
 import * as moment from 'moment';
+import { StringifyOptions } from 'querystring';
 @Component({
   selector: 'app-edit-contest',
   templateUrl: './edit-contest.component.html',
@@ -31,10 +32,15 @@ export class EditContestComponent implements OnInit {
   s_time: Time;
   e_time: Time;
   contest_id:String;
-  contest_time: String;
+
+  dur_hrs : String;
+  dur_min : String;
+  duration:String;
   _id:String;
   collapse_flag:Boolean=false;
   default_display: Boolean =false;
+
+
   q: question;
   // temp paramters for splitting and displaying date and time
     st_temp : string; //start time temp  (start date)
@@ -68,7 +74,12 @@ export class EditContestComponent implements OnInit {
         this.Organized_by = this.toEditContest.organized_by,
         this.Contest_Link = this.toEditContest.contest_link,
 
-        this.contest_time = this.toEditContest.duration
+        this.duration = this.toEditContest.duration,
+
+        this.dur_hrs = this.duration.substr(0,2);
+        this.dur_min = this.duration.substr(3,2);
+        console.log(this.dur_hrs);
+        console.log(this.dur_min);
 
        this.Start_time= moment(this.Start_time).format("YYYY-MM-DD hh:mm A");
        this.End_time =moment(this.End_time).format("YYYY-MM-DD hh:mm A");
@@ -134,7 +145,7 @@ export class EditContestComponent implements OnInit {
       end_time: this.End_time,
       organized_by: this.Organized_by,
       contest_link:this.Contest_Link,
-     duration:this.contest_time
+     duration:this.dur_hrs+':'+this.dur_min+':'+"00"
     }
 
     console.log(this.editedContest);

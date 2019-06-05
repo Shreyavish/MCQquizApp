@@ -67,6 +67,17 @@
 
           <!--duration field with hh mm ss in drop down-->
 
+          <div class = "row">
+            <div class="col-md-4"><label>Duration(HH:MM):</label></div>
+            <div class="col-md-4">
+              <input type="number" min="0" max="2" class="form-control" required="true" [(ngModel)]="dur_hrs" name="dur_hrs">
+            </div>
+            <div class="col-md-4">
+              <input type="number" min="0" max="59" class="form-control" required="true" [(ngModel)]="dur_min" name="dur_min">
+            </div>
+          </div>
+
+          <br>
 
           <div class="row">
               <div class="col-md-6"><input type="submit" value="Edit Questions" class="btn btn-success"></div>

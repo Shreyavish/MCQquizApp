@@ -35,6 +35,7 @@ export class UserLandingComponent implements OnInit {
   is_time_calculated = false;
   contest_starts_in  ;
   is_contest_ended = false;
+  nofpages: number = 10;
  //contest_id : getdata2() using contestserviceclass
  //contest_id="5cdd3c3e848eda148cb709e8";
  //contest_id = "5cda5df743b7995dc01c18cc";
@@ -72,6 +73,9 @@ user_result_ids =[];
         }
         console.log(this.fetched_contest);
 
+        if(this.contest_leaderboard.length > 0){
+        this.showLeaderBoard();
+        }
         var timer = setInterval( ()=>{
         this.timeBetweenDates();
         }, 1000);

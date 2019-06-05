@@ -7,6 +7,7 @@ import {Time} from '@angular/common';
 import {ContestService} from '../service/contest.service';
 import {Router} from '@angular/router';
 import { BsCustomDatesViewComponent } from 'ngx-bootstrap/datepicker/themes/bs/bs-custom-dates-view.component';
+import { StringifyOptions } from 'querystring';
 @Component({
   selector: 'app-create-contest',
   templateUrl: './create-contest.component.html',
@@ -29,7 +30,10 @@ export class CreateContestComponent implements OnInit {
   Organized_by:String;
   Contest_Link:String;
   editlater_flag= false;
-    duration:String = "01:30:00";
+
+  dur_hrs:String = "00";
+  dur_min:String = "30";
+    duration:String;
   ngOnInit() {
   }
 
@@ -53,7 +57,7 @@ export class CreateContestComponent implements OnInit {
       //Questions: this.Questions,
      // questionpaper: "",
      leaderboard:[],
-    duration:this.duration
+    duration:this.dur_hrs+':'+this.dur_min+':'+"00"
     }
     console.log(newcontest);
 
