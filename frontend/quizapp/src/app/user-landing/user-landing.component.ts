@@ -51,7 +51,10 @@ export class UserLandingComponent implements OnInit {
 //contest_id = "5cef8e7c9c92e72e9064d1fb";
 
 //strapi
-contest_id ="5cf62dc89f22d438a07d780c";
+//contest_id ="5cf62dc89f22d438a07d780c";
+
+// heroku
+contest_id = "5cf75a8c3cc0ef00173dabdc";
 user_result_ids =[];
   ngOnInit() {
 

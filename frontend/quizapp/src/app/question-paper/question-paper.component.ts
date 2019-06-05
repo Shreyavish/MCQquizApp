@@ -44,8 +44,8 @@ section_ids =[];
 id_of_section_being_updated ;
 temp_questions=[];
 
-type: string;
-level: string= "Beginner";
+type: string = "None";
+level: string = "None";
 is_section_being_edited= false;
 
 
@@ -74,21 +74,25 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
         }
       })
     }
+    this.getAllQuestions();
 
+  }
+
+  getAllQuestions(){
     this.quesserv.getQuestions().subscribe(questions =>
       {this.crnt_questions = questions;
 
 
         for(var i=0;i<this.crnt_questions.length;i++){
          this.crnt_questions[i].collapse_flag=false;
-        // this.crnt_questions[i].checked = false;
+         this.crnt_questions[i].checked = false;
 
         }
         console.log(this.crnt_questions);
 
       })
-  }
 
+  }
 
   selected(nofpages) {
 
@@ -100,7 +104,7 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
 
 		q.collapse_flag = !q.collapse_flag;
 		this.q.collapse_flag = q.collapse_flag;
-		//console.log(this.collapse_flag)
+		console.log(this.collapse_flag)
 	}
 
    searchQuery(value_of_sk){
@@ -334,11 +338,11 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
   filteringByLevel(op){
 
     this.temp_questions =[];
-    let level_obj = {
+    /*let level_obj = {
       level : op
-    }
+    }*/
     console.log(op);
-    this.quesserv.filterByLevel(level_obj).subscribe(questions=>{
+    this.quesserv.filterByLevel(op).subscribe(questions=>{
       this.crnt_questions = questions;
       for(var i=0;i<this.crnt_questions.length;i++){
         this.crnt_questions[i].collapse_flag=false;
@@ -352,12 +356,12 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
     this.temp_questions = [];
 
 
-    let type_obj = {
+    /*let type_obj = {
       type : op
-    }
-    this.quesserv.filterByType(type_obj).subscribe(questions=>{
+    }*/
+    this.quesserv.filterByType(op).subscribe(questions=>{
       this.crnt_questions = questions;
-      for(var i=0;i<this.questions.length;i++){
+      for(var i=0;i<this.crnt_questions.length;i++){
         this.crnt_questions[i].collapse_flag=false;
         this.crnt_questions[i].checked = false;
 
@@ -450,4 +454,58 @@ qpaper_id_of_editing = this.contserv.getqpaperid();
       this.router.navigate(['/availablequestionpapers']);
     })
   }
+
+
+
+  filterQuestions(){
+
+    console.log(this.type);
+    console.log(this.level);
+
+    if(this.type=="None" && this.level=="None" ){
+      this.getAllQuestions();
+    }else if(this.type != "None" && this.level == "None"){
+
+      this.temp_questions = [];
+      this.quesserv.filterByType(this.type).subscribe(questions=>{
+        this.crnt_questions = questions;
+        for(var i=0;i<this.crnt_questions.length;i++){
+          this.crnt_questions[i].collapse_flag=false;
+          this.crnt_questions[i].checked = false;
+
+         }
+        })
+
+    }else if(this.type == "None" && this.level != "None"){
+      this.temp_questions =[];
+      /*let level_obj = {
+        level : op
+      }*/
+     // console.log(op);
+      this.quesserv.filterByLevel(this.level).subscribe(questions=>{
+        this.crnt_questions = questions;
+        for(var i=0;i<this.crnt_questions.length;i++){
+          this.crnt_questions[i].collapse_flag=false;
+          this.crnt_questions[i].checked = false;
+
+         }
+      })
+
+    }else{
+
+      this.quesserv.filterByBothTypeandLevel(this.type,this.level).subscribe(questions=>{
+        this.crnt_questions = questions;
+        for(var i=0;i<this.crnt_questions.length;i++){
+          this.crnt_questions[i].collapse_flag=false;
+          this.crnt_questions[i].checked = false;
+
+         }
+      })
+
+
+    }
+  }
+
+
+
 }

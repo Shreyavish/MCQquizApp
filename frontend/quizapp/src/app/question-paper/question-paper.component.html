@@ -144,7 +144,7 @@
                                <div *ngIf='crnt_questions.length>0'>
                                 <div  *ngFor='let q of crnt_questions | paginate: { itemsPerPage: nofpages, currentPage: p }'>
                                    <div class="row">
-                                      <div class="col-sm-9">
+                                      <div class="col-sm-6">
                                          <table>
                                             <tr>
                                                <td> <button style="background-color: cornflowerblue;color: white;margin-left: 10px" type="button" (click)="collapse(q)" id="{{q}}">+</button></td>
@@ -180,16 +180,27 @@
                              </div>
                           </div>
                           </div>
-                          <div class="col-md-3">
+                          <div class="col-md-2">
+                          </div>
+                          <div class="col-md-4">
+
                             <label class="label label-danger">Filter By level</label>
-                            <select name="level" class="form-control"  [(ngModel)]="level"  (change)="filteringByLevel(level)">
-                                <option value="Beginner" selected="true">Beginner</option>
+                            <select name="level" class="form-control"  [(ngModel)]="level"  (change)="filterQuestions()">
+                              <option value = "None" selected="true">None</option>
+                                <option value="Beginner" >Beginner</option>
                                 <option value="Easy">Easy</option>
                                 <option value="Normal">Normal</option>
                                 <option value="Hard">Hard</option>
                                 <option value="Very Hard">Very Hard</option>
                             </select>
-
+                            <br />
+                            <label class="label label-success">Filter By Type</label>
+                            <select [(ngModel)]="type" name="type" class="form-control" (change)="filterQuestions()">
+                                <option value = "None" selected="true">None</option>
+                                <option value="checkbox">MCQ with multiple correct answer</option>
+                                <option value="radio" >Mcq with only one correct answer</option>
+                                <option value="text">Fill in the blanks</option>
+                            </select>
                             </div>
                           </div>
                        </div>
